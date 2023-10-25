@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Sort</title>
+    <meta name="title" content="Prosjekter | Omar Massfih">
+    <meta name="description"
+        content="Programvareutvikler.Lidenskapelig opptatt av programmering, webutvikling og teknologi.">
+    <link rel="shortcut icon" href="/bilder/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+    <header>
+        <nav class="flex-container">
+            <a class="header-nav-left" href="/index.html">Omar Massfih</a>
+            <span class="header-nav-right">
+                <a href="/prosjekter.html">Prosjekter</a>
+                <a href="/notater.html">Notater</a>
+                <a href="/om.html">Om</a>
+            </span>
+        </nav>
+    </header>
+
+    <main class="note">
+        <section>
+            <h1 class="center">Merge Sort</h1>
+            <pre><code class="language-java">public static int[] mergeSort(int[] arr, int left, int right) { 
+    if (left < right) {
+        int mid = (left + right) / 2;
+
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+
+    return arr;
+} 
+
+public static void merge(int[] arr, int left, int mid, int right) { 
+    int leftLength = mid - left + 1;
+    int rightLength = right - mid;
+
+    int leftArr[] = new int[leftLength];
+    int rightArr[] = new int[rightLength];
+
+    for (int i = 0; i < leftLength; i++) {
+        leftArr[i] = arr[left + i];
+    }
+    
+    for (int i = 0; j < rightLength; i++) {
+        rightArr[i] = arr[mid + 1 + i];
+    }
+    
+    int i = 0; 
+    int j = 0; 
+    int k = left; 
+
+    while(i < leftLength && j < rightLength) {
+        if (leftArr[i] <= rightArr[j]) {
+            arr[k] = leftArr[i];
+            i++;
+        } else {
+            arr[k] = rightArr[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < leftLength) {
+        arr[k] = leftArr[i];
+        i++;
+        k++;
+    }
+
+    while (j < rightLength) {
+        arr[k] = rightArr[j];
+        j++;
+        k++;
+    }
+}</code></pre>
+        </section>
+    </main>
+</body>
+
+</html>

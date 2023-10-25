@@ -1,0 +1,350 @@
+/* Global Variables */
+:root {
+    --text-color: #d0d5df;
+    --background-color: #282c34;
+    --header-color: #1c1e24;
+    --heading-color: white;
+    --link-color-hover: black;
+    --link-color: white;
+}
+
+/* Reset Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+*::selection {
+    background-color: orange;
+    color: var(--link-color-hover);
+}
+
+/* Flex Layout */
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Body Styles */
+body {
+    font-size: calc(15px + 0.1vw);
+    font-family: "Inter", sans-serif;
+    color: var(--text-color);
+    letter-spacing: 0.5px;
+    line-height: 1.75;
+    background-color: var(--background-color);
+}
+
+body > * {
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+}
+
+/* Header Styles */
+header {
+    background-color: var(--header-color);
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 7.5vh;
+}
+
+header a:hover {
+    background-color: var(--background-color);
+    color: var(--heading-color);
+}
+
+.header-nav-left {
+    color: var(--heading-color);
+    font-weight: bold;
+    padding: 5px;
+    position: relative;
+    left: -5px;
+}
+
+.header-nav-right {
+    display: flex;
+    gap: 15px;
+    position: relative;
+    right: -5px;
+}
+
+.header-nav-right a {
+    padding: 5px;
+}
+
+/* Section and Article Styles */
+section, article {
+    margin-bottom: 7.5vh;
+}
+
+/* Link Styles */
+a {
+    color: var(--text-color);
+    text-decoration: underline;
+    text-decoration-color: orange;
+}
+
+a:hover {
+    background-color: orange;
+    color: var(--link-color-hover);
+    border-radius: 5px;
+}
+
+header a, .project {
+    text-decoration: none;
+}
+
+.linkbody {
+    color: var(--link-color);
+    padding: 1px;
+}
+
+.linkbody:hover {
+    border-radius: 0;
+}
+
+/* Social Links Styles */
+.social-links {
+    justify-content: start;
+    gap: 15px;
+}
+
+.image-link {
+    text-decoration: none;
+}
+
+.image-link:hover {
+    background-color: var(--background-color);
+}
+
+.image-link .logo {
+    fill: #949598;
+    height: max(35px, 2vw);
+    width: max(35px, 2vw);
+}
+
+.image-link svg:hover {
+    fill: var(--text-color);
+    background-color: var(--background-color);
+    fill-opacity: 1;
+}
+
+/* General Styles */
+h1 {
+    margin-bottom: 5px;
+    color: var(--heading-color);
+    font-size: calc(1rem + 1vw);
+    font-weight: 600;
+}
+
+h2 {
+    color: var(--heading-color);
+    font-size: 1.5rem;
+    font-size: calc(1rem + 0.5vw);
+    font-weight: bold;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+pre {
+    background-color: var(--header-color);
+    padding-top: 5px;
+    margin-bottom: 20px;
+    overflow-wrap: break-word;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.center {
+    text-align: center;
+}
+
+/* Projects Styles */
+.projects-head {
+    margin-bottom: 3px;
+    border-bottom: 1px solid #c2c4c84c;
+    padding-bottom: 1px;
+}
+
+.project {
+    width: 100%;
+    box-sizing: content-box;
+    padding: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+    left: -10px;
+    right: -10px;
+}
+
+.projects-link {
+    position: relative;
+    right: -1px;
+}
+
+.project:hover {
+    background-color: var(--header-color);
+    color: var(--heading-color);
+}
+
+.projects-head h2, .project p {
+    margin: 0;
+}
+
+.source {
+    color: #969799;
+    font-family: "Roboto Mono", monospace;
+}
+
+/* Om page */
+
+.contact > h2 {
+    border-bottom: 1px solid #c2c4c84c;
+}
+
+/* Note page */
+
+.hljs {
+    background-color: var(--header-color) !important;
+    border-radius: 5px !important;
+    color: white !important;
+}
+
+.hljs-keyword, .hljs-type, .hljs-title, .hljs-built_in{
+    color: #569cd6 !important;
+}
+
+.hljs-number, .hljs-operator, .hljs-variable, .hljs-string {
+    color: white !important;
+}
+
+.hljs-comment {
+    color: rgb(87, 173, 87) !important;
+}
+
+/* Project page */
+
+.project-main>section>p {
+    text-align: center;
+    color: rgba(245, 250, 255, .5);
+    font-size: calc(1rem + 0.2vw);
+}
+
+.project-main {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.project-main section>.flex-container {
+    justify-content: center;
+    gap: 20px;
+}
+
+.project-box {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 400px;
+    height: 200px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, .2);
+    border-radius: 10px;
+    border: 1px solid black;
+    margin-bottom: 0;
+}
+
+.project-section {
+    margin-bottom: 0;
+}
+
+.project-box a {
+    gap: 10px;
+    background-color: #282c34;
+    text-decoration: none;
+    padding: 7.5px;
+    border-radius: 10px;
+    border: 1px solid #c2c4c84c;
+    align-items: end;
+    color: white;
+}
+
+.project-box a:hover {
+    border-color: orange;
+    background-color: var(--background-color);
+    color: orange;
+}
+
+@media only screen and (max-width: 425px) {
+    .note {
+        margin-left: 0%;
+        margin-right: 0%;
+        font-size: calc(10px + 0.1vw);
+    }
+}
+
+/* Media Queries */
+@media only screen and (max-width: 2560px) {
+    body > * {
+        padding-left: 27.5%;
+        padding-right: 27.5%;
+    }
+}
+
+@media only screen and (max-width: 1440px) {
+    body > * {
+        padding-left: 17.5%;
+        padding-right: 17.5%;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    body > * {
+        padding-left: 15%;
+        padding-right: 15%;
+    }
+
+}
+
+
+@media only screen and (max-width: 900px) {
+    .hide {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    body > * {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    header .flex-container {
+        flex-direction: column;
+    }
+
+    .header-nav-left {
+        left: 0;
+    }
+
+    .header-nav-right {
+        right: 0;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    body > * {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+}

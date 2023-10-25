@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dobbelt-lenket liste</title>
+    <meta name="title" content="Notater | Omar Massfih">
+    <meta name="description"
+        content="Programvareutvikler. Lidenskapelig opptatt av programmering, webutvikling og teknologi.">
+    <link rel="shortcut icon" href="/bilder/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+    <header>
+        <nav class="flex-container">
+            <a class="header-nav-left" href="/index.html">Omar Massfih</a>
+            <span class="header-nav-right">
+                <a href="/prosjekter.html">Prosjekter</a>
+                <a href="/notater.html">Notater</a>
+                <a href="/om.html">Om</a>
+            </span>
+        </nav>
+    </header>
+
+    <main class="note">
+        <section>
+            <h1 class="center">Dobbelt-lenket liste</h1>
+            <pre><code class="language-java">class LinkedList {
+    private Node head;  
+    private Node tail;  
+    private int size;   
+
+    private class Node {
+        int val;    
+        Node next;  
+        Node prev;  
+
+        Node (int val) {
+            this.val = val;
+            this.next = null;
+            this.prev = null;
+        }
+    }
+
+    public LinkedList() {
+        head = null;
+        tail = null;
+        size = 0;
+    }
+
+    public int get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Indeks utenfor grensene"); 
+        }
+
+        Node cur = head;
+        
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+        }
+
+        return cur.val;
+    }
+
+    public void addFirst(int val) {
+        Node node = new Node(val);
+
+        if (head == null) {
+            head = node;
+            tail = node;
+        } else {
+            node.next = head;
+            head.prev = node;
+            head = node;
+        }
+
+        size++;
+    }
+
+    public void addLast(int val) {
+        Node node = new Node(val);
+
+        if (tail == null) {
+            tail = node;
+            head = node;
+        } else {
+            node.prev = tail;
+            tail.next = node;
+            tail = node;
+        }
+
+        size++;
+    }
+
+    public void remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Indeks utenfor grensene");
+        }
+
+        if (index == 0) {
+            head = head.next;
+
+            if (head != null) {
+                head.prev = null;
+            } else {
+                tail = null;
+            }
+        } else {
+            Node cur = head;
+            int i = 0;
+
+            while (cur != null && i < index - 1) {
+                cur = cur.next;
+                i++;
+            }
+
+            Node nodeToRemove = cur.next;
+            cur.next = nodeToRemove.next;
+
+            if (nodeToRemove.next != null) {
+                nodeToRemove.next.prev = cur;
+            }
+
+            if (index == size - 1) {
+                tail = cur;
+            }
+        }
+
+        size--;
+    }
+
+    public void removeFirst() {
+        if (size == 0) {
+            throw new IndexOutOfBoundsException("Listen er tom");
+        }
+
+        if (head == tail) {
+            head = null;
+            tail = null;
+        } else {
+            head = head.next;
+            head.prev = null;
+        }
+
+        size--;
+    }
+
+    public void removeLast() {
+        // Listen er tom
+        if (size == 0) {
+            throw new IndexOutOfBoundsException("Listen er tom");
+        }
+
+        if (head == tail) {
+            head = null;
+            tail = null;
+        } else {
+            tail = tail.prev;
+            tail.next = null;
+        }
+
+        size--;
+    }
+
+    public ArrayList<Integer> getValues() {
+        ArrayList<Integer> values = new ArrayList<>();
+    
+        Node cur = head;
+    
+        while (cur != null) {
+            values.add(cur.val);
+            cur = cur.next;
+        }
+    
+        return values;
+    }
+}</code></pre>
+        </section>
+    </main>
+</body>
+
+</html>

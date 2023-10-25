@@ -1,0 +1,93 @@
+/* Default styles for larger screens */
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    font-weight: normal;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.grid {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: minmax(120px, auto) repeat(5, 100px);
+    max-width: 400px;
+    width: 100%;
+    border: 1px solid black;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+
+.grid > button {
+    cursor: pointer;
+    font-size: 2rem;
+    border: 1px solid black;
+    outline: none;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.grid > button:hover {
+    background-color: #a9a9a9;
+}
+
+.span-row {
+    grid-row: span 2;
+    background-color: #ED7D31;
+}
+
+.span-col {
+    grid-column: span 2;
+}
+
+.output {
+    grid-column: 1 / -1;
+    background-color: #4F4A45;
+    display: flex;
+    min-height: 135px;
+    align-items: flex-end;
+    justify-content: space-around;
+    flex-direction: column;
+    padding: 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.output .prev-operand {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1.5rem;
+}
+
+.output .cur-operand {
+    color: #F6F1EE;
+    font-size: 2.5rem;
+}
+
+.number.span-col {
+    border-bottom-left-radius: 5px;
+}
+
+.equals.span-row {
+    border-bottom-right-radius: 5px;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: minmax(120px, auto) repeat(5, 1fr);
+        max-width: 300px;
+    }
+
+    .grid > button {
+        font-size: 1.5rem;
+        min-height: 75px;
+    }
+}

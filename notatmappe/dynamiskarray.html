@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamisk array</title>
+    <meta name="title" content="Prosjekter | Omar Massfih">
+    <meta name="description"
+        content="Programvareutvikler.Lidenskapelig opptatt av programmering, webutvikling og teknologi.">
+    <link rel="shortcut icon" href="/bilder/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+    <header>
+        <nav class="flex-container">
+          <a class="header-nav-left" href="/index.html">Omar Massfih</a>
+          <span class="header-nav-right">
+            <a href="/prosjekter.html">Prosjekter</a>
+            <a href="/notater.html">Notater</a>
+            <a href="/om.html">Om</a>
+          </span>
+        </nav>
+      </header>
+
+    <main class="note">
+        <section>
+            <h1 class="center">Dynamisk array</h1>
+            <pre><code class="language-java">class DynamicArray {
+    private int[] array;
+    private int capacity;
+    private int size;
+
+    public DynamicArray(int capacity) {
+        this.capacity = capacity;
+        size = 0;
+        array = new int[capacity];
+    }
+
+    public int get(int i) {
+        return array[i];
+    }
+
+    public void insert(int i, int n) {
+        array[i] = n;
+    }
+
+    public void push(int n) {
+        if (size == capacity) {
+            resize();
+        }
+
+        array[size] = n;
+        size++;
+    }
+
+    public int pop() {
+        if (size > 0) {
+            size--;
+            return array[size];
+        }
+    
+        throw new ArrayIndexOutOfBoundsException("Array is empty");
+    }
+
+    private void resize() {
+        capacity *= 2;
+        int[] newArr = new int[capacity];
+        
+        for (int i = 0; i < array.length; i++) {
+            newArr[i] = array[i];
+        }
+
+        array = newArr;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+}</code></pre>
+        </section>
+    </main>
+</body>
+
+</html>
