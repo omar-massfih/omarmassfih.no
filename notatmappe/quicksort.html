@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Sort</title>
+    <meta name="title" content="Prosjekter | Omar Massfih">
+    <meta name="description"
+        content="Programvareutvikler.Lidenskapelig opptatt av programmering, webutvikling og teknologi.">
+    <link rel="shortcut icon" href="/bilder/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+    <header>
+        <nav class="flex-container">
+            <a class="header-nav-left" href="/index.html">Omar Massfih</a>
+            <span class="header-nav-right">
+                <a href="/prosjekter.html">Prosjekter</a>
+                <a href="/notater.html">Notater</a>
+                <a href="/om.html">Om</a>
+            </span>
+        </nav>
+    </header>
+
+    <main class="note">
+        <section>
+            <h1 class="center">Quick Sort</h1>
+            <pre><code class="language-java">public static int[] quickSort(int[] arr, int s, int e) {
+    if (e - s + 1 <= 1) {
+        return arr;
+    }
+
+    int pivot = arr[e];
+    int left = s;
+
+    for (int i = s; i < e; i++) {
+        if (arr[i] < pivot) {
+            int tmp = arr[left];
+            arr[left] = arr[i];
+            arr[i] = tmp;
+            left++;
+        }
+    }
+
+    arr[e] = arr[left];
+    arr[left] = pivot;
+
+    quickSort(arr, s, left - 1);
+    quickSort(arr, left + 1, e);
+
+    return arr;
+}</code></pre>
+        </section>
+    </main>
+</body>
+
+</html>
