@@ -230,6 +230,15 @@ pre {
     color: rgb(87, 173, 87) !important;
 }
 
+.notes-head {
+    margin-top: 16px;
+}
+
+.note section h2 {
+    margin-top: 12px;
+    margin-bottom: 4px;
+}
+
 /* Project page */
 
 .project-main>section>p {
@@ -347,4 +356,8 @@ pre {
         padding-left: 5%;
         padding-right: 5%;
     }
+}
+
+li {
+    margin-left: 20px;
 }

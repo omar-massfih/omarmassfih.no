@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ingress med cert-manager på OpenShift (IBM)</title>
+  <meta name="title" content="Prosjekter | Omar Massfih">
+  <meta name="description" content="Programvareutvikler. Lidenskapelig opptatt av programmering, webutvikling og teknologi.">
+  <link rel="shortcut icon" href="/bilder/favicon.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+  <header>
+    <nav class="flex-container">
+      <a class="header-nav-left" href="/index.html">Omar Massfih</a>
+      <span class="header-nav-right">
+        <a href="/prosjekter.html">Prosjekter</a>
+        <a href="/notater.html">Notater</a>
+        <a href="/om.html">Om</a>
+      </span>
+    </nav>
+  </header>
+  
+  <main class="note">
+    <section>
+      <h1 class="center">How to use Ingress with cert-manager on OpenShift</h1>
+
+      <h2>Prerequisites</h2>
+      <ul>
+        <li>cert-manager installed</li>
+        <li>DNS for <code>${HOST}</code> points to your OpenShift router</li>
+        <li>Service <code>${SVC_NAME}</code> exposes HTTPS inside the cluster</li>
+      </ul>
+
+      <h2>Create the ClusterIssuer (once)</h2>
+      <pre><code class="language-yaml">apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: ${ISSUER_NAME}
+spec:
+  acme:
+    email: you@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: acme-account-key
+    solvers:
+    - http01:
+        ingress:
+          class: openshift-default</code></pre>
+
+      <p>Apply:</p>
+      <pre><code class="language-bash">oc apply -f clusterissuer.yaml</code></pre>
+
+      <h2>Apply your Ingress</h2>
+      <pre><code class="language-yaml">apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: ${NS}
+  annotations:
+    cert-manager.io/cluster-issuer: ${ISSUER_NAME}
+    acme.cert-manager.io/http01-ingress-class: openshift-default
+    route.openshift.io/termination: "edge" # default is edge
+spec:
+  ingressClassName: openshift-default
+  tls:
+    - hosts: ["${HOST}"]
+      secretName: ${TLS_SECRET}
+  rules:
+    - host: ${HOST}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ${SVC_NAME}
+                port:
+                  name: https</code></pre>
+
+      <p>Apply:</p>
+      <pre><code class="language-bash">oc apply -f ingress.yaml</code></pre>
+
+      <h2>What happens</h2>
+      <ul>
+        <li>cert-manager solves HTTP-01 on <code>/.well-known/acme-challenge</code></li>
+        <li>Let’s Encrypt issues a cert to secret <code>${TLS_SECRET}</code></li>
+        <li>The router terminates TLS, then reencrypts traffic to <code>${SVC_NAME}</code></li>
+      </ul>
+
+      <h2>Verify</h2>
+      <pre><code class="language-bash">oc -n ${NS} get certificate,challenge,order
+oc -n ${NS} describe ingress app-ingress</code></pre>
+
+      <h2>Common pitfalls</h2>
+      <ul>
+        <li>Port 80 to the router must reach the cluster for HTTP-01</li>
+        <li><code>ingressClassName</code> and <code>acme.cert-manager.io/http01-ingress-class</code> must match <code>openshift-default</code></li>
+        <li>The backend service must accept TLS on the named port <code>https</code></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
