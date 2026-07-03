@@ -4,21 +4,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#282c34">
   {%- set fullTitle = title if title == site.title else title + " — " + site.title %}
   <title>{{ fullTitle }}</title>
   <meta name="description" content="{{ description or site.description }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
   <link rel="icon" href="/bilder/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="/bilder/apple-touch-icon.png">
+  <link rel="alternate" type="application/atom+xml" title="Notater" href="/feed.xml">
   <link rel="preload" href="/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/RobotoMonoVariable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/style.css?v={{ "/style.css" | assetHash }}">
   <meta property="og:title" content="{{ fullTitle }}">
   <meta property="og:description" content="{{ description or site.description }}">
   <meta property="og:image" content="{{ site.url }}{{ site.ogImage }}">
+  <meta property="og:image:alt" content="{{ site.ogImageAlt }}">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:locale" content="{{ "en_US" if lang == "en" else "nb_NO" }}">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{ fullTitle }}">
+  <meta name="twitter:description" content="{{ description or site.description }}">
+  <meta name="twitter:image" content="{{ site.url }}{{ site.ogImage }}">
+{%- if page.url == "/" %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "{{ site.url }}/#person",
+        "name": "{{ site.title }}",
+        "url": "{{ site.url }}/",
+        "jobTitle": "Software Engineer",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Bama"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/in/omarmassfih",
+          "https://github.com/omar-massfih"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "{{ site.url }}/#website",
+        "name": "{{ site.title }}",
+        "url": "{{ site.url }}/",
+        "description": "{{ site.description }}",
+        "inLanguage": "nb",
+        "publisher": { "@id": "{{ site.url }}/#person" }
+      }
+    ]
+  }
+  </script>
+{%- endif %}
 </head>
 
 <body>
+<a class="skip-link" href="#main">Hopp til innhold</a>
 {% include "header.njk" %}
 {{ content | safe }}
 </body>

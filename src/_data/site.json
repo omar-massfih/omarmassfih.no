@@ -2,5 +2,6 @@
   "url": "https://omarmassfih.no",
   "title": "Omar Massfih",
   "description": "Programvareutvikler. Lidenskapelig opptatt av programmering, webutvikling og teknologi.",
-  "ogImage": "/bilder/og-image.jpg"
+  "ogImage": "/bilder/og-image.jpg",
+  "ogImageAlt": "Logoen til omarmassfih.no"
 }

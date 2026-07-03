@@ -4,7 +4,7 @@ layout: layouts/base.njk
 permalink: /notater.html
 date: git Last Modified
 ---
-  <main>
+  <main id="main">
     <h1 class="center">Notater</h1>
     <section>
 {%- for kategori, notater in collections.notater | groupby("data.kategori") %}
