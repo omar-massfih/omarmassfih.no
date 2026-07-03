@@ -434,6 +434,104 @@ a:hover {
   font-size: var(--text-sm);
 }
 
+/* ---- Notes graph --------------------------------------------------------- */
+.notes-graph-section {
+  margin-bottom: var(--space-7);
+}
+
+.notes-graph {
+  min-height: 20rem;
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.notes-graph-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 20rem;
+}
+
+.notes-graph-edge {
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  transition: opacity var(--transition), stroke var(--transition),
+    stroke-width var(--transition);
+}
+
+.notes-graph-edge-link {
+  stroke: var(--color-accent);
+  stroke-width: 2;
+  opacity: 0.7;
+}
+
+.notes-graph-edge.is-active {
+  opacity: 1;
+  stroke: var(--color-accent-hover);
+  stroke-width: 3;
+}
+
+.notes-graph-edge.is-dimmed {
+  opacity: 0.16;
+}
+
+.notes-graph-node {
+  cursor: default;
+  transition: opacity var(--transition);
+}
+
+.notes-graph-node-note {
+  cursor: pointer;
+}
+
+.notes-graph-node circle {
+  fill: var(--color-bg);
+  stroke: var(--color-border-strong);
+  stroke-width: 2;
+  transition: fill var(--transition), stroke var(--transition),
+    stroke-width var(--transition);
+}
+
+.notes-graph-node-category circle {
+  fill: var(--color-header);
+  stroke: var(--color-accent);
+}
+
+.notes-graph-node text {
+  fill: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  pointer-events: none;
+  transition: fill var(--transition);
+}
+
+.notes-graph-node:hover circle,
+.notes-graph-node:focus-visible circle,
+.notes-graph-node.is-active circle,
+.notes-graph-node.is-connected circle {
+  fill: var(--color-accent);
+  stroke: var(--color-accent-hover);
+}
+
+.notes-graph-node:hover text,
+.notes-graph-node:focus-visible text,
+.notes-graph-node.is-active text,
+.notes-graph-node.is-connected text {
+  fill: var(--color-heading);
+}
+
+.notes-graph-node.is-dimmed {
+  opacity: 0.32;
+}
+
+.notes-graph-fallback {
+  margin: var(--space-5);
+  color: var(--color-text-muted);
+}
+
 /* ---- Cards (projects page) ---------------------------------------------- */
 .project-main {
   width: min(calc(100% - var(--gutter) - var(--gutter)), var(--container-wide));
