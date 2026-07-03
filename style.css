@@ -1,363 +1,563 @@
-/* Global Variables */
+/* ==========================================================================
+   Omar Massfih — Design System
+   --------------------------------------------------------------------------
+   Layers:
+     1. Primitive tokens   — raw palette + scales (the single source of truth)
+     2. Semantic tokens    — intent-named tokens mapped from primitives
+     3. Base / reset       — element defaults
+     4. Layout             — page container + rhythm
+     5. Components          — header, links, buttons, cards, code, icons
+     6. Utilities          — small helpers
+     7. Responsive          — breakpoint adjustments
+   Only edit primitive/semantic tokens to re-skin; components consume tokens.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. PRIMITIVE TOKENS
+   ========================================================================== */
 :root {
-    --text-color: #d0d5df;
-    --background-color: #282c34;
-    --header-color: #1c1e24;
-    --heading-color: white;
-    --link-color-hover: black;
-    --link-color: white;
+  /* -- Neutral palette (One Dark inspired), dark → light -------------------- */
+  --neutral-950: #1c1e24;
+  --neutral-900: #21252b;
+  --neutral-850: #282c34; /* base surface */
+  --neutral-800: #2c313a;
+  --neutral-700: #3a3f4b;
+  --neutral-600: #4b5263;
+  --neutral-500: #6b7280;
+  --neutral-400: #969799;
+  --neutral-300: #b0b4bd;
+  --neutral-200: #d0d5df;
+  --neutral-100: #e6e9ef;
+  --neutral-000: #ffffff;
+
+  /* -- Accent (amber/orange) ----------------------------------------------- */
+  --accent-300: #ffc978;
+  --accent-400: #ffb454;
+  --accent-500: #ffa500; /* brand accent */
+  --accent-600: #e8920a;
+
+  /* -- Typography ----------------------------------------------------------- */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, "SF Mono", "JetBrains Mono",
+    Menlo, Consolas, monospace;
+
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.25rem, 1.05rem + 0.9vw, 1.6rem);   /* h2 */
+  --text-2xl: clamp(1.75rem, 1.3rem + 2vw, 2.5rem);     /* h1 */
+
+  --leading-tight: 1.2;
+  --leading-snug: 1.4;
+  --leading-normal: 1.75;
+
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --tracking-normal: 0.01em;
+  --tracking-wide: 0.02em;
+
+  /* -- Spacing scale (4px base) -------------------------------------------- */
+  --space-1: 0.25rem;  /* 4  */
+  --space-2: 0.5rem;   /* 8  */
+  --space-3: 0.75rem;  /* 12 */
+  --space-4: 1rem;     /* 16 */
+  --space-5: 1.5rem;   /* 24 */
+  --space-6: 2rem;     /* 32 */
+  --space-7: 3rem;     /* 48 */
+  --space-8: 4rem;     /* 64 */
+
+  /* -- Radii ---------------------------------------------------------------- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  /* -- Borders -------------------------------------------------------------- */
+  --border-width: 1px;
+
+  /* -- Elevation ------------------------------------------------------------ */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+
+  /* -- Motion --------------------------------------------------------------- */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration: 180ms;
+  --transition: var(--duration) var(--ease);
+
+  /* -- Layout --------------------------------------------------------------- */
+  --container: 44rem;       /* reading width */
+  --container-wide: 58rem;  /* card grids */
+  --gutter: clamp(1rem, 5vw, 2rem);
+
+  --focus-ring: 2px;
 }
 
-/* Reset Styles */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* ==========================================================================
+   2. SEMANTIC TOKENS
+   ========================================================================== */
+:root {
+  --color-bg: var(--neutral-850);
+  --color-surface: var(--neutral-900);
+  --color-surface-hover: var(--neutral-950);
+  --color-header: var(--neutral-950);
+
+  --color-border: rgba(194, 196, 200, 0.16);
+  --color-border-strong: rgba(194, 196, 200, 0.28);
+
+  --color-text: var(--neutral-200);
+  --color-text-muted: var(--neutral-400);
+  --color-heading: var(--neutral-000);
+
+  --color-accent: var(--accent-500);
+  --color-accent-hover: var(--accent-400);
+  --color-on-accent: var(--neutral-950);
+
+  --color-focus: var(--accent-400);
+  --color-selection-bg: var(--accent-500);
+  --color-selection-text: var(--neutral-950);
 }
 
-*::selection {
-    background-color: orange;
-    color: var(--link-color-hover);
+/* ==========================================================================
+   3. BASE / RESET
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Flex Layout */
-.flex-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
+::selection {
+  background-color: var(--color-selection-bg);
+  color: var(--color-selection-text);
 }
 
-/* Body Styles */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-    font-size: calc(15px + 0.1vw);
-    font-family: "Inter", sans-serif;
-    color: var(--text-color);
-    letter-spacing: 0.5px;
-    line-height: 1.75;
-    background-color: var(--background-color);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-body > * {
-    padding-left: 2.5%;
-    padding-right: 2.5%;
+:focus-visible {
+  outline: var(--focus-ring) solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
-/* Header Styles */
-header {
-    background-color: var(--header-color);
-    padding-top: 15px;
-    padding-bottom: 15px;
-    margin-bottom: 7.5vh;
+img,
+svg {
+  max-width: 100%;
 }
 
-header a:hover {
-    background-color: var(--background-color);
-    color: var(--heading-color);
+/* ---- Typography --------------------------------------------------------- */
+h1,
+h2,
+h3 {
+  color: var(--color-heading);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-wide);
+  text-wrap: balance;
 }
 
-.header-nav-left {
-    color: var(--heading-color);
-    font-weight: bold;
-    padding: 5px;
-    position: relative;
-    left: -5px;
-}
-
-.header-nav-right {
-    display: flex;
-    gap: 15px;
-    position: relative;
-    right: -5px;
-}
-
-.header-nav-right a {
-    padding: 5px;
-}
-
-/* Section and Article Styles */
-section, article {
-    margin-bottom: 7.5vh;
-}
-
-/* Link Styles */
-a {
-    color: var(--text-color);
-    text-decoration: underline;
-    text-decoration-color: orange;
-}
-
-a:hover {
-    background-color: orange;
-    color: var(--link-color-hover);
-    border-radius: 5px;
-}
-
-header a, .project {
-    text-decoration: none;
-}
-
-.linkbody {
-    color: var(--link-color);
-    padding: 1px;
-}
-
-.linkbody:hover {
-    border-radius: 0;
-}
-
-/* Social Links Styles */
-.social-links {
-    justify-content: start;
-    gap: 15px;
-}
-
-.image-link {
-    text-decoration: none;
-}
-
-.image-link:hover {
-    background-color: var(--background-color);
-}
-
-.image-link .logo {
-    fill: #949598;
-    height: max(35px, 2vw);
-    width: max(35px, 2vw);
-}
-
-.image-link svg:hover {
-    fill: var(--text-color);
-    background-color: var(--background-color);
-    fill-opacity: 1;
-}
-
-/* General Styles */
 h1 {
-    margin-bottom: 5px;
-    color: var(--heading-color);
-    font-size: calc(1rem + 1vw);
-    font-weight: 600;
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-2);
 }
 
 h2 {
-    color: var(--heading-color);
-    font-size: 1.5rem;
-    font-size: calc(1rem + 0.5vw);
-    font-weight: bold;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
 }
 
 p {
-    margin-bottom: 20px;
+  margin-bottom: var(--space-5);
+  text-wrap: pretty;
 }
 
-pre {
-    background-color: var(--header-color);
-    padding-top: 5px;
-    margin-bottom: 20px;
-    overflow-wrap: break-word;
-    padding: 5px;
-    border-radius: 5px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
-
-.center {
-    text-align: center;
-}
-
-/* Projects Styles */
-.projects-head {
-    margin-bottom: 3px;
-    border-bottom: 1px solid #c2c4c84c;
-    padding-bottom: 1px;
-}
-
-.project {
-    width: 100%;
-    box-sizing: content-box;
-    padding: 2px;
-    padding-left: 10px;
-    padding-right: 10px;
-    position: relative;
-    left: -10px;
-    right: -10px;
-}
-
-.projects-link {
-    position: relative;
-    right: -1px;
-}
-
-.project:hover {
-    background-color: var(--header-color);
-    color: var(--heading-color);
-}
-
-.projects-head h2, .project p {
-    margin: 0;
-}
-
-.source {
-    color: #969799;
-    font-family: "Roboto Mono", monospace;
-}
-
-/* Om page */
-
-.contact > h2 {
-    border-bottom: 1px solid #c2c4c84c;
-}
-
-/* Note page */
-
-.hljs {
-    background-color: var(--header-color) !important;
-    border-radius: 5px !important;
-    color: white !important;
-}
-
-.hljs-keyword, .hljs-type, .hljs-title, .hljs-built_in{
-    color: #569cd6 !important;
-}
-
-.hljs-number, .hljs-operator, .hljs-variable, .hljs-string {
-    color: white !important;
-}
-
-.hljs-comment {
-    color: rgb(87, 173, 87) !important;
-}
-
-.notes-head {
-    margin-top: 16px;
-}
-
-.note section h2 {
-    margin-top: 12px;
-    margin-bottom: 4px;
-}
-
-/* Project page */
-
-.project-main>section>p {
-    text-align: center;
-    color: rgba(245, 250, 255, .5);
-    font-size: calc(1rem + 0.2vw);
-}
-
-.project-main {
-    padding-left: 5%;
-    padding-right: 5%;
-}
-
-.project-main section>.flex-container {
-    justify-content: center;
-    gap: 20px;
-}
-
-.project-box {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 400px;
-    min-height: 250px;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, .2);
-    border-radius: 10px;
-    border: 1px solid black;
-    margin-bottom: 0;
-}
-
-.project-section {
-    margin-bottom: 0;
-}
-
-.project-box a {
-    gap: 10px;
-    background-color: #282c34;
-    text-decoration: none;
-    padding: 7.5px;
-    border-radius: 10px;
-    border: 1px solid #c2c4c84c;
-    align-items: end;
-    color: white;
-}
-
-.project-box a:hover {
-    border-color: orange;
-    background-color: var(--background-color);
-    color: orange;
-}
-
-@media only screen and (max-width: 425px) {
-    .note {
-        margin-left: 0%;
-        margin-right: 0%;
-        font-size: calc(10px + 0.1vw);
-    }
-}
-
-/* Media Queries */
-@media only screen and (max-width: 2560px) {
-    body > * {
-        padding-left: 27.5%;
-        padding-right: 27.5%;
-    }
-}
-
-@media only screen and (max-width: 1440px) {
-    body > * {
-        padding-left: 17.5%;
-        padding-right: 17.5%;
-    }
-}
-
-@media only screen and (max-width: 1024px) {
-    body > * {
-        padding-left: 15%;
-        padding-right: 15%;
-    }
-
-}
-
-
-@media only screen and (max-width: 900px) {
-    .hide {
-        display: none;
-    }
-}
-
-@media only screen and (max-width: 768px) {
-    body > * {
-        padding-left: 10%;
-        padding-right: 10%;
-    }
-}
-
-@media only screen and (max-width: 600px) {
-    header .flex-container {
-        flex-direction: column;
-    }
-
-    .header-nav-left {
-        left: 0;
-    }
-
-    .header-nav-right {
-        right: 0;
-    }
-}
-
-@media only screen and (max-width: 425px) {
-    body > * {
-        padding-left: 5%;
-        padding-right: 5%;
-    }
+ul,
+ol {
+  margin-bottom: var(--space-5);
+  padding-left: var(--space-5);
 }
 
 li {
-    margin-left: 20px;
+  margin-bottom: var(--space-1);
+}
+
+/* ==========================================================================
+   4. LAYOUT
+   ========================================================================== */
+.flex-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Full-bleed bars (header) span the viewport; their inner content and <main>
+   are centred to a shared reading measure via the container. */
+body > * {
+  padding-inline: var(--gutter);
+}
+
+header > nav,
+main {
+  max-width: var(--container);
+  margin-inline: auto;
+}
+
+main {
+  padding-bottom: var(--space-8);
+}
+
+section,
+article {
+  margin-bottom: var(--space-7);
+}
+
+section:last-child,
+article:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   5. COMPONENTS
+   ========================================================================== */
+
+/* ---- Header / primary nav ----------------------------------------------- */
+header {
+  background-color: var(--color-header);
+  padding-block: var(--space-3);
+  margin-bottom: var(--space-7);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.header-nav-left {
+  color: var(--color-heading);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-wide);
+}
+
+.header-nav-right {
+  display: flex;
+  gap: var(--space-1);
+}
+
+header a {
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: color var(--transition), background-color var(--transition);
+}
+
+header a:hover {
+  background-color: var(--color-bg);
+  color: var(--color-heading);
+}
+
+/* ---- Links -------------------------------------------------------------- */
+a {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background-color var(--transition);
+}
+
+a:hover {
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+  text-decoration-color: transparent;
+}
+
+/* Inline emphasised link that reads as body text (white, accent on hover) */
+.linkbody {
+  color: var(--color-heading);
+  padding-inline: 1px;
+}
+
+.linkbody:hover {
+  background-color: transparent;
+  color: var(--color-accent);
+  text-decoration-color: var(--color-accent);
+}
+
+/* ---- Social icon buttons ------------------------------------------------ */
+.social-links {
+  justify-content: flex-start;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.image-link {
+  display: inline-flex;
+  padding: var(--space-1);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: background-color var(--transition);
+}
+
+.image-link:hover {
+  background-color: var(--color-surface);
+}
+
+.image-link .logo {
+  display: block;
+  width: 2.25rem;
+  height: 2.25rem;
+  fill: var(--color-text-muted);
+  transition: fill var(--transition);
+}
+
+.image-link:hover .logo {
+  fill: var(--color-heading);
+}
+
+/* ---- List rows (recent projects / notes) -------------------------------- */
+.projects-head {
+  margin-bottom: var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.projects-head h2 {
+  margin: 0;
+}
+
+.project {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.project p {
+  margin: 0;
+}
+
+.project:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-heading);
+}
+
+.source {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+/* ---- Cards (projects page) ---------------------------------------------- */
+.project-main {
+  max-width: var(--container-wide);
+}
+
+.project-main > section > p {
+  text-align: center;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+}
+
+.project-main section > .flex-container {
+  justify-content: center;
+  align-items: stretch;
+  gap: var(--space-5);
+}
+
+.project-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex: 1 1 22rem;
+  max-width: 26rem;
+  min-height: 15rem;
+  padding: var(--space-5);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: border-color var(--transition), transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.project-box:hover {
+  border-color: var(--color-border-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.project-box h2 {
+  margin: 0;
+}
+
+.project-box p {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.project-box nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.project-box a {
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--color-bg);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-heading);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  transition: color var(--transition), border-color var(--transition),
+    background-color var(--transition);
+}
+
+.project-box a:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: var(--color-bg);
+}
+
+.project-section {
+  margin-bottom: 0;
+}
+
+/* ---- Code --------------------------------------------------------------- */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.1em 0.35em;
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+pre {
+  margin-bottom: var(--space-5);
+  padding: var(--space-4);
+  background-color: var(--color-header);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  line-height: var(--leading-snug);
+}
+
+pre code {
+  padding: 0;
+  background: none;
+  border: 0;
+  font-size: var(--text-sm);
+}
+
+/* highlight.js theme overrides — kept aligned to the token palette */
+.hljs {
+  background-color: var(--color-header) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--color-heading) !important;
+}
+
+.hljs-keyword,
+.hljs-type,
+.hljs-title,
+.hljs-built_in {
+  color: #569cd6 !important;
+}
+
+.hljs-number,
+.hljs-operator,
+.hljs-variable,
+.hljs-string {
+  color: var(--color-heading) !important;
+}
+
+.hljs-comment {
+  color: #57ad57 !important;
+}
+
+/* ---- Notes -------------------------------------------------------------- */
+.notes-head {
+  margin-top: var(--space-5);
+}
+
+.note section h2 {
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-2);
+}
+
+/* ---- Contact ------------------------------------------------------------ */
+.contact > h2 {
+  padding-bottom: var(--space-2);
+  border-bottom: var(--border-width) solid var(--color-border);
+  margin-bottom: var(--space-4);
+}
+
+/* ==========================================================================
+   6. UTILITIES
+   ========================================================================== */
+.center {
+  text-align: center;
+}
+
+/* ==========================================================================
+   7. RESPONSIVE
+   ========================================================================== */
+@media (max-width: 600px) {
+  header nav.flex-container {
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: flex-start;
+  }
+
+  .header-nav-right {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 425px) {
+  .hide {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   8. PREFERENCES
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .project-box:hover {
+    transform: none;
+  }
 }
