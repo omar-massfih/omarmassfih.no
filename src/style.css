@@ -54,6 +54,7 @@
   --accent-400: #ffb454;
   --accent-500: #ffa500; /* brand accent */
   --accent-600: #e8920a;
+  --accent-700: #9a5b00; /* darkest amber that keeps 4.5:1 on white */
 
   /* -- Typography ----------------------------------------------------------- */
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
@@ -509,6 +510,65 @@ a:hover {
   margin-bottom: 0;
 }
 
+/* ---- Tags (project cards + CV tech) -------------------------------------- */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag {
+  margin: 0;
+  padding: 0.1em var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+}
+
+.cv-item .tag-list {
+  margin-top: var(--space-3);
+}
+
+/* ---- Portrait (about page) ------------------------------------------------ */
+.portrait {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-5);
+}
+
+.portrait img {
+  width: min(12rem, 40vw);
+  height: auto;
+  border-radius: var(--radius-lg);
+  border: var(--border-width) solid var(--color-border);
+}
+
+/* ---- Print button (CV) ----------------------------------------------------
+   Styled as an inline link; the underline comes from the shared link rules. */
+.print-button {
+  background: none;
+  border: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  color: var(--color-heading);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition);
+}
+
+.print-button:hover {
+  color: var(--color-accent);
+}
+
 /* ---- Code --------------------------------------------------------------- */
 code {
   font-family: var(--font-mono);
@@ -667,5 +727,100 @@ pre code {
 
   .project-box:hover {
     transform: none;
+  }
+}
+
+/* Light theme — semantic tokens only; primitives stay shared.
+   Keep in sync with the print block in section 9. */
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg: var(--neutral-000);
+    --color-surface: var(--neutral-100);
+    --color-surface-hover: var(--neutral-200);
+    --color-header: var(--neutral-100);
+
+    --color-border: rgba(28, 30, 36, 0.14);
+    --color-border-strong: rgba(28, 30, 36, 0.3);
+
+    --color-text: var(--neutral-700);
+    --color-text-muted: var(--neutral-500);
+    --color-heading: var(--neutral-950);
+
+    --color-accent: var(--accent-700);
+    --color-accent-hover: var(--accent-600);
+    --color-on-accent: var(--neutral-000);
+
+    --color-focus: var(--accent-700);
+    --color-selection-bg: var(--accent-500);
+    --color-selection-text: var(--neutral-950);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  .hljs-keyword,
+  .hljs-type,
+  .hljs-title,
+  .hljs-built_in,
+  .hljs-attr {
+    color: #0550ae;
+  }
+
+  .hljs-comment {
+    color: #316b31;
+  }
+}
+
+/* ==========================================================================
+   9. PRINT (CV "Download as PDF")
+   ========================================================================== */
+@media print {
+  /* Same values as the light theme above — CSS cannot OR print with a
+     color-scheme query, so the token overrides are duplicated. */
+  :root {
+    --color-bg: var(--neutral-000);
+    --color-surface: var(--neutral-100);
+    --color-surface-hover: var(--neutral-200);
+    --color-header: var(--neutral-100);
+
+    --color-border: rgba(28, 30, 36, 0.14);
+    --color-border-strong: rgba(28, 30, 36, 0.3);
+
+    --color-text: var(--neutral-700);
+    --color-text-muted: var(--neutral-500);
+    --color-heading: var(--neutral-950);
+
+    --color-accent: var(--accent-700);
+    --color-accent-hover: var(--accent-600);
+    --color-on-accent: var(--neutral-000);
+
+    --color-focus: var(--accent-700);
+    --color-selection-bg: var(--accent-500);
+    --color-selection-text: var(--neutral-950);
+  }
+
+  header,
+  .skip-link,
+  .cv-print-hint {
+    display: none;
+  }
+
+  html,
+  body {
+    background: #fff;
+  }
+
+  main {
+    padding-bottom: 0;
+  }
+
+  .cv-item,
+  .cv-group section {
+    break-inside: avoid;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
   }
 }
