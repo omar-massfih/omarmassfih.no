@@ -1,0 +1,11 @@
+<header>
+  <nav class="flex-container">
+    <a class="header-nav-left" href="/index.html">Omar Massfih</a>
+    <span class="header-nav-right">
+      <a href="/prosjekter.html"{% if page.url == "/prosjekter.html" %} aria-current="page"{% endif %}>Prosjekter</a>
+      <a href="/notater.html"{% if page.url == "/notater.html" %} aria-current="page"{% endif %}>Notater</a>
+      <a href="/cv.html"{% if page.url == "/cv.html" %} aria-current="page"{% endif %}>CV</a>
+      <a href="/om.html"{% if page.url == "/om.html" %} aria-current="page"{% endif %}>Om</a>
+    </span>
+  </nav>
+</header>

@@ -1,5 +1,4 @@
 {
   "layout": "layouts/note.njk",
-  "highlight": true,
   "permalink": "{{ page.filePathStem }}.html"
 }

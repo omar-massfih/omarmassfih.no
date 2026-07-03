@@ -244,14 +244,6 @@ article:last-child {
    ========================================================================== */
 
 /* ---- Header / primary nav ----------------------------------------------- */
-/* <site-header> is a custom element (site-header.js) that renders the shared
-   <header> in light DOM. The gutter from `body > *` would land on the wrapper
-   and break the full-bleed header bar, so it moves to <header> itself. */
-site-header {
-  display: block;
-  padding-inline: 0;
-}
-
 header {
   background-color: var(--color-header);
   padding-inline: var(--gutter);
@@ -500,29 +492,28 @@ pre code {
   font-size: var(--text-sm);
 }
 
-/* highlight.js theme overrides — kept aligned to the token palette */
+/* highlight.js token colors — highlighting is baked in at build time */
 .hljs {
-  background-color: var(--color-header) !important;
-  border-radius: var(--radius-md) !important;
-  color: var(--color-heading) !important;
+  color: var(--color-heading);
 }
 
 .hljs-keyword,
 .hljs-type,
 .hljs-title,
-.hljs-built_in {
-  color: #569cd6 !important;
+.hljs-built_in,
+.hljs-attr {
+  color: #569cd6;
 }
 
 .hljs-number,
 .hljs-operator,
 .hljs-variable,
 .hljs-string {
-  color: var(--color-heading) !important;
+  color: var(--color-heading);
 }
 
 .hljs-comment {
-  color: #57ad57 !important;
+  color: #57ad57;
 }
 
 /* ---- Notes -------------------------------------------------------------- */
