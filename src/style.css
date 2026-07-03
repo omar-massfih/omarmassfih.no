@@ -217,13 +217,15 @@ body > * {
   padding-inline: var(--gutter);
 }
 
-header > nav,
-main {
+header > nav {
   max-width: var(--container);
   margin-inline: auto;
 }
 
 main {
+  width: min(calc(100% - var(--gutter) - var(--gutter)), var(--container));
+  margin-inline: auto;
+  padding-inline: 0;
   padding-bottom: var(--space-8);
 }
 
@@ -393,7 +395,7 @@ a:hover {
 
 /* ---- Cards (projects page) ---------------------------------------------- */
 .project-main {
-  max-width: var(--container-wide);
+  width: min(calc(100% - var(--gutter) - var(--gutter)), var(--container-wide));
 }
 
 .project-main > section > p {
