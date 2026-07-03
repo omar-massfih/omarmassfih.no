@@ -356,6 +356,12 @@ a:hover {
   margin: 0;
 }
 
+/* Align the "Vis mer" link with the right-inset text of the rows below,
+   which sit var(--space-3) in from the edge due to .project's padding. */
+.projects-link {
+  margin-inline-end: var(--space-3);
+}
+
 .project {
   display: flex;
   flex-flow: row wrap;
