@@ -1,0 +1,22 @@
+---
+title: Notater
+layout: layouts/base.njk
+permalink: /notater.html
+date: git Last Modified
+---
+  <main>
+    <h1 class="center">Notater</h1>
+    <section>
+{%- for kategori, notater in collections.notater | groupby("data.kategori") %}
+      <nav class="flex-container projects-head notes-head">
+        <h2>{{ kategori }}</h2>
+      </nav>
+{%- for notat in notater %}
+      <a href="{{ notat.url }}" class="flex-container project">
+        <p>{{ notat.data.listTittel or notat.data.title }}</p>
+        <p class="source">{{ notat.data.datoTekst }}</p>
+      </a>
+{%- endfor %}
+{%- endfor %}
+    </section>
+  </main>

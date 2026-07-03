@@ -1,0 +1,24 @@
+---
+title: Prosjekter
+layout: layouts/base.njk
+permalink: /prosjekter.html
+date: git Last Modified
+---
+  <main class="project-main">
+    <section class="project-section">
+      <h1 class="center">Prosjekter</h1>
+      <p>Et utvalg av prosjekter fra min <a href="https://github.com/omar-massfih" class="linkbody">github</a>
+        profil</p>
+      <div class="flex-container">
+{%- for prosjekt in prosjekter %}
+        <section class="project-box">
+          <h2>{{ prosjekt.tittel }}</h2>
+          <p>{{ prosjekt.beskrivelse }}</p>
+          <nav>
+            <a href="{{ prosjekt.url }}">Github</a>
+          </nav>
+        </section>
+{%- endfor %}
+      </div>
+    </section>
+  </main>

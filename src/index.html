@@ -1,28 +1,9 @@
-<!DOCTYPE html>
-<html lang="no">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Omar Massfih</title>
-  <meta name="description"
-    content="Programvareutvikler.Lidenskapelig opptatt av programmering, webutvikling og teknologi.">
-  <link rel="shortcut icon" href="/bilder/favicon.jpg" type="image/x-icon">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono&display=swap">
-  <link rel="stylesheet" href="/style.css?v=2">
-  <meta property="og:title" content="Omar Massfih">
-  <meta property="og:description"
-    content="Programvareutvikler.Lidenskapelig opptatt av programmering, webutvikling og teknologi.">
-  <meta property="og:image" content="https://www.omarmassfih.no/bilder/favicon.jpg">
-  <meta property="og:url" content="https://www.omarmassfih.no">
-  <script src="/site-header.js" defer></script>
-</head>
-
-<body>
-  <site-header></site-header>
-
+---
+title: Omar Massfih
+layout: layouts/base.njk
+permalink: /index.html
+date: git Last Modified
+---
   <main>
     <section>
       <h1>Hei, mitt navn er <a href="/om.html" class="linkbody">Omar</a>.</h1>
@@ -49,16 +30,12 @@
         <h2>Siste prosjekter</h2>
         <a class="projects-link linkbody" href="/prosjekter.html">Vis mer</a>
       </nav>
-
-      <a href="https://github.com/omar-massfih/keycloak-auth-proxy" class="flex-container project">
-        <p>Keycloak Auth Proxy</p>
-        <p class="source">github</p>
+{%- for prosjekt in prosjekter %}{% if loop.index <= 2 %}
+      <a href="{{ prosjekt.url }}" class="flex-container project">
+        <p>{{ prosjekt.tittel }}</p>
+        <p class="source">{{ prosjekt.kilde }}</p>
       </a>
-
-      <a href="https://github.com/omar-massfih/asp-interpreter" class="flex-container project">
-        <p>Asp Interpreter</p>
-        <p class="source">github</p>
-      </a>
+{%- endif %}{% endfor %}
     </article>
 
     <article>
@@ -66,18 +43,11 @@
         <h2>Siste notater</h2>
         <a class="projects-link linkbody" href="/notater.html">Vis mer</a>
       </nav>
-
-      <a href="/notatmappe/kubernetes-k3s/oauth2-proxy-ingress.html" class="flex-container project">
-        <p>Protect an Ingress with oauth2-proxy</p>
-        <p class="source">sep. 30</p>
+{%- for notat in collections.notater | reverse %}{% if loop.index <= 2 %}
+      <a href="{{ notat.url }}" class="flex-container project">
+        <p>{{ notat.data.listTittel or notat.data.title }}</p>
+        <p class="source">{{ notat.data.datoTekst }}</p>
       </a>
-
-      <a href="/notatmappe/openshift/cert_manager_ingress.html" class="flex-container project">
-        <p>How to use Ingress with cert-manager on OpenShift (IBM)</p>
-        <p class="source">sep. 27</p>
-      </a>
+{%- endif %}{% endfor %}
     </article>
   </main>
-</body>
-
-</html>
