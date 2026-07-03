@@ -159,6 +159,8 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* Match the header so rubber-band overscroll above the page blends with it */
+  background-color: var(--color-header);
 }
 
 body {
@@ -274,11 +276,12 @@ article:last-child {
   font-weight: var(--weight-semibold);
   text-decoration: none;
   border-radius: var(--radius-sm);
-  transform: translateY(calc(-100% - var(--space-4)));
+  /* Clipped instead of moved off-screen so overscroll can never reveal it */
+  clip-path: inset(50%);
 }
 
 .skip-link:focus {
-  transform: translateY(0);
+  clip-path: none;
 }
 
 /* ---- Header / primary nav ----------------------------------------------- */
