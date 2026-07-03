@@ -8,14 +8,14 @@ date: git Last Modified
   <main id="main">
     <h1 class="center">Notes</h1>
     <section>
-{%- for category, notes in collections.notes | groupby("data.category") %}
+{%- for category, notes in backendNotes | groupby("category") %}
       <nav class="flex-container projects-head notes-head">
         <h2>{{ category }}</h2>
       </nav>
 {%- for note in notes %}
       <a href="{{ note.url }}" class="flex-container project">
-        <p>{{ note.data.listTitle or note.data.title }}</p>
-        <p class="source">{{ note.data.dateText }}</p>
+        <p>{{ note.list_title or note.title }}</p>
+        <p class="source">{{ note.date_text }}</p>
       </a>
 {%- endfor %}
 {%- endfor %}

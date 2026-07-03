@@ -1,4 +1,4 @@
 {
-  "layout": "layouts/note.njk",
-  "permalink": "{{ page.filePathStem }}.html"
+  "eleventyExcludeFromCollections": true,
+  "permalink": false
 }

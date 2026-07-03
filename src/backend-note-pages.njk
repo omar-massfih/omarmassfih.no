@@ -1,0 +1,15 @@
+---
+pagination:
+  data: backendNotes
+  size: 1
+  alias: note
+permalink: "{{ note.url }}"
+layout: layouts/note.njk
+eleventyComputed:
+  title: "{{ note.title }}"
+  heading: "{{ note.heading }}"
+  description: "{{ note.description }}"
+  lang: "{{ note.lang }}"
+  date: "{{ note.date }}"
+---
+{{ note.content_html | safe }}

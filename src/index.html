@@ -44,10 +44,10 @@ date: git Last Modified
         <h2>Latest notes</h2>
         <a class="projects-link linkbody" href="/notes.html">Show more</a>
       </nav>
-{%- for note in collections.notes | reverse %}{% if loop.index <= 2 %}
+{%- for note in backendNotes %}{% if loop.index <= 2 %}
       <a href="{{ note.url }}" class="flex-container project">
-        <p>{{ note.data.listTitle or note.data.title }}</p>
-        <p class="source">{{ note.data.dateText }}</p>
+        <p>{{ note.list_title or note.title }}</p>
+        <p class="source">{{ note.date_text }}</p>
       </a>
 {%- endif %}{% endfor %}
     </article>

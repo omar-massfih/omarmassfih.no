@@ -8,17 +8,17 @@ eleventyExcludeFromCollections: true
   <link href="{{ site.url }}/feed.xml" rel="self"/>
   <link href="{{ site.url }}/"/>
   <id>{{ site.url }}/</id>
-  <updated>{{ (collections.notes | reverse | first).date.toISOString() }}</updated>
+  <updated>{{ backendNotes[0].date_iso }}</updated>
   <author>
     <name>{{ site.title }}</name>
   </author>
-{%- for note in collections.notes | reverse %}
+{%- for note in backendNotes %}
   <entry>
-    <title>{{ note.data.title }}</title>
+    <title>{{ note.title }}</title>
     <link href="{{ site.url }}{{ note.url }}"/>
     <id>{{ site.url }}{{ note.url }}</id>
-    <updated>{{ note.date.toISOString() }}</updated>
-    <summary>{{ note.data.description }}</summary>
+    <updated>{{ note.date_iso }}</updated>
+    <summary>{{ note.description }}</summary>
   </entry>
 {%- endfor %}
 </feed>
