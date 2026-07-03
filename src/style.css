@@ -350,6 +350,7 @@ a:hover {
 /* ---- List rows (recent projects / notes) -------------------------------- */
 .projects-head {
   margin-bottom: var(--space-2);
+  padding-inline: var(--space-3);
   padding-bottom: var(--space-2);
   border-bottom: var(--border-width) solid var(--color-border);
 }
@@ -358,10 +359,8 @@ a:hover {
   margin: 0;
 }
 
-/* Align the "Vis mer" link with the right-inset text of the rows below,
-   which sit var(--space-3) in from the edge due to .project's padding. */
 .projects-link {
-  margin-inline-end: var(--space-3);
+  margin-inline-end: 0;
 }
 
 .project {
