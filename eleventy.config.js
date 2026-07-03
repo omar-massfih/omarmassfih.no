@@ -13,6 +13,7 @@ const decodeEntities = (html) =>
 export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/style.css");
   eleventyConfig.addPassthroughCopy("src/bilder");
+  eleventyConfig.addPassthroughCopy("src/fonts");
   eleventyConfig.addPassthroughCopy("src/CNAME");
 
   eleventyConfig.addFilter("assetHash", (assetPath) => {

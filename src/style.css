@@ -13,6 +13,25 @@
    ========================================================================== */
 
 /* ==========================================================================
+   0. FONTS (self-hosted, variable, latin subset)
+   ========================================================================== */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/InterVariable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/RobotoMonoVariable.woff2") format("woff2");
+}
+
+/* ==========================================================================
    1. PRIMITIVE TOKENS
    ========================================================================== */
 :root {
