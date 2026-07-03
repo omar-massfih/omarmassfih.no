@@ -535,6 +535,48 @@ pre code {
   margin-bottom: var(--space-2);
 }
 
+/* ---- CV ----------------------------------------------------------------- */
+.cv-section {
+  margin-bottom: 0;
+}
+
+.cv-group {
+  margin-bottom: var(--space-7);
+}
+
+.cv-group h2 {
+  padding-inline: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.cv-item {
+  margin-bottom: 0;
+  padding: var(--space-4) var(--space-3);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.cv-item h3 {
+  margin-bottom: var(--space-1);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.cv-kicker,
+.cv-meta {
+  margin-bottom: var(--space-1);
+  color: var(--color-text-muted);
+}
+
+.cv-kicker {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.cv-meta {
+  font-size: var(--text-sm);
+}
+
 /* ---- Contact ------------------------------------------------------------ */
 .contact > h2 {
   padding-bottom: var(--space-2);

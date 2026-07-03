@@ -7,6 +7,7 @@ class SiteHeader extends HTMLElement {
           <span class="header-nav-right">
             <a href="/prosjekter.html">Prosjekter</a>
             <a href="/notater.html">Notater</a>
+            <a href="/cv.html">CV</a>
             <a href="/om.html">Om</a>
           </span>
         </nav>
