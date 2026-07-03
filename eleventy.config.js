@@ -15,6 +15,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/bilder");
   eleventyConfig.addPassthroughCopy("src/fonts");
   eleventyConfig.addPassthroughCopy("src/CNAME");
+  eleventyConfig.addPassthroughCopy("src/robots.txt");
 
   eleventyConfig.addFilter("assetHash", (assetPath) => {
     const content = fs.readFileSync(`src${assetPath}`);
