@@ -1,0 +1,71 @@
+---
+title: The Three Laws of Software Architecture
+heading: The Three Laws of Software Architecture
+listTitle: The Three Laws of Software Architecture
+description: The three laws from Fundamentals of Software Architecture — everything is a trade-off, why beats how, and decisions live on a spectrum.
+lang: en
+category: Software Architecture
+date: 2026-07-03
+dateText: Jul 3
+---
+      <p>
+        From <em>Fundamentals of Software Architecture</em> by Mark Richards and
+        Neal Ford. Three short laws that frame how architects should think about
+        every decision.
+      </p>
+
+      <h2>First Law: Everything in software architecture is a trade-off</h2>
+      <p>
+        No choice is a free win. Even code reuse introduces coupling and churn
+        unless the reused code has good abstraction and low volatility — which is
+        why plumbing code (frameworks, libraries, infrastructure) is usually a
+        better reuse target than high-volatility domain logic.
+      </p>
+      <p>
+        Trade-off analysis also has to be repeated, even for situations that look
+        similar: small contextual differences in teams, budgets, goals or
+        technology can change which option is best. Understanding the trade-offs
+        but weighting them wrong for the actual context is its own antipattern
+        (<em>Out of Context</em>).
+      </p>
+
+      <h2>Second Law: Why is more important than how</h2>
+      <p>
+        Understanding the reasons and trade-offs behind a decision is more
+        valuable than merely knowing the resulting structure. Future architects
+        and developers need the rationale, not just the outcome — which is why
+        architecture decision records (ADRs) and diagrams matter: they preserve
+        the reasoning, context and consequences behind decisions, not just the
+        resulting implementation.
+      </p>
+
+      <h2>Third Law: Most decisions exist on a spectrum, not as binaries</h2>
+      <p>
+        Reducing architectural choices to simple either-or answers is misleading;
+        most involve gradations and contextual weighting. Classic examples:
+      </p>
+      <ul>
+        <li>
+          A <strong>shared library</strong> can beat a shared service when callers
+          are homogeneous and versioning is manageable — better performance, fault
+          tolerance and change safety.
+        </li>
+        <li>
+          A <strong>shared service</strong> wins with heterogeneous platforms or
+          high-volatility shared behavior, avoiding recompilation across many
+          services.
+        </li>
+        <li>
+          <strong>Queues</strong> allow heterogeneous messages, independent
+          monitoring and tighter control over consumers; <strong>topics</strong>
+          reduce coupling and improve extensibility because new consumers can
+          subscribe without changing the producer.
+        </li>
+      </ul>
+
+      <h2>The takeaway</h2>
+      <p>
+        Architects should build a reputation as objective arbiters of trade-offs
+        rather than evangelists for a favorite technology — context changes over
+        time, and today's favored solution can become tomorrow's antipattern.
+      </p>
