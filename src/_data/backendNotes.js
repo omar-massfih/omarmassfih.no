@@ -43,7 +43,7 @@ async function findHtmlFiles(root) {
 }
 
 async function loadLocalNotes() {
-  const notesRoot = path.join(process.cwd(), "src", "notes");
+  const notesRoot = path.resolve(process.cwd(), "..", "omarmassfih.no-backend", "notes");
   const files = await findHtmlFiles(notesRoot);
 
   return Promise.all(
