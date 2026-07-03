@@ -577,6 +577,18 @@ pre code {
   font-size: var(--text-sm);
 }
 
+.cv-list {
+  margin-bottom: 0;
+}
+
+.cv-list li {
+  margin-bottom: var(--space-2);
+}
+
+.cv-list li:last-child {
+  margin-bottom: 0;
+}
+
 /* ---- Contact ------------------------------------------------------------ */
 .contact > h2 {
   padding-bottom: var(--space-2);
