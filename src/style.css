@@ -347,6 +347,11 @@ a:hover {
   fill: var(--color-heading);
 }
 
+/* ---- Home intro --------------------------------------------------------- */
+.home-intro {
+  padding-inline: var(--space-3);
+}
+
 /* ---- List rows (recent projects / notes) -------------------------------- */
 .projects-head {
   margin-bottom: var(--space-2);
