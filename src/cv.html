@@ -1,5 +1,6 @@
 ---
 title: CV
+description: CV of Omar Massfih — experience, skills, education and certifications.
 layout: layouts/base.njk
 permalink: /cv.html
 date: git Last Modified
@@ -7,99 +8,72 @@ date: git Last Modified
   <main id="main">
     <section class="cv-section">
       <h1 class="center">CV</h1>
+      <p class="cv-print-hint center">
+        <button type="button" class="linkbody print-button" onclick="window.print()">Download as PDF</button>
+      </p>
 
       <article class="cv-group">
-        <h2>Erfaring</h2>
+        <h2>Experience</h2>
+{%- for role in cv.experience %}
 
         <section class="cv-item">
-          <p class="cv-kicker">BAMA Gruppen AS</p>
-          <h3>Data Platform Engineer</h3>
-          <p class="cv-meta">Heltid · apr. 2026 - nå · Oslo, Norge</p>
+          <p class="cv-kicker">{{ role.company }}</p>
+          <h3>{{ role.title }}</h3>
+          <p class="cv-meta">{{ role.meta }}</p>
+          <ul class="cv-list">
+{%- for bullet in role.bullets %}
+            <li>{{ bullet }}</li>
+{%- endfor %}
+          </ul>
+          <ul class="tag-list">
+{%- for item in role.tech %}
+            <li class="tag">{{ item }}</li>
+{%- endfor %}
+          </ul>
         </section>
-
-        <section class="cv-item">
-          <p class="cv-kicker">IBM</p>
-          <h3>Software Engineer Consultant | AI & Data</h3>
-          <p class="cv-meta">sep. 2025 - apr. 2026 · 8 mnd · Oslo, Norge · Hybrid</p>
-        </section>
-
-        <section class="cv-item">
-          <p class="cv-kicker">IBM</p>
-          <h3>Software Engineer Associate Consultant | AI & Data</h3>
-          <p class="cv-meta">sep. 2024 - aug. 2025 · 1 år · Oslo, Norge · Hybrid</p>
-        </section>
+{%- endfor %}
       </article>
 
       <article class="cv-group">
-        <h2>Utdanning</h2>
+        <h2>Skills</h2>
+{%- for skill in cv.skills %}
 
         <section class="cv-item">
-          <p class="cv-kicker">Universitetet i Oslo (UiO)</p>
-          <h3>Master's degree, Informatikk: programmering og systemarkitektur</h3>
-          <p class="cv-meta">Karakter: A</p>
+          <p class="cv-kicker">{{ skill.group }}</p>
+          <ul class="tag-list">
+{%- for item in skill.items %}
+            <li class="tag">{{ item }}</li>
+{%- endfor %}
+          </ul>
         </section>
-
-        <section class="cv-item">
-          <p class="cv-kicker">Universitetet i Oslo (UiO)</p>
-          <h3>Bachelor's degree, Informatikk: programmering og systemarkitektur</h3>
-          <p class="cv-meta">Karakter: A</p>
-        </section>
+{%- endfor %}
       </article>
 
       <article class="cv-group">
-        <h2>Sertifiseringer</h2>
+        <h2>Education</h2>
+{%- for entry in cv.education %}
 
         <section class="cv-item">
-          <p class="cv-kicker">Red Hat</p>
-          <ul class="cv-list">
-            <li>Red Hat Certified Engineer in Cloud-native Applications</li>
-            <li>Red Hat Certified Enterprise Application Developer</li>
-            <li>Red Hat Certified OpenShift Administrator</li>
-            <li>Red Hat Certified Specialist in OpenShift AI</li>
-            <li>Red Hat Certified OpenShift Application Developer</li>
-            <li>Red Hat Certified Specialist in Containers</li>
-          </ul>
+          <p class="cv-kicker">{{ entry.school }}</p>
+          <h3>{{ entry.degree }}</h3>
+          <p class="cv-meta">{{ entry.meta }}</p>
         </section>
+{%- endfor %}
+      </article>
+
+      <article class="cv-group">
+        <h2>Certifications</h2>
+{%- for group in cv.certifications %}
 
         <section class="cv-item">
-          <p class="cv-kicker">Microsoft</p>
+          <p class="cv-kicker">{{ group.issuer }}</p>
           <ul class="cv-list">
-            <li>Microsoft Certified: Azure Data Scientist Associate</li>
-            <li>Microsoft Certified: Azure Cosmos DB Developer Specialty</li>
-            <li>Microsoft Certified: Azure AI Engineer Associate</li>
-            <li>Microsoft Certified: Fabric Data Engineer Associate</li>
-            <li>Microsoft Certified: DevOps Engineer Expert</li>
-            <li>Microsoft Certified: Azure Developer Associate</li>
-            <li>Microsoft-sertifisert: Grunnleggende om sikkerhet, samsvar og identitet</li>
-            <li>Microsoft Certified: Grunnleggende om Azure AI</li>
-            <li>Microsoft Certified: Azure Data Fundamentals</li>
-            <li>Microsoft Certified: Azure Fundamentals</li>
+{%- for item in group.items %}
+            <li>{{ item }}</li>
+{%- endfor %}
           </ul>
         </section>
-
-        <section class="cv-item">
-          <p class="cv-kicker">IBM</p>
-          <ul class="cv-list">
-            <li>IBM Generative & Agentic AI Expert - Architect</li>
-            <li>IBM watsonx Essentials</li>
-            <li>watsonx.data Technical Sales Intermediate</li>
-            <li>IBM AI Associate Data Scientist</li>
-            <li>IBM Data Engineering Specialization</li>
-            <li>Big Data with Spark and Hadoop Essentials</li>
-            <li>NoSQL Databases Essentials</li>
-            <li>Data Warehouse Fundamentals</li>
-            <li>ETL and Data Pipelines with Shell, Airflow and Kafka</li>
-            <li>Databases and SQL for Data Science</li>
-          </ul>
-        </section>
-
-        <section class="cv-item">
-          <p class="cv-kicker">Andre</p>
-          <ul class="cv-list">
-            <li>Professional Scrum Master I (PSM I), Scrum.org</li>
-            <li>Linux Command Line, O'Reilly</li>
-          </ul>
-        </section>
+{%- endfor %}
       </article>
     </section>
   </main>

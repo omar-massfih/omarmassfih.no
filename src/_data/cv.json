@@ -1,0 +1,107 @@
+{
+  "experience": [
+    {
+      "company": "BAMA Gruppen AS",
+      "title": "Data Platform Engineer",
+      "meta": "Full-time · Apr 2026 – present · Oslo, Norway",
+      "bullets": [
+        "Build and operate the group's data platform on Azure and Snowflake.",
+        "Develop ingestion and transformation pipelines with Python, dlt and dbt.",
+        "Build agentic AI solutions with LangGraph and LangChain.",
+        "Automate infrastructure and deployments with Terraform and CI/CD."
+      ],
+      "tech": ["Azure", "Snowflake", "Python", "dlt", "dbt", "Agentic AI", "LangGraph", "LangChain", "Terraform", "CI/CD"]
+    },
+    {
+      "company": "IBM",
+      "title": "Software Engineer Consultant | AI & Data",
+      "meta": "Sep 2025 – Apr 2026 · 8 mos · Oslo, Norway · Hybrid",
+      "bullets": [
+        "Built and deployed agent-based AI solutions with LangGraph and LangChain.",
+        "Developed backend services, APIs and microservices for enterprise clients.",
+        "Operated, deployed and scaled containerized applications on Kubernetes and OpenShift.",
+        "Automated infrastructure and CI/CD on Azure and OpenShift."
+      ],
+      "tech": ["LangGraph", "LangChain", "Kubernetes", "OpenShift", "Azure"]
+    },
+    {
+      "company": "IBM",
+      "title": "Software Engineer Associate Consultant | AI & Data",
+      "meta": "Sep 2024 – Aug 2025 · 1 yr · Oslo, Norway · Hybrid",
+      "bullets": [
+        "Developed and maintained backend services and APIs in cross-functional teams.",
+        "Contributed to cloud-native deliveries with Kubernetes and OpenShift.",
+        "Supported data and AI workflows in production-grade environments.",
+        "Worked with cloud platforms such as Azure, AWS and IBM Cloud."
+      ],
+      "tech": ["Kubernetes", "OpenShift", "Azure", "AWS", "IBM Cloud"]
+    }
+  ],
+  "skills": [
+    { "group": "Cloud & platforms", "items": ["Azure", "AWS", "Kubernetes", "OpenShift", "Linux"] },
+    { "group": "Data & AI", "items": ["Snowflake", "dlt", "dbt", "Agentic AI", "LangGraph", "LangChain", "watsonx", "SQL/NoSQL"] },
+    { "group": "Languages & tools", "items": ["Python", "Java", "TypeScript", "Terraform", "CI/CD", "Git"] }
+  ],
+  "education": [
+    {
+      "school": "University of Oslo (UiO)",
+      "degree": "Master's degree, Informatics: Programming and System Architecture",
+      "meta": "Grade: A"
+    },
+    {
+      "school": "University of Oslo (UiO)",
+      "degree": "Bachelor's degree, Informatics: Programming and System Architecture",
+      "meta": "Grade: A"
+    }
+  ],
+  "certifications": [
+    {
+      "issuer": "Red Hat",
+      "items": [
+        "Red Hat Certified Engineer in Cloud-native Applications",
+        "Red Hat Certified Enterprise Application Developer",
+        "Red Hat Certified OpenShift Administrator",
+        "Red Hat Certified Specialist in OpenShift AI",
+        "Red Hat Certified OpenShift Application Developer",
+        "Red Hat Certified Specialist in Containers"
+      ]
+    },
+    {
+      "issuer": "Microsoft",
+      "items": [
+        "Microsoft Certified: Azure Data Scientist Associate",
+        "Microsoft Certified: Azure Cosmos DB Developer Specialty",
+        "Microsoft Certified: Azure AI Engineer Associate",
+        "Microsoft Certified: Fabric Data Engineer Associate",
+        "Microsoft Certified: DevOps Engineer Expert",
+        "Microsoft Certified: Azure Developer Associate",
+        "Microsoft Certified: Security, Compliance, and Identity Fundamentals",
+        "Microsoft Certified: Azure AI Fundamentals",
+        "Microsoft Certified: Azure Data Fundamentals",
+        "Microsoft Certified: Azure Fundamentals"
+      ]
+    },
+    {
+      "issuer": "IBM",
+      "items": [
+        "IBM Generative & Agentic AI Expert - Architect",
+        "IBM watsonx Essentials",
+        "watsonx.data Technical Sales Intermediate",
+        "IBM AI Associate Data Scientist",
+        "IBM Data Engineering Specialization",
+        "Big Data with Spark and Hadoop Essentials",
+        "NoSQL Databases Essentials",
+        "Data Warehouse Fundamentals",
+        "ETL and Data Pipelines with Shell, Airflow and Kafka",
+        "Databases and SQL for Data Science"
+      ]
+    },
+    {
+      "issuer": "Other",
+      "items": [
+        "Professional Scrum Master I (PSM I), Scrum.org",
+        "Linux Command Line, O'Reilly"
+      ]
+    }
+  ]
+}

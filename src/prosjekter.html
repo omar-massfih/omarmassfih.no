@@ -1,24 +1,16 @@
 ---
-title: Prosjekter
-layout: layouts/base.njk
 permalink: /prosjekter.html
-date: git Last Modified
+eleventyExcludeFromCollections: true
+layout: false
 ---
-  <main id="main" class="project-main">
-    <section class="project-section">
-      <h1 class="center">Prosjekter</h1>
-      <p>Et utvalg av prosjekter fra min <a href="https://github.com/omar-massfih" class="linkbody">github</a>
-        profil</p>
-      <div class="flex-container">
-{%- for prosjekt in prosjekter %}
-        <section class="project-box">
-          <h2>{{ prosjekt.tittel }}</h2>
-          <p>{{ prosjekt.beskrivelse }}</p>
-          <nav>
-            <a href="{{ prosjekt.url }}">Github</a>
-          </nav>
-        </section>
-{%- endfor %}
-      </div>
-    </section>
-  </main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=/projects.html">
+  <link rel="canonical" href="https://omarmassfih.no/projects.html">
+  <meta name="robots" content="noindex">
+  <title>Redirecting…</title>
+</head>
+<body><p>This page has moved to <a href="/projects.html">/projects.html</a>.</p></body>
+</html>

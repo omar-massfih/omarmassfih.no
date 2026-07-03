@@ -1,22 +1,16 @@
 ---
-title: Notater
-layout: layouts/base.njk
 permalink: /notater.html
-date: git Last Modified
+eleventyExcludeFromCollections: true
+layout: false
 ---
-  <main id="main">
-    <h1 class="center">Notater</h1>
-    <section>
-{%- for kategori, notater in collections.notater | groupby("data.kategori") %}
-      <nav class="flex-container projects-head notes-head">
-        <h2>{{ kategori }}</h2>
-      </nav>
-{%- for notat in notater %}
-      <a href="{{ notat.url }}" class="flex-container project">
-        <p>{{ notat.data.listTittel or notat.data.title }}</p>
-        <p class="source">{{ notat.data.datoTekst }}</p>
-      </a>
-{%- endfor %}
-{%- endfor %}
-    </section>
-  </main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=/notes.html">
+  <link rel="canonical" href="https://omarmassfih.no/notes.html">
+  <meta name="robots" content="noindex">
+  <title>Redirecting…</title>
+</head>
+<body><p>This page has moved to <a href="/notes.html">/notes.html</a>.</p></body>
+</html>

@@ -4,21 +4,21 @@ eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>{{ site.title }} — Notater</title>
+  <title>{{ site.title }} — Notes</title>
   <link href="{{ site.url }}/feed.xml" rel="self"/>
   <link href="{{ site.url }}/"/>
   <id>{{ site.url }}/</id>
-  <updated>{{ (collections.notater | reverse | first).date.toISOString() }}</updated>
+  <updated>{{ (collections.notes | reverse | first).date.toISOString() }}</updated>
   <author>
     <name>{{ site.title }}</name>
   </author>
-{%- for notat in collections.notater | reverse %}
+{%- for note in collections.notes | reverse %}
   <entry>
-    <title>{{ notat.data.title }}</title>
-    <link href="{{ site.url }}{{ notat.url }}"/>
-    <id>{{ site.url }}{{ notat.url }}</id>
-    <updated>{{ notat.date.toISOString() }}</updated>
-    <summary>{{ notat.data.description }}</summary>
+    <title>{{ note.data.title }}</title>
+    <link href="{{ site.url }}{{ note.url }}"/>
+    <id>{{ site.url }}{{ note.url }}</id>
+    <updated>{{ note.date.toISOString() }}</updated>
+    <summary>{{ note.data.description }}</summary>
   </entry>
 {%- endfor %}
 </feed>

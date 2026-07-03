@@ -1,0 +1,31 @@
+---
+title: Projects
+description: A selection of projects from Omar Massfih's GitHub profile.
+layout: layouts/base.njk
+permalink: /projects.html
+date: git Last Modified
+---
+  <main id="main" class="project-main">
+    <section class="project-section">
+      <h1 class="center">Projects</h1>
+      <p>A selection of projects from my <a href="https://github.com/omar-massfih" class="linkbody">GitHub</a>
+        profile</p>
+      <div class="flex-container">
+{%- for project in projects %}{% if not project.draft %}
+        <section class="project-box">
+          <h2>{{ project.name }}</h2>
+          <p>{{ project.summary }}</p>
+          <p class="project-description">{{ project.description }}</p>
+          <ul class="tag-list">
+{%- for tag in project.tags %}
+            <li class="tag">{{ tag }}</li>
+{%- endfor %}
+          </ul>
+          <nav>
+            <a href="{{ project.url }}">GitHub</a>
+          </nav>
+        </section>
+{%- endif %}{% endfor %}
+      </div>
+    </section>
+  </main>

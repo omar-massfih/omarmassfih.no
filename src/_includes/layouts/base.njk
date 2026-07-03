@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="{{ lang or "no" }}">
+<html lang="{{ lang or "en" }}">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#1c1e24">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1e24">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#e6e9ef">
   {%- set fullTitle = title if title == site.title else title + " — " + site.title %}
   <title>{{ fullTitle }}</title>
   <meta name="description" content="{{ description or site.description }}">
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
   <link rel="icon" href="/bilder/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="/bilder/apple-touch-icon.png">
-  <link rel="alternate" type="application/atom+xml" title="Notater" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Notes" href="/feed.xml">
   <link rel="preload" href="/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/RobotoMonoVariable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/style.css?v={{ "/style.css" | assetHash }}">
@@ -23,7 +24,7 @@
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="{{ site.title }}">
-  <meta property="og:locale" content="{{ "en_US" if lang == "en" else "nb_NO" }}">
+  <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{{ fullTitle }}">
   <meta name="twitter:description" content="{{ description or site.description }}">
@@ -38,10 +39,10 @@
         "@id": "{{ site.url }}/#person",
         "name": "{{ site.title }}",
         "url": "{{ site.url }}/",
-        "jobTitle": "Software Engineer",
+        "jobTitle": "Data Platform Engineer",
         "worksFor": {
           "@type": "Organization",
-          "name": "Bama"
+          "name": "BAMA Gruppen"
         },
         "sameAs": [
           "https://www.linkedin.com/in/omarmassfih",
@@ -54,7 +55,7 @@
         "name": "{{ site.title }}",
         "url": "{{ site.url }}/",
         "description": "{{ site.description }}",
-        "inLanguage": "nb",
+        "inLanguage": "en",
         "publisher": { "@id": "{{ site.url }}/#person" }
       }
     ]
@@ -64,7 +65,7 @@
 </head>
 
 <body>
-<a class="skip-link" href="#main">Hopp til innhold</a>
+<a class="skip-link" href="#main">Skip to content</a>
 {% include "header.njk" %}
 {{ content | safe }}
 </body>

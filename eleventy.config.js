@@ -34,8 +34,8 @@ export default function (eleventyConfig) {
     );
   });
 
-  eleventyConfig.addCollection("notater", (api) =>
-    api.getFilteredByGlob("src/notatmappe/**/*.html")
+  eleventyConfig.addCollection("notes", (api) =>
+    api.getFilteredByGlob("src/notes/**/*.html")
   );
 
   return {

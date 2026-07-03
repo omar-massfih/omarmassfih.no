@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Fragments vs Flow",
+    "summary": "Retrieval-augmented generation (RAG) pipeline from my master's thesis.",
+    "description": "Provider-agnostic pipeline where generation, embedding and evaluation can each run on watsonx, Azure OpenAI or OpenAI. Uses Docling for document extraction and RAGAS for evaluation metrics.",
+    "tags": ["Python", "RAG", "watsonx", "Azure OpenAI", "RAGAS"],
+    "url": "https://github.com/omar-massfih/fragments-vs-flow",
+    "source": "github",
+    "draft": false
+  },
+  {
+    "name": "Keycloak Auth Proxy",
+    "summary": "FastAPI-based authentication proxy that secures backend services with Keycloak.",
+    "description": "Sits behind a reverse proxy such as Traefik, Nginx or Envoy, validates JWTs and introspects access tokens before forwarding requests, and routes dynamically via Kubernetes/OpenShift DNS. Fully asynchronous using httpx.",
+    "tags": ["Python", "FastAPI", "Keycloak", "OIDC", "Kubernetes"],
+    "url": "https://github.com/omar-massfih/keycloak-auth-proxy",
+    "source": "github",
+    "draft": false
+  },
+  {
+    "name": "Keycloak Auth Proxy Helm Chart",
+    "summary": "Helm chart for deploying Keycloak Auth Proxy to Kubernetes and OpenShift.",
+    "description": "Packages the proxy with configurable ingress and service settings, JWT validation and prefix-based request routing, making the auth setup installable with a single helm install.",
+    "tags": ["Helm", "Kubernetes", "OpenShift", "Keycloak"],
+    "url": "https://github.com/omar-massfih/keycloak-auth-proxy-chart",
+    "source": "github",
+    "draft": false
+  },
+  {
+    "name": "Asp Interpreter",
+    "summary": "Interpreter for Asp, a mini-Python programming language, written in Java.",
+    "description": "Built for the University of Oslo course IN2030. Covers the full interpretation pipeline — scanner, parser, expression evaluation and a complete interpreter handling functions, loops and conditionals.",
+    "tags": ["Java", "Interpreters", "Parsing"],
+    "url": "https://github.com/omar-massfih/asp-interpreter",
+    "source": "github",
+    "draft": false
+  },
+  {
+    "name": "omarmassfih.no",
+    "summary": "This website — a zero-JavaScript static site built with Eleventy.",
+    "description": "Deployed to GitHub Pages through GitHub Actions, with build-time syntax highlighting, light and dark themes, an Atom feed and full SEO metadata. No client-side JavaScript.",
+    "tags": ["Eleventy", "Nunjucks", "CSS", "GitHub Actions"],
+    "url": "https://github.com/omar-massfih/omarmassfih.no",
+    "source": "github",
+    "draft": false
+  }
+]

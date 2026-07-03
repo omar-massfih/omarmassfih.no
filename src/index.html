@@ -6,8 +6,8 @@ date: git Last Modified
 ---
   <main id="main">
     <section class="home-intro">
-      <h1>Hei, mitt navn er <a href="/om.html" class="linkbody">Omar</a>.</h1>
-      <p>Jeg bygger plattformer, dataløsninger og AI-systemer hos Bama. Underveis har jeg tatt 10 Azure-sertifiseringer og 6 Red Hat-sertifiseringer.</p>
+      <h1>Hi, my name is <a href="/about.html" class="linkbody">Omar</a>.</h1>
+      <p>I build platforms, data solutions and AI systems at Bama. Along the way I have earned 10 Azure certifications and 6 Red Hat certifications.</p>
       <nav class="social-links flex-container">
         <a class="image-link" href="https://www.linkedin.com/in/omarmassfih" aria-label="LinkedIn">
           <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="4 4 42 42" aria-hidden="true" focusable="false">
@@ -27,26 +27,27 @@ date: git Last Modified
 
     <article>
       <nav class="flex-container projects-head">
-        <h2>Siste prosjekter</h2>
-        <a class="projects-link linkbody" href="/prosjekter.html">Vis mer</a>
+        <h2>Latest projects</h2>
+        <a class="projects-link linkbody" href="/projects.html">Show more</a>
       </nav>
-{%- for prosjekt in prosjekter %}{% if loop.index <= 2 %}
-      <a href="{{ prosjekt.url }}" class="flex-container project">
-        <p>{{ prosjekt.tittel }}</p>
-        <p class="source">{{ prosjekt.kilde }}</p>
+{%- set publishedProjects = projects | rejectattr("draft") %}
+{%- for project in publishedProjects %}{% if loop.index <= 2 %}
+      <a href="{{ project.url }}" class="flex-container project">
+        <p>{{ project.name }}</p>
+        <p class="source">{{ project.source }}</p>
       </a>
 {%- endif %}{% endfor %}
     </article>
 
     <article>
       <nav class="flex-container projects-head">
-        <h2>Siste notater</h2>
-        <a class="projects-link linkbody" href="/notater.html">Vis mer</a>
+        <h2>Latest notes</h2>
+        <a class="projects-link linkbody" href="/notes.html">Show more</a>
       </nav>
-{%- for notat in collections.notater | reverse %}{% if loop.index <= 2 %}
-      <a href="{{ notat.url }}" class="flex-container project">
-        <p>{{ notat.data.listTittel or notat.data.title }}</p>
-        <p class="source">{{ notat.data.datoTekst }}</p>
+{%- for note in collections.notes | reverse %}{% if loop.index <= 2 %}
+      <a href="{{ note.url }}" class="flex-container project">
+        <p>{{ note.data.listTitle or note.data.title }}</p>
+        <p class="source">{{ note.data.dateText }}</p>
       </a>
 {%- endif %}{% endfor %}
     </article>

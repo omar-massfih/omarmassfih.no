@@ -1,0 +1,23 @@
+---
+title: Notes
+description: Technical notes on Kubernetes, OpenShift, cloud and platform engineering.
+layout: layouts/base.njk
+permalink: /notes.html
+date: git Last Modified
+---
+  <main id="main">
+    <h1 class="center">Notes</h1>
+    <section>
+{%- for category, notes in collections.notes | groupby("data.category") %}
+      <nav class="flex-container projects-head notes-head">
+        <h2>{{ category }}</h2>
+      </nav>
+{%- for note in notes %}
+      <a href="{{ note.url }}" class="flex-container project">
+        <p>{{ note.data.listTitle or note.data.title }}</p>
+        <p class="source">{{ note.data.dateText }}</p>
+      </a>
+{%- endfor %}
+{%- endfor %}
+    </section>
+  </main>
