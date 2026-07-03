@@ -242,8 +242,17 @@ article:last-child {
    ========================================================================== */
 
 /* ---- Header / primary nav ----------------------------------------------- */
+/* <site-header> is a custom element (site-header.js) that renders the shared
+   <header> in light DOM. The gutter from `body > *` would land on the wrapper
+   and break the full-bleed header bar, so it moves to <header> itself. */
+site-header {
+  display: block;
+  padding-inline: 0;
+}
+
 header {
   background-color: var(--color-header);
+  padding-inline: var(--gutter);
   padding-block: var(--space-3);
   margin-bottom: var(--space-7);
   border-bottom: var(--border-width) solid var(--color-border);
@@ -269,6 +278,10 @@ header a {
 
 header a:hover {
   background-color: var(--color-bg);
+  color: var(--color-heading);
+}
+
+header a[aria-current="page"] {
   color: var(--color-heading);
 }
 
@@ -536,12 +549,6 @@ pre code {
 
   .header-nav-right {
     flex-wrap: wrap;
-  }
-}
-
-@media (max-width: 425px) {
-  .hide {
-    display: none;
   }
 }
 
