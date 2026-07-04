@@ -24,6 +24,10 @@ export default function (eleventyConfig) {
     JSON.stringify(buildNotesGraph(notes)).replace(/</g, "\\u003c")
   );
 
+  eleventyConfig.addFilter("graphHash", (notes) =>
+    crypto.createHash("md5").update(JSON.stringify(buildNotesGraph(notes))).digest("hex").slice(0, 8)
+  );
+
   eleventyConfig.addFilter("assetHash", (assetPath) => {
     const content = fs.readFileSync(`src${assetPath}`);
     return crypto.createHash("md5").update(content).digest("hex").slice(0, 8);

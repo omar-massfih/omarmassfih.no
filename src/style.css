@@ -296,6 +296,16 @@ article:last-child {
   clip-path: none;
 }
 
+/* ---- Visually hidden (screen-reader only) --------------------------------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* ---- Header / primary nav ----------------------------------------------- */
 header {
   position: sticky;
@@ -626,6 +636,7 @@ h2.section-head {
 
 /* ---- Knowledge graph (notes) ---------------------------------------------- */
 .knowledge-graph {
+  position: relative;
   background-color: var(--color-surface);
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -634,11 +645,18 @@ h2.section-head {
 .knowledge-graph svg {
   display: block;
   width: 100%;
-  height: 22rem;
+  height: var(--graph-height, 22rem);
+  cursor: grab;
+  /* One-finger vertical swipes keep scrolling the page; drags are node-only. */
+  touch-action: pan-y;
+}
+
+.knowledge-graph svg:active {
+  cursor: grabbing;
 }
 
 .knowledge-graph[data-graph-size="local"] svg {
-  height: 14rem;
+  height: var(--graph-height, 14rem);
 }
 
 .graph-link {
@@ -649,11 +667,30 @@ h2.section-head {
 
 .graph-node {
   transition: opacity var(--transition);
+  touch-action: none;
 }
 
 .graph-node a {
   cursor: pointer;
   outline: none;
+}
+
+.graph-node--tag.is-expandable {
+  cursor: pointer;
+  outline: none;
+}
+
+.graph-node--tag.is-expandable:hover circle {
+  stroke: var(--color-accent);
+}
+
+.graph-node--tag.is-expandable:focus-visible circle {
+  stroke: var(--color-focus);
+  stroke-width: 2;
+}
+
+.graph-node--tag.is-expanded circle {
+  fill: var(--color-border-strong);
 }
 
 .graph-node--note circle {
@@ -689,6 +726,48 @@ h2.section-head {
 .graph-node a:focus-visible circle {
   stroke: var(--color-focus);
   stroke-width: 2;
+}
+
+.graph-node.is-dimmed text {
+  opacity: 0;
+}
+
+/* Zoomed out (or crowded), tag labels only clutter; keep them on demand. */
+.knowledge-graph svg.is-zoomed-out .graph-node--tag text {
+  display: none;
+}
+
+.knowledge-graph svg.is-zoomed-out .graph-node--tag:hover text,
+.knowledge-graph svg.is-zoomed-out .graph-node--tag:focus text {
+  display: block;
+}
+
+.graph-controls {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.graph-controls button {
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--color-text-muted);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.graph-controls button:hover {
+  color: var(--color-text);
+  border-color: var(--color-accent);
 }
 
 /* ---- Portrait (about page) ------------------------------------------------ */
@@ -1319,6 +1398,18 @@ pre code {
 
   .graph-node text {
     fill: CanvasText;
+  }
+
+  .graph-node--tag.is-expandable circle {
+    stroke: LinkText;
+  }
+
+  .graph-node--tag.is-expanded circle {
+    fill: CanvasText;
+  }
+
+  .graph-controls button {
+    border: 1px solid ButtonText;
   }
 }
 

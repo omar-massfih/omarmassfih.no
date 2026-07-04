@@ -22,9 +22,7 @@ isNote: true
       <nav class="flex-container section-head notes-head">
         <h2>Related</h2>
       </nav>
-      <div class="knowledge-graph" data-graph-size="local" data-root-slug="{{ note.slug }}">
-        <script type="application/json" class="graph-data">{{ backendNotes | graphJson | safe }}</script>
-      </div>
+      <div class="knowledge-graph" data-graph-size="local" data-root-slug="{{ note.slug }}" data-graph-src="/graph.json?v={{ backendNotes | graphHash }}"></div>
     </section>
     <script src="/graph.js?v={{ "/graph.js" | assetHash }}" defer></script>
 {%- else %}
