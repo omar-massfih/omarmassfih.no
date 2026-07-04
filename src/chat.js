@@ -8,10 +8,33 @@
   const MAX_MESSAGE_LENGTH = 4000;
   const MAX_HISTORY = 20;
 
-  const container = document.querySelector(".notes-chat");
-  if (!container) return;
-
   const messages = [];
+
+  const launcher = document.createElement("button");
+  launcher.type = "button";
+  launcher.className = "chat-launcher";
+  launcher.setAttribute("aria-label", "Open notes chatbot");
+  launcher.setAttribute("aria-controls", "notes-chat-panel");
+  launcher.setAttribute("aria-expanded", "false");
+  launcher.textContent = "Ask";
+
+  const panel = document.createElement("section");
+  panel.id = "notes-chat-panel";
+  panel.className = "chat-panel";
+  panel.setAttribute("aria-label", "Notes chatbot");
+  panel.hidden = true;
+
+  const header = document.createElement("div");
+  header.className = "chat-panel-head";
+
+  const title = document.createElement("h2");
+  title.textContent = "Ask the notes";
+
+  const closeButton = document.createElement("button");
+  closeButton.type = "button";
+  closeButton.className = "chat-close";
+  closeButton.setAttribute("aria-label", "Close notes chatbot");
+  closeButton.textContent = "x";
 
   const log = document.createElement("div");
   log.className = "chat-log";
@@ -24,7 +47,7 @@
   const input = document.createElement("input");
   input.type = "text";
   input.className = "chat-input";
-  input.placeholder = "Ask about the notes…";
+  input.placeholder = "Ask about the notes...";
   input.maxLength = MAX_MESSAGE_LENGTH;
   input.setAttribute("aria-label", "Ask a question about the notes");
 
@@ -33,8 +56,22 @@
   button.className = "chat-send";
   button.textContent = "Ask";
 
+  header.append(title, closeButton);
   form.append(input, button);
-  container.append(log, form);
+  panel.append(header, log, form);
+  document.body.append(launcher, panel);
+
+  function setOpen(open) {
+    panel.hidden = !open;
+    launcher.hidden = open;
+    launcher.setAttribute("aria-expanded", String(open));
+
+    if (open) {
+      input.focus();
+    } else {
+      launcher.focus();
+    }
+  }
 
   function addBubble(role) {
     const bubble = document.createElement("div");
@@ -76,6 +113,7 @@
   function setBusy(busy) {
     input.disabled = busy;
     button.disabled = busy;
+    closeButton.disabled = busy;
     if (!busy) input.focus();
   }
 
@@ -131,6 +169,15 @@
     }
   }
 
+  launcher.addEventListener("click", () => setOpen(true));
+  closeButton.addEventListener("click", () => setOpen(false));
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !panel.hidden && !input.disabled) {
+      setOpen(false);
+    }
+  });
+
   form.addEventListener("submit", async (submitEvent) => {
     submitEvent.preventDefault();
 
@@ -146,7 +193,7 @@
     setBusy(true);
 
     const bubble = addBubble("assistant");
-    renderText(bubble, "…");
+    renderText(bubble, "...");
     const state = { answer: "", failed: false };
 
     try {

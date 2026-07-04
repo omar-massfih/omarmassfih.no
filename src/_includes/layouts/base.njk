@@ -94,6 +94,7 @@
 <a class="skip-link" href="#main">Skip to content</a>
 {% include "header.njk" %}
 {{ content | safe }}
+<script src="/chat.js?v={{ "/chat.js" | assetHash }}" defer></script>
 <script>
   (() => {
     const button = document.getElementById("theme-toggle");
