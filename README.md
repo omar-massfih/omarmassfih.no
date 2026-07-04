@@ -25,5 +25,8 @@ npm run build  # builds to _site/
 
 ## Publishing a note
 
-1. Add the note as an HTML file with front matter under `notes/` in the backend repo and push to `main` — the seed workflow writes it to Turso.
-2. Push this repo to `master` — `.github/workflows/static.yml` builds from the backend API and deploys to GitHub Pages.
+Add the note as an HTML file with front matter under `notes/` in the backend repo and push to `main`.
+
+The backend repo seeds notes to Turso, then sends a `notes_updated` repository dispatch event to this repo. `.github/workflows/static.yml` receives that event, rebuilds from the backend API, and deploys the updated static site to GitHub Pages.
+
+The backend repo needs an Actions secret named `FRONTEND_REDEPLOY_TOKEN` with permission to dispatch events to this repo.
