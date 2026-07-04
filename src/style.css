@@ -595,13 +595,15 @@ h2.section-head {
 .portrait {
   display: flex;
   justify-content: center;
-  margin-bottom: var(--space-5);
+  margin: 0;
 }
 
 .portrait img {
-  width: min(12rem, 40vw);
+  width: min(10rem, 34vw);
+  aspect-ratio: 1;
   height: auto;
-  border-radius: var(--radius-lg);
+  object-fit: cover;
+  border-radius: var(--radius-pill);
   border: var(--border-width) solid var(--color-border);
   box-shadow: var(--shadow-sm);
 }
@@ -706,7 +708,15 @@ pre code {
 }
 
 /* ---- About -------------------------------------------------------------- */
-.about-intro > p,
+.about-intro-body {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+  padding-inline: var(--space-3);
+}
+
+.about-copy > p,
 .contact > p {
   padding-inline: var(--space-3);
 }
@@ -789,6 +799,18 @@ pre code {
 
   .header-nav-right {
     flex-wrap: wrap;
+  }
+
+  .about-intro-body {
+    grid-template-columns: 1fr;
+  }
+
+  .portrait {
+    justify-content: center;
+  }
+
+  .portrait img {
+    width: min(11rem, 48vw);
   }
 }
 
