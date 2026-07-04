@@ -752,6 +752,10 @@ pre code {
   border-bottom: var(--border-width) solid var(--color-border);
 }
 
+.cv-item:last-child {
+  border-bottom: 0;
+}
+
 .cv-item h3 {
   margin-bottom: var(--space-1);
   font-size: var(--text-lg);
