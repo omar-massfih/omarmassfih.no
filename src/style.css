@@ -606,6 +606,11 @@ h2.section-head {
   box-shadow: var(--shadow-sm);
 }
 
+.about-intro > p,
+.contact > p {
+  padding-inline: var(--space-3);
+}
+
 /* ---- Print button (CV) ----------------------------------------------------
    Styled as an inline link; the underline comes from the shared link rules. */
 .print-button {
@@ -728,11 +733,8 @@ pre code {
 
 /* Title + date on one line where space allows; wraps naturally on mobile. */
 .cv-item-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  column-gap: var(--space-3);
+  display: grid;
+  gap: var(--space-1);
 }
 
 .cv-kicker,
