@@ -43,5 +43,14 @@
     "url": "https://github.com/omar-massfih/omarmassfih.no",
     "source": "github",
     "draft": false
+  },
+  {
+    "name": "omarmassfih.no Backend",
+    "summary": "FastAPI backend for notes, search and chat on omarmassfih.no.",
+    "description": "Serves published notes from Turso, exposes cached note APIs and powers the notes chatbot with embeddings, retrieval and streamed answers through Vercel AI Gateway.",
+    "tags": ["Python", "FastAPI", "Turso", "RAG", "Vercel"],
+    "url": "https://github.com/omar-massfih/omarmassfih.no-backend",
+    "source": "github",
+    "draft": false
   }
 ]
