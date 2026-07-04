@@ -451,14 +451,12 @@ a:hover {
   margin: 0;
 }
 
-/* Short amber tab overlapping the divider under section headers. */
-.projects-head,
+/* Short amber tab overlapping the divider under page section headers. */
 .cv-group h2,
 .contact > h2 {
   position: relative;
 }
 
-.projects-head::after,
 .cv-group h2::after,
 .contact > h2::after {
   content: "";
