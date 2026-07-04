@@ -439,23 +439,25 @@ a:hover {
   color: var(--color-accent);
 }
 
-/* ---- List rows (recent projects / notes) -------------------------------- */
-.projects-head {
+/* ---- Section headers ---------------------------------------------------- */
+.section-head {
   margin-bottom: var(--space-2);
   padding-inline: var(--space-3);
   padding-bottom: var(--space-2);
   border-bottom: var(--border-width) solid var(--color-border);
 }
 
-.projects-head h2 {
+.section-head h2,
+h2.section-head {
   margin: 0;
 }
 
-.projects-link {
+/* ---- List rows (recent projects / notes) -------------------------------- */
+.section-head-link {
   margin-inline-end: 0;
 }
 
-.project {
+.list-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   column-gap: var(--space-3);
@@ -468,21 +470,21 @@ a:hover {
   transition: background-color var(--transition), color var(--transition);
 }
 
-.project p {
+.list-row p {
   margin: 0;
 }
 
-.project p:first-child {
+.list-row p:first-child {
   color: var(--color-heading);
   font-weight: var(--weight-medium);
 }
 
-.project:hover {
+.list-row:hover {
   background-color: var(--color-surface-hover);
   color: var(--color-heading);
 }
 
-.source {
+.list-row-meta {
   color: var(--color-text-muted);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
@@ -563,10 +565,6 @@ a:hover {
   border-color: var(--color-accent);
   color: var(--color-accent);
   background-color: var(--color-bg);
-}
-
-.project-section {
-  margin-bottom: 0;
 }
 
 /* ---- Tags (project cards + CV tech) -------------------------------------- */
@@ -708,18 +706,8 @@ pre code {
 }
 
 /* ---- CV ----------------------------------------------------------------- */
-.cv-section {
-  margin-bottom: 0;
-}
-
 .cv-group {
   margin-bottom: var(--space-7);
-}
-
-.cv-group h2 {
-  padding-inline: var(--space-3);
-  padding-bottom: var(--space-2);
-  border-bottom: var(--border-width) solid var(--color-border);
 }
 
 .cv-item {
@@ -775,9 +763,7 @@ pre code {
 }
 
 /* ---- Contact ------------------------------------------------------------ */
-.contact > h2 {
-  padding-bottom: var(--space-2);
-  border-bottom: var(--border-width) solid var(--color-border);
+.contact > .section-head {
   margin-bottom: var(--space-4);
 }
 
@@ -805,7 +791,7 @@ pre code {
 
 @media (max-width: 480px) {
   /* Stack list rows: date/source drops under the title, left-aligned. */
-  .project {
+  .list-row {
     grid-template-columns: 1fr;
     row-gap: var(--space-1);
   }
@@ -841,7 +827,7 @@ pre code {
   /* Hovers signalled only by background-color disappear in forced colors;
      underline instead. */
   header a:hover,
-  .project:hover {
+  .list-row:hover {
     text-decoration: underline;
   }
 

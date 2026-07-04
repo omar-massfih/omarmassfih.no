@@ -6,14 +6,14 @@ permalink: /cv.html
 date: git Last Modified
 ---
   <main id="main">
-    <section class="cv-section">
+    <section>
       <h1 class="center">CV</h1>
       <p class="cv-print-hint center">
         <button type="button" class="linkbody print-button" onclick="window.print()">Download as PDF</button>
       </p>
 
       <article class="cv-group">
-        <h2>Experience</h2>
+        <h2 class="section-head">Experience</h2>
 {%- for role in cv.experience %}
 
         <section class="cv-item">
@@ -37,7 +37,7 @@ date: git Last Modified
       </article>
 
       <article class="cv-group">
-        <h2>Skills</h2>
+        <h2 class="section-head">Skills</h2>
 {%- for skill in cv.skills %}
 
         <section class="cv-item">
@@ -52,7 +52,7 @@ date: git Last Modified
       </article>
 
       <article class="cv-group">
-        <h2>Education</h2>
+        <h2 class="section-head">Education</h2>
 {%- for entry in cv.education %}
 
         <section class="cv-item">
@@ -66,7 +66,7 @@ date: git Last Modified
       </article>
 
       <article class="cv-group">
-        <h2>Certifications</h2>
+        <h2 class="section-head">Certifications</h2>
 {%- for group in cv.certifications %}
 
         <section class="cv-item">
