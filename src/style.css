@@ -189,6 +189,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Faint amber wash from the top-left corner; screen only so print stays clean. */
+@media screen {
+  body {
+    background-image: radial-gradient(50rem 24rem at 15% -5%, var(--accent-glow), transparent 70%);
+    background-repeat: no-repeat;
+  }
+}
+
 :focus-visible {
   outline: var(--focus-ring) solid var(--color-focus);
   outline-offset: 2px;
@@ -423,6 +431,22 @@ a:hover {
 /* ---- Home intro --------------------------------------------------------- */
 .home-intro {
   padding-inline: var(--space-3);
+  padding-block: var(--space-6) var(--space-4);
+}
+
+.home-intro h1 {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-4);
+}
+
+/* Mono annotation line above the hero heading, editor-comment style. */
+.kicker {
+  margin-bottom: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
 }
 
 /* ---- List rows (recent projects / notes) -------------------------------- */
@@ -435,6 +459,30 @@ a:hover {
 
 .projects-head h2 {
   margin: 0;
+}
+
+/* Short amber tab overlapping the divider under section headers. */
+.projects-head,
+.cv-group h2,
+.contact > h2 {
+  position: relative;
+}
+
+.projects-head::after,
+.cv-group h2::after,
+.contact > h2::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: var(--space-3);
+  width: 2.5rem;
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+}
+
+.contact > h2::after {
+  left: 0;
 }
 
 .projects-link {
@@ -456,6 +504,11 @@ a:hover {
 
 .project p {
   margin: 0;
+}
+
+.project p:first-child {
+  color: var(--color-heading);
+  font-weight: var(--weight-medium);
 }
 
 .project:hover {
@@ -496,6 +549,7 @@ a:hover {
   background-color: var(--color-surface);
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
   transition: border-color var(--transition), transform var(--transition),
     box-shadow var(--transition);
 }
@@ -508,11 +562,17 @@ a:hover {
 
 .project-box h2 {
   margin: 0;
+  font-size: var(--text-lg);
 }
 
 .project-box p {
   margin: 0;
   color: var(--color-text);
+}
+
+.project-box .project-description {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
 }
 
 .project-box nav {
