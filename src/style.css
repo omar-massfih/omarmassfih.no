@@ -509,10 +509,10 @@ h2.section-head {
 }
 
 .project-box {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: var(--space-4);
+  gap: var(--space-3);
   padding: var(--space-5);
   background-color: var(--color-surface);
   border: var(--border-width) solid var(--color-border);
@@ -523,9 +523,16 @@ h2.section-head {
 }
 
 .project-box:hover {
-  border-color: var(--color-border-strong);
+  border-color: var(--color-accent);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+}
+
+/* The heading link is stretched over the whole card, so the ring belongs on
+   the card, not the anchor. */
+.project-box:focus-within {
+  outline: var(--focus-ring) solid var(--color-focus);
+  outline-offset: 2px;
 }
 
 .project-box h2 {
@@ -538,33 +545,53 @@ h2.section-head {
   color: var(--color-text);
 }
 
+.project-kicker {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.project-link {
+  color: var(--color-heading);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.project-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.project-link:focus-visible {
+  outline: none;
+}
+
+.project-box:hover .project-link {
+  color: var(--color-accent);
+}
+
+.project-arrow {
+  margin-inline-start: var(--space-1);
+  color: var(--color-text-muted);
+  transition: color var(--transition), translate var(--transition);
+}
+
+.project-box:hover .project-arrow {
+  translate: 2px -2px;
+  color: var(--color-accent);
+}
+
 .project-box .project-description {
   color: var(--color-text-muted);
   font-size: var(--text-sm);
 }
 
-.project-box nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
-
-.project-box a {
-  padding: var(--space-2) var(--space-4);
-  background-color: var(--color-bg);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-md);
-  color: var(--color-heading);
-  text-decoration: none;
-  font-size: var(--text-sm);
-  transition: color var(--transition), border-color var(--transition),
-    background-color var(--transition);
-}
-
-.project-box a:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-  background-color: var(--color-bg);
+.project-box .tag-list {
+  margin-top: auto;
+  padding-top: var(--space-2);
 }
 
 /* ---- Tags (project cards + CV tech) -------------------------------------- */
@@ -1248,6 +1275,10 @@ pre code {
   .project-box:hover {
     transform: none;
   }
+
+  .project-box:hover .project-arrow {
+    translate: none;
+  }
 }
 
 @media (prefers-contrast: more) {
@@ -1263,7 +1294,8 @@ pre code {
   /* Hovers signalled only by background-color disappear in forced colors;
      underline instead. */
   header a:hover,
-  .list-row:hover {
+  .list-row:hover,
+  .project-box:hover .project-link {
     text-decoration: underline;
   }
 
