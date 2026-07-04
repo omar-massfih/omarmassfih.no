@@ -7,26 +7,6 @@ date: git Last Modified
 ---
   <main id="main">
     <h1 class="center">Notes</h1>
-{%- if backendNotes.length >= 2 %}
-{%- set graph = backendNotes | notesGraph %}
-    <section class="notes-graph-section" aria-labelledby="notes-graph-title">
-      <div class="flex-container projects-head notes-head">
-        <h2 id="notes-graph-title">Knowledge graph</h2>
-      </div>
-      <div
-        class="notes-graph"
-        data-notes-graph
-        role="img"
-        aria-label="Interactive graph of notes connected by category and direct note links"
-      >
-        <noscript>
-          <p class="notes-graph-fallback">The knowledge graph needs JavaScript. The notes list below works without it.</p>
-        </noscript>
-      </div>
-      <script type="application/json" id="notes-graph-data">{{ graph | json | safe }}</script>
-      <script src="/notes-graph.js?v={{ "/notes-graph.js" | assetHash }}" defer></script>
-    </section>
-{%- endif %}
     <section>
 {%- for category, notes in backendNotes | groupby("category") %}
       <nav class="flex-container projects-head notes-head">
