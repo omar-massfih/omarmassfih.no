@@ -8,6 +8,26 @@ isNote: true
 {%- if dateText %}
       <p class="note-meta center">{{ dateText }}</p>
 {%- endif %}
+{%- if note.tags and note.tags.length %}
+      <ul class="tag-list note-tags">
+{%- for tag in note.tags %}
+        <li class="tag">{{ tag }}</li>
+{%- endfor %}
+      </ul>
+{%- endif %}
 {{ content | safe }}
+{%- if note.tags and note.tags.length %}
     </section>
+    <section class="graph-section" hidden>
+      <nav class="flex-container section-head notes-head">
+        <h2>Related</h2>
+      </nav>
+      <div class="knowledge-graph" data-graph-size="local" data-root-slug="{{ note.slug }}">
+        <script type="application/json" class="graph-data">{{ backendNotes | graphJson | safe }}</script>
+      </div>
+    </section>
+    <script src="/graph.js?v={{ "/graph.js" | assetHash }}" defer></script>
+{%- else %}
+    </section>
+{%- endif %}
   </main>

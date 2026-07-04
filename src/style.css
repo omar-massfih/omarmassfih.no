@@ -591,6 +591,78 @@ h2.section-head {
   margin-top: var(--space-3);
 }
 
+.note-tags {
+  justify-content: center;
+  margin-bottom: var(--space-5);
+}
+
+/* ---- Knowledge graph (notes) ---------------------------------------------- */
+.knowledge-graph {
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.knowledge-graph svg {
+  display: block;
+  width: 100%;
+  height: 22rem;
+}
+
+.knowledge-graph[data-graph-size="local"] svg {
+  height: 14rem;
+}
+
+.graph-link {
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+  transition: opacity var(--transition);
+}
+
+.graph-node {
+  transition: opacity var(--transition);
+}
+
+.graph-node a {
+  cursor: pointer;
+  outline: none;
+}
+
+.graph-node--note circle {
+  fill: var(--color-accent);
+}
+
+.graph-node--tag circle {
+  fill: var(--color-surface);
+  stroke: var(--color-border-strong);
+}
+
+.graph-node text {
+  fill: var(--color-text-muted);
+  font-size: 0.7rem;
+}
+
+.graph-node--tag text {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+}
+
+.graph-node.is-active text,
+.graph-node a:hover text {
+  fill: var(--color-text);
+}
+
+.graph-link.is-dimmed,
+.graph-node.is-dimmed {
+  opacity: 0.25;
+}
+
+.graph-node.is-current circle,
+.graph-node a:focus-visible circle {
+  stroke: var(--color-focus);
+  stroke-width: 2;
+}
+
 /* ---- Portrait (about page) ------------------------------------------------ */
 .portrait {
   float: left;
@@ -858,6 +930,23 @@ pre code {
 
   .skip-link:focus {
     outline: 2px solid;
+  }
+
+  .graph-link {
+    stroke: CanvasText;
+  }
+
+  .graph-node--note circle {
+    fill: LinkText;
+  }
+
+  .graph-node--tag circle {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .graph-node text {
+    fill: CanvasText;
   }
 }
 

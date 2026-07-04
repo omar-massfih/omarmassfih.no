@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import hljs from "highlight.js";
+import buildNotesGraph from "./lib/notesGraph.js";
 
 const decodeEntities = (html) =>
   html
@@ -16,6 +17,11 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/fonts");
   eleventyConfig.addPassthroughCopy("src/CNAME");
   eleventyConfig.addPassthroughCopy("src/robots.txt");
+  eleventyConfig.addPassthroughCopy("src/graph.js");
+
+  eleventyConfig.addFilter("graphJson", (notes) =>
+    JSON.stringify(buildNotesGraph(notes)).replace(/</g, "\\u003c")
+  );
 
   eleventyConfig.addFilter("assetHash", (assetPath) => {
     const content = fs.readFileSync(`src${assetPath}`);
