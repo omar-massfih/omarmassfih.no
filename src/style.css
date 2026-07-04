@@ -606,11 +606,6 @@ h2.section-head {
   box-shadow: var(--shadow-sm);
 }
 
-.about-intro > p,
-.contact > p {
-  padding-inline: var(--space-3);
-}
-
 /* ---- Print button (CV) ----------------------------------------------------
    Styled as an inline link; the underline comes from the shared link rules. */
 .print-button {
@@ -708,6 +703,12 @@ pre code {
 
 .note li::marker {
   color: var(--color-accent);
+}
+
+/* ---- About -------------------------------------------------------------- */
+.about-intro > p,
+.contact > p {
+  padding-inline: var(--space-3);
 }
 
 /* ---- CV ----------------------------------------------------------------- */
