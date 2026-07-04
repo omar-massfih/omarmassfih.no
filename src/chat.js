@@ -16,7 +16,11 @@
   launcher.setAttribute("aria-label", "Open notes chatbot");
   launcher.setAttribute("aria-controls", "notes-chat-panel");
   launcher.setAttribute("aria-expanded", "false");
-  launcher.textContent = "Ask";
+  launcher.innerHTML =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>' +
+    "</svg>";
 
   const panel = document.createElement("section");
   panel.id = "notes-chat-panel";
@@ -34,7 +38,35 @@
   closeButton.type = "button";
   closeButton.className = "chat-close";
   closeButton.setAttribute("aria-label", "Close notes chatbot");
-  closeButton.textContent = "x";
+  closeButton.textContent = "×";
+
+  const body = document.createElement("div");
+  body.className = "chat-body";
+
+  const empty = document.createElement("div");
+  empty.className = "chat-empty";
+
+  const greeting = document.createElement("p");
+  greeting.textContent = "Hi! I can answer questions about Omar's notes.";
+  empty.append(greeting);
+
+  const suggestions = [
+    "What are these notes about?",
+    "What was the latest note about?",
+    "How is this chatbot built?",
+  ];
+
+  for (const suggestion of suggestions) {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "chat-suggestion";
+    chip.textContent = suggestion;
+    chip.addEventListener("click", () => {
+      input.value = suggestion;
+      form.requestSubmit();
+    });
+    empty.append(chip);
+  }
 
   const log = document.createElement("div");
   log.className = "chat-log";
@@ -57,8 +89,9 @@
   button.textContent = "Ask";
 
   header.append(title, closeButton);
+  body.append(empty, log);
   form.append(input, button);
-  panel.append(header, log, form);
+  panel.append(header, body, form);
   document.body.append(launcher, panel);
 
   function setOpen(open) {
@@ -82,7 +115,8 @@
   }
 
   function appendInlineMarkdown(parent, text) {
-    const pattern = /(`[^`]+`|\[([^\]]+)\]\(([^)]+)\))/g;
+    const pattern =
+      /(`[^`]+`|\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*|\*([^*\s](?:[^*]*[^*\s])?)\*)/g;
     let cursor = 0;
     let match;
 
@@ -95,6 +129,14 @@
         const code = document.createElement("code");
         code.textContent = match[0].slice(1, -1);
         parent.append(code);
+      } else if (match[0].startsWith("**")) {
+        const strong = document.createElement("strong");
+        appendInlineMarkdown(strong, match[4]);
+        parent.append(strong);
+      } else if (match[0].startsWith("*")) {
+        const em = document.createElement("em");
+        appendInlineMarkdown(em, match[5]);
+        parent.append(em);
       } else {
         const href = match[3].trim();
         const isSafeHref =
@@ -315,6 +357,7 @@
     const question = input.value.trim();
     if (!question || input.disabled) return;
 
+    empty.hidden = true;
     messages.push({ role: "user", content: question });
     while (messages.length > MAX_HISTORY) messages.shift();
     if (messages[0] && messages[0].role !== "user") messages.shift();

@@ -783,7 +783,7 @@ pre code {
 :root {
   --chat-offset-x: max(var(--space-5), env(safe-area-inset-right));
   --chat-offset-y: max(var(--space-5), env(safe-area-inset-bottom));
-  --chat-launcher-height: 3rem;
+  --chat-launcher-size: 3.25rem;
 }
 
 .chat-launcher {
@@ -791,21 +791,25 @@ pre code {
   right: var(--chat-offset-x);
   bottom: var(--chat-offset-y);
   z-index: 20;
-  min-width: 4.75rem;
-  min-height: var(--chat-launcher-height);
-  padding: var(--space-2) var(--space-4);
+  display: grid;
+  place-items: center;
+  width: var(--chat-launcher-size);
+  height: var(--chat-launcher-size);
+  padding: 0; /* cancel the body > * gutter; both widgets are direct body children */
   border: var(--border-width) solid var(--color-border-strong);
   border-radius: var(--radius-pill);
   background-color: var(--color-accent);
   color: var(--color-on-accent);
   box-shadow: var(--shadow-md);
-  font-family: inherit;
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
   cursor: pointer;
   transition:
     background-color var(--transition),
     transform var(--transition);
+}
+
+.chat-launcher svg {
+  width: 1.4rem;
+  height: 1.4rem;
 }
 
 .chat-launcher:hover {
@@ -827,15 +831,31 @@ pre code {
   grid-template-rows: auto minmax(0, 1fr) auto;
   width: min(24rem, calc(100vw - (var(--space-3) * 2)));
   max-height: min(34rem, calc(100vh - var(--chat-offset-y) - var(--space-5)));
+  max-height: min(34rem, calc(100dvh - var(--chat-offset-y) - var(--space-5)));
+  padding: 0;
   overflow: hidden;
   border: var(--border-width) solid var(--color-border-strong);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-md);
+  animation: chat-panel-in var(--transition);
 }
 
 .chat-panel[hidden] {
   display: none;
+}
+
+@keyframes chat-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-panel {
+    animation: none;
+  }
 }
 
 .chat-panel-head {
@@ -873,6 +893,55 @@ pre code {
 }
 
 .chat-close:focus-visible {
+  outline: var(--focus-ring) solid var(--color-focus);
+  outline-offset: 1px;
+}
+
+.chat-body {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+}
+
+.chat-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-3);
+}
+
+.chat-empty[hidden] {
+  display: none;
+}
+
+.chat-empty p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.chat-suggestion {
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition);
+}
+
+.chat-suggestion:hover {
+  border-color: var(--color-border-strong);
+  background-color: var(--color-bg);
+}
+
+.chat-suggestion:focus-visible {
   outline: var(--focus-ring) solid var(--color-focus);
   outline-offset: 1px;
 }
@@ -1035,8 +1104,9 @@ pre code {
   .chat-panel {
     right: var(--chat-offset-x);
     bottom: var(--chat-offset-y);
-    width: calc(100vw - (var(--space-2) * 2));
+    width: calc(100vw - (var(--chat-offset-x) * 2));
     max-height: calc(100vh - var(--chat-offset-y) - var(--space-4));
+    max-height: calc(100dvh - var(--chat-offset-y) - var(--space-4));
   }
 
   .chat-form {
