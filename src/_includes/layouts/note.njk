@@ -5,6 +5,9 @@ isNote: true
   <main id="main" class="note">
     <section>
       <h1 class="center">{{ heading or title }}</h1>
+{%- if dateText %}
+      <p class="note-meta center">{{ dateText }}</p>
+{%- endif %}
 {{ content | safe }}
     </section>
   </main>
