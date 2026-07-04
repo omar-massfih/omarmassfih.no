@@ -18,15 +18,6 @@
     "draft": false
   },
   {
-    "name": "Keycloak Auth Proxy Helm Chart",
-    "summary": "Helm chart for deploying Keycloak Auth Proxy to Kubernetes and OpenShift.",
-    "description": "Packages the proxy with configurable ingress and service settings, JWT validation and prefix-based request routing, making the auth setup installable with a single helm install.",
-    "tags": ["Helm", "Kubernetes", "OpenShift", "Keycloak"],
-    "url": "https://github.com/omar-massfih/keycloak-auth-proxy-chart",
-    "source": "github",
-    "draft": false
-  },
-  {
     "name": "Asp Interpreter",
     "summary": "Interpreter for Asp, a mini-Python programming language, written in Java.",
     "description": "Built for the University of Oslo course IN2030. Covers the full interpretation pipeline — scanner, parser, expression evaluation and a complete interpreter handling functions, loops and conditionals.",
