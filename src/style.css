@@ -510,6 +510,7 @@ h2.section-head {
 
 .project-box {
   position: relative;
+  margin-bottom: 0; /* cancel the global article margin; the grid gap spaces rows */
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
