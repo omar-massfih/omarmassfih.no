@@ -101,8 +101,8 @@
   --border-width: 1px;
 
   /* -- Elevation ------------------------------------------------------------ */
-  --shadow-sm: 0 1px 2px light-dark(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.08));
-  --shadow-md: 0 6px 20px light-dark(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.12));
+  --shadow-sm: 0 1px 2px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.25));
+  --shadow-md: 0 6px 20px light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.35));
 
   /* -- Motion --------------------------------------------------------------- */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -121,7 +121,7 @@
 /* ==========================================================================
    2. SEMANTIC TOKENS
    --------------------------------------------------------------------------
-   Each token is defined once as light-dark(darkValue, lightValue); the used
+   Each token is defined once as light-dark(lightValue, darkValue); the used
    color-scheme (OS preference by default, [data-theme] when toggled, forced
    light in print) picks the right side. Requires light-dark() support
    (Baseline 2024); older browsers get an unthemed fallback.
@@ -129,30 +129,30 @@
 :root {
   color-scheme: dark light;
 
-  --color-bg: light-dark(var(--neutral-850), var(--neutral-000));
-  --color-surface: light-dark(var(--neutral-900), var(--neutral-100));
-  --color-surface-hover: light-dark(var(--neutral-950), var(--neutral-200));
-  --color-header: light-dark(var(--neutral-950), var(--neutral-100));
+  --color-bg: light-dark(var(--neutral-000), var(--neutral-850));
+  --color-surface: light-dark(var(--neutral-100), var(--neutral-900));
+  --color-surface-hover: light-dark(var(--neutral-200), var(--neutral-950));
+  --color-header: light-dark(var(--neutral-100), var(--neutral-950));
 
-  --color-border: light-dark(rgba(194, 196, 200, 0.16), rgba(28, 30, 36, 0.14));
-  --color-border-strong: light-dark(rgba(194, 196, 200, 0.28), rgba(28, 30, 36, 0.3));
+  --color-border: light-dark(rgba(28, 30, 36, 0.14), rgba(194, 196, 200, 0.16));
+  --color-border-strong: light-dark(rgba(28, 30, 36, 0.3), rgba(194, 196, 200, 0.28));
 
-  --color-text: light-dark(var(--neutral-200), var(--neutral-700));
-  --color-text-muted: light-dark(var(--neutral-400), var(--neutral-500));
-  --color-heading: light-dark(var(--neutral-000), var(--neutral-950));
+  --color-text: light-dark(var(--neutral-700), var(--neutral-200));
+  --color-text-muted: light-dark(var(--neutral-500), var(--neutral-400));
+  --color-heading: light-dark(var(--neutral-950), var(--neutral-000));
 
-  --color-accent: light-dark(var(--accent-500), var(--accent-700));
-  --color-accent-hover: light-dark(var(--accent-400), var(--accent-600));
-  --color-on-accent: light-dark(var(--neutral-950), var(--neutral-000));
+  --color-accent: light-dark(var(--accent-700), var(--accent-500));
+  --color-accent-hover: light-dark(var(--accent-600), var(--accent-400));
+  --color-on-accent: light-dark(var(--neutral-000), var(--neutral-950));
 
-  --color-focus: light-dark(var(--accent-400), var(--accent-700));
+  --color-focus: light-dark(var(--accent-700), var(--accent-400));
   --color-selection-bg: var(--accent-500);
   --color-selection-text: var(--neutral-950);
 
-  --color-code-keyword: light-dark(#569cd6, #0550ae);
-  --color-code-comment: light-dark(#57ad57, #316b31);
+  --color-code-keyword: light-dark(#0550ae, #569cd6);
+  --color-code-comment: light-dark(#316b31, #57ad57);
 
-  --accent-glow: light-dark(rgba(255, 165, 0, 0.05), rgba(154, 91, 0, 0.04));
+  --accent-glow: light-dark(rgba(154, 91, 0, 0.04), rgba(255, 165, 0, 0.05));
 }
 
 /* ==========================================================================
@@ -860,10 +860,10 @@ pre code {
 
 @media (prefers-contrast: more) {
   :root {
-    --color-border: light-dark(rgba(194, 196, 200, 0.35), rgba(28, 30, 36, 0.35));
-    --color-border-strong: light-dark(rgba(194, 196, 200, 0.55), rgba(28, 30, 36, 0.55));
-    --color-text: light-dark(var(--neutral-100), var(--neutral-900));
-    --color-text-muted: light-dark(var(--neutral-300), var(--neutral-600));
+    --color-border: light-dark(rgba(28, 30, 36, 0.35), rgba(194, 196, 200, 0.35));
+    --color-border-strong: light-dark(rgba(28, 30, 36, 0.55), rgba(194, 196, 200, 0.55));
+    --color-text: light-dark(var(--neutral-900), var(--neutral-100));
+    --color-text-muted: light-dark(var(--neutral-600), var(--neutral-300));
   }
 }
 
