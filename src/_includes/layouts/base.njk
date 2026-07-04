@@ -16,19 +16,45 @@
   <link rel="alternate" type="application/atom+xml" title="Notes" href="/feed.xml">
   <link rel="preload" href="/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/RobotoMonoVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <script>
+    /* Apply a stored theme choice before the stylesheet loads to avoid a flash. */
+    try {
+      const theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+    } catch (error) {}
+  </script>
   <link rel="stylesheet" href="/style.css?v={{ "/style.css" | assetHash }}">
   <meta property="og:title" content="{{ fullTitle }}">
   <meta property="og:description" content="{{ description or site.description }}">
   <meta property="og:image" content="{{ site.url }}{{ site.ogImage }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="{{ site.ogImageAlt }}">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="{{ "article" if isNote else "website" }}">
   <meta property="og:site_name" content="{{ site.title }}">
   <meta property="og:locale" content="en_US">
-  <meta name="twitter:card" content="summary">
+{%- if isNote %}
+  <meta property="article:published_time" content="{{ dateIso }}">
+{%- endif %}
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ fullTitle }}">
   <meta name="twitter:description" content="{{ description or site.description }}">
   <meta name="twitter:image" content="{{ site.url }}{{ site.ogImage }}">
+{%- if isNote %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "{{ title }}",
+    "description": "{{ description or site.description }}",
+    "datePublished": "{{ dateIso }}",
+    "inLanguage": "{{ lang or "en" }}",
+    "mainEntityOfPage": "{{ site.url }}{{ page.url }}",
+    "author": { "@id": "{{ site.url }}/#person" }
+  }
+  </script>
+{%- endif %}
 {%- if page.url == "/" %}
   <script type="application/ld+json">
   {
@@ -68,6 +94,41 @@
 <a class="skip-link" href="#main">Skip to content</a>
 {% include "header.njk" %}
 {{ content | safe }}
+<script>
+  (() => {
+    const button = document.getElementById("theme-toggle");
+    if (!button) return;
+
+    const colors = { dark: "#1c1e24", light: "#e6e9ef" };
+    const prefersLight = window.matchMedia("(prefers-color-scheme: light)");
+    const metas = document.querySelectorAll('meta[name="theme-color"]');
+
+    const current = () =>
+      document.documentElement.dataset.theme || (prefersLight.matches ? "light" : "dark");
+
+    const syncUi = () => {
+      button.setAttribute(
+        "aria-label",
+        current() === "light" ? "Switch to dark theme" : "Switch to light theme"
+      );
+      if (document.documentElement.dataset.theme) {
+        for (const meta of metas) meta.setAttribute("content", colors[current()]);
+      }
+    };
+
+    button.addEventListener("click", () => {
+      document.documentElement.dataset.theme = current() === "light" ? "dark" : "light";
+      try {
+        localStorage.setItem("theme", document.documentElement.dataset.theme);
+      } catch (error) {}
+      syncUi();
+    });
+
+    prefersLight.addEventListener("change", syncUi);
+    syncUi();
+    button.hidden = false;
+  })();
+</script>
 </body>
 
 </html>

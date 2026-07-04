@@ -11,5 +11,6 @@ eleventyComputed:
   description: "{{ note.description }}"
   lang: "{{ note.lang }}"
   date: "{{ note.date }}"
+  dateIso: "{{ note.date_iso }}"
 ---
 {{ note.content_html | safe }}
