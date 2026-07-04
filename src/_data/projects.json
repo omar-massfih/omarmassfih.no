@@ -1,5 +1,23 @@
 [
   {
+    "name": "omarmassfih.no",
+    "summary": "This website — a zero-JavaScript static site built with Eleventy.",
+    "description": "Deployed to GitHub Pages through GitHub Actions, with build-time syntax highlighting, light and dark themes, an Atom feed and full SEO metadata. No client-side JavaScript.",
+    "tags": ["Eleventy", "Nunjucks", "CSS", "GitHub Actions"],
+    "url": "https://github.com/omar-massfih/omarmassfih.no",
+    "source": "github",
+    "draft": false
+  },
+  {
+    "name": "omarmassfih.no Backend",
+    "summary": "FastAPI backend for notes, search and chat on omarmassfih.no.",
+    "description": "Serves published notes from Turso, exposes cached note APIs and powers the notes chatbot with embeddings, retrieval and streamed answers through Vercel AI Gateway.",
+    "tags": ["Python", "FastAPI", "Turso", "RAG", "Vercel"],
+    "url": "https://github.com/omar-massfih/omarmassfih.no-backend",
+    "source": "github",
+    "draft": false
+  },
+  {
     "name": "Fragments vs Flow",
     "summary": "Retrieval-augmented generation (RAG) pipeline from my master's thesis.",
     "description": "Provider-agnostic pipeline where generation, embedding and evaluation can each run on watsonx, Azure OpenAI or OpenAI. Uses Docling for document extraction and RAGAS for evaluation metrics.",
@@ -23,24 +41,6 @@
     "description": "Built for the University of Oslo course IN2030. Covers the full interpretation pipeline — scanner, parser, expression evaluation and a complete interpreter handling functions, loops and conditionals.",
     "tags": ["Java", "Interpreters", "Parsing"],
     "url": "https://github.com/omar-massfih/asp-interpreter",
-    "source": "github",
-    "draft": false
-  },
-  {
-    "name": "omarmassfih.no",
-    "summary": "This website — a zero-JavaScript static site built with Eleventy.",
-    "description": "Deployed to GitHub Pages through GitHub Actions, with build-time syntax highlighting, light and dark themes, an Atom feed and full SEO metadata. No client-side JavaScript.",
-    "tags": ["Eleventy", "Nunjucks", "CSS", "GitHub Actions"],
-    "url": "https://github.com/omar-massfih/omarmassfih.no",
-    "source": "github",
-    "draft": false
-  },
-  {
-    "name": "omarmassfih.no Backend",
-    "summary": "FastAPI backend for notes, search and chat on omarmassfih.no.",
-    "description": "Serves published notes from Turso, exposes cached note APIs and powers the notes chatbot with embeddings, retrieval and streamed answers through Vercel AI Gateway.",
-    "tags": ["Python", "FastAPI", "Turso", "RAG", "Vercel"],
-    "url": "https://github.com/omar-massfih/omarmassfih.no-backend",
     "source": "github",
     "draft": false
   }
