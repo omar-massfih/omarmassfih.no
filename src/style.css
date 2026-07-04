@@ -67,6 +67,7 @@
   --text-lg: 1.125rem;
   --text-xl: clamp(1.25rem, 1.05rem + 0.9vw, 1.6rem);   /* h2 */
   --text-2xl: clamp(1.75rem, 1.3rem + 2vw, 2.5rem);     /* h1 */
+  --text-3xl: clamp(2rem, 1.4rem + 3vw, 2.75rem);       /* home hero */
 
   --leading-tight: 1.2;
   --leading-snug: 1.4;
@@ -100,8 +101,8 @@
   --border-width: 1px;
 
   /* -- Elevation ------------------------------------------------------------ */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 1px 2px light-dark(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.08));
+  --shadow-md: 0 6px 20px light-dark(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.12));
 
   /* -- Motion --------------------------------------------------------------- */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -119,27 +120,39 @@
 
 /* ==========================================================================
    2. SEMANTIC TOKENS
+   --------------------------------------------------------------------------
+   Each token is defined once as light-dark(darkValue, lightValue); the used
+   color-scheme (OS preference by default, [data-theme] when toggled, forced
+   light in print) picks the right side. Requires light-dark() support
+   (Baseline 2024); older browsers get an unthemed fallback.
    ========================================================================== */
 :root {
-  --color-bg: var(--neutral-850);
-  --color-surface: var(--neutral-900);
-  --color-surface-hover: var(--neutral-950);
-  --color-header: var(--neutral-950);
+  color-scheme: dark light;
 
-  --color-border: rgba(194, 196, 200, 0.16);
-  --color-border-strong: rgba(194, 196, 200, 0.28);
+  --color-bg: light-dark(var(--neutral-850), var(--neutral-000));
+  --color-surface: light-dark(var(--neutral-900), var(--neutral-100));
+  --color-surface-hover: light-dark(var(--neutral-950), var(--neutral-200));
+  --color-header: light-dark(var(--neutral-950), var(--neutral-100));
 
-  --color-text: var(--neutral-200);
-  --color-text-muted: var(--neutral-400);
-  --color-heading: var(--neutral-000);
+  --color-border: light-dark(rgba(194, 196, 200, 0.16), rgba(28, 30, 36, 0.14));
+  --color-border-strong: light-dark(rgba(194, 196, 200, 0.28), rgba(28, 30, 36, 0.3));
 
-  --color-accent: var(--accent-500);
-  --color-accent-hover: var(--accent-400);
-  --color-on-accent: var(--neutral-950);
+  --color-text: light-dark(var(--neutral-200), var(--neutral-700));
+  --color-text-muted: light-dark(var(--neutral-400), var(--neutral-500));
+  --color-heading: light-dark(var(--neutral-000), var(--neutral-950));
 
-  --color-focus: var(--accent-400);
+  --color-accent: light-dark(var(--accent-500), var(--accent-700));
+  --color-accent-hover: light-dark(var(--accent-400), var(--accent-600));
+  --color-on-accent: light-dark(var(--neutral-950), var(--neutral-000));
+
+  --color-focus: light-dark(var(--accent-400), var(--accent-700));
   --color-selection-bg: var(--accent-500);
   --color-selection-text: var(--neutral-950);
+
+  --color-code-keyword: light-dark(#569cd6, #0550ae);
+  --color-code-comment: light-dark(#57ad57, #316b31);
+
+  --accent-glow: light-dark(rgba(255, 165, 0, 0.05), rgba(154, 91, 0, 0.04));
 }
 
 /* ==========================================================================
@@ -357,13 +370,13 @@ a {
   text-underline-offset: 2px;
   text-decoration-thickness: 1px;
   border-radius: var(--radius-sm);
-  transition: color var(--transition), background-color var(--transition);
+  transition: color var(--transition), text-decoration-color var(--transition),
+    text-decoration-thickness var(--transition);
 }
 
 a:hover {
-  background-color: var(--color-accent);
-  color: var(--color-on-accent);
-  text-decoration-color: transparent;
+  color: var(--color-accent-hover);
+  text-decoration-thickness: 2px;
 }
 
 /* Inline emphasised link that reads as body text (white, accent on hover) */
@@ -373,9 +386,7 @@ a:hover {
 }
 
 .linkbody:hover {
-  background-color: transparent;
   color: var(--color-accent);
-  text-decoration-color: var(--color-accent);
 }
 
 /* ---- Social icon buttons ------------------------------------------------ */
@@ -631,7 +642,7 @@ pre code {
 .hljs-title,
 .hljs-built_in,
 .hljs-attr {
-  color: #569cd6;
+  color: var(--color-code-keyword);
 }
 
 .hljs-number,
@@ -642,7 +653,7 @@ pre code {
 }
 
 .hljs-comment {
-  color: #57ad57;
+  color: var(--color-code-comment);
 }
 
 /* ---- Notes -------------------------------------------------------------- */
@@ -755,124 +766,49 @@ pre code {
   }
 }
 
-/* Light theme — semantic tokens only; primitives stay shared.
-   The same token values appear three times: this OS-preference block, the
-   forced [data-theme="light"] block below (the toggle), and the print block
-   in section 9. Keep all three in sync. */
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --color-bg: var(--neutral-000);
-    --color-surface: var(--neutral-100);
-    --color-surface-hover: var(--neutral-200);
-    --color-header: var(--neutral-100);
-
-    --color-border: rgba(28, 30, 36, 0.14);
-    --color-border-strong: rgba(28, 30, 36, 0.3);
-
-    --color-text: var(--neutral-700);
-    --color-text-muted: var(--neutral-500);
-    --color-heading: var(--neutral-950);
-
-    --color-accent: var(--accent-700);
-    --color-accent-hover: var(--accent-600);
-    --color-on-accent: var(--neutral-000);
-
-    --color-focus: var(--accent-700);
-    --color-selection-bg: var(--accent-500);
-    --color-selection-text: var(--neutral-950);
-
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
-    --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.12);
-  }
-
-  :root:not([data-theme="dark"]) .hljs-keyword,
-  :root:not([data-theme="dark"]) .hljs-type,
-  :root:not([data-theme="dark"]) .hljs-title,
-  :root:not([data-theme="dark"]) .hljs-built_in,
-  :root:not([data-theme="dark"]) .hljs-attr {
-    color: #0550ae;
-  }
-
-  :root:not([data-theme="dark"]) .hljs-comment {
-    color: #316b31;
+@media (prefers-contrast: more) {
+  :root {
+    --color-border: light-dark(rgba(194, 196, 200, 0.35), rgba(28, 30, 36, 0.35));
+    --color-border-strong: light-dark(rgba(194, 196, 200, 0.55), rgba(28, 30, 36, 0.55));
+    --color-text: light-dark(var(--neutral-100), var(--neutral-900));
+    --color-text-muted: light-dark(var(--neutral-300), var(--neutral-600));
   }
 }
 
-/* Forced themes via the header toggle (persisted in localStorage). */
+@media (forced-colors: active) {
+  /* Hovers signalled only by background-color disappear in forced colors;
+     underline instead. */
+  header a:hover,
+  .project:hover {
+    text-decoration: underline;
+  }
+
+  .skip-link:focus {
+    outline: 2px solid;
+  }
+}
+
+/* Forced themes via the header toggle (persisted in localStorage).
+   Setting color-scheme is all it takes: every semantic token resolves
+   through light-dark(). No data-theme = follow the OS preference. */
 :root[data-theme="dark"] {
   color-scheme: dark;
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
-
-  --color-bg: var(--neutral-000);
-  --color-surface: var(--neutral-100);
-  --color-surface-hover: var(--neutral-200);
-  --color-header: var(--neutral-100);
-
-  --color-border: rgba(28, 30, 36, 0.14);
-  --color-border-strong: rgba(28, 30, 36, 0.3);
-
-  --color-text: var(--neutral-700);
-  --color-text-muted: var(--neutral-500);
-  --color-heading: var(--neutral-950);
-
-  --color-accent: var(--accent-700);
-  --color-accent-hover: var(--accent-600);
-  --color-on-accent: var(--neutral-000);
-
-  --color-focus: var(--accent-700);
-  --color-selection-bg: var(--accent-500);
-  --color-selection-text: var(--neutral-950);
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.12);
-}
-
-:root[data-theme="light"] .hljs-keyword,
-:root[data-theme="light"] .hljs-type,
-:root[data-theme="light"] .hljs-title,
-:root[data-theme="light"] .hljs-built_in,
-:root[data-theme="light"] .hljs-attr {
-  color: #0550ae;
-}
-
-:root[data-theme="light"] .hljs-comment {
-  color: #316b31;
 }
 
 /* ==========================================================================
    9. PRINT (CV "Download as PDF")
    ========================================================================== */
 @media print {
-  /* Same values as the light theme above — CSS cannot OR print with a
-     color-scheme query, so the token overrides are duplicated. The selector
-     includes [data-theme="dark"] so a forced-dark toggle choice (and its
-     color-scheme: dark) never darkens the printed page. */
+  /* Force the light side of every light-dark() token. The selector includes
+     [data-theme="dark"] so a forced-dark toggle choice never darkens the
+     printed page. */
   :root,
   :root[data-theme="dark"] {
     color-scheme: light;
-
-    --color-bg: var(--neutral-000);
-    --color-surface: var(--neutral-100);
-    --color-surface-hover: var(--neutral-200);
-    --color-header: var(--neutral-100);
-
-    --color-border: rgba(28, 30, 36, 0.14);
-    --color-border-strong: rgba(28, 30, 36, 0.3);
-
-    --color-text: var(--neutral-700);
-    --color-text-muted: var(--neutral-500);
-    --color-heading: var(--neutral-950);
-
-    --color-accent: var(--accent-700);
-    --color-accent-hover: var(--accent-600);
-    --color-on-accent: var(--neutral-000);
-
-    --color-focus: var(--accent-700);
-    --color-selection-bg: var(--accent-500);
-    --color-selection-text: var(--neutral-950);
   }
 
   header,
