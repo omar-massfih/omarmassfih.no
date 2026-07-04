@@ -780,16 +780,22 @@ pre code {
 }
 
 /* ---- Notes chat --------------------------------------------------------- */
+:root {
+  --chat-offset-x: max(var(--space-5), env(safe-area-inset-right));
+  --chat-offset-y: max(var(--space-5), env(safe-area-inset-bottom));
+  --chat-launcher-height: 3rem;
+}
+
 .chat-launcher {
   position: fixed;
-  right: max(var(--space-3), env(safe-area-inset-right));
-  bottom: max(var(--space-3), env(safe-area-inset-bottom));
+  right: var(--chat-offset-x);
+  bottom: var(--chat-offset-y);
   z-index: 20;
-  min-width: 4rem;
-  min-height: 3rem;
+  min-width: 4.75rem;
+  min-height: var(--chat-launcher-height);
   padding: var(--space-2) var(--space-4);
   border: var(--border-width) solid var(--color-border-strong);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-pill);
   background-color: var(--color-accent);
   color: var(--color-on-accent);
   box-shadow: var(--shadow-md);
@@ -814,13 +820,13 @@ pre code {
 
 .chat-panel {
   position: fixed;
-  right: max(var(--space-3), env(safe-area-inset-right));
-  bottom: max(var(--space-3), env(safe-area-inset-bottom));
+  right: var(--chat-offset-x);
+  bottom: var(--chat-offset-y);
   z-index: 21;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   width: min(24rem, calc(100vw - (var(--space-3) * 2)));
-  max-height: min(34rem, calc(100vh - (var(--space-3) * 2)));
+  max-height: min(34rem, calc(100vh - var(--chat-offset-y) - var(--space-5)));
   overflow: hidden;
   border: var(--border-width) solid var(--color-border-strong);
   border-radius: var(--radius-lg);
@@ -896,6 +902,55 @@ pre code {
   margin-top: var(--space-2);
 }
 
+.chat-bubble h3 {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.chat-bubble ul,
+.chat-bubble ol {
+  padding-left: var(--space-4);
+}
+
+.chat-bubble li + li {
+  margin-top: var(--space-1);
+}
+
+.chat-bubble p + ul,
+.chat-bubble p + ol,
+.chat-bubble ul + p,
+.chat-bubble ol + p,
+.chat-bubble pre + p,
+.chat-bubble p + pre {
+  margin-top: var(--space-2);
+}
+
+.chat-bubble code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+.chat-bubble :not(pre) > code {
+  padding: 0.08rem 0.2rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+}
+
+.chat-bubble pre {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: var(--space-2);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+}
+
+.chat-bubble pre code {
+  display: block;
+  white-space: pre;
+}
+
 .chat-bubble-user {
   align-self: flex-end;
   background-color: var(--color-accent);
@@ -967,11 +1022,21 @@ pre code {
 }
 
 @media (max-width: 36rem) {
+  :root {
+    --chat-offset-x: max(var(--space-2), env(safe-area-inset-right));
+    --chat-offset-y: max(var(--space-3), env(safe-area-inset-bottom));
+  }
+
+  .chat-launcher {
+    right: var(--chat-offset-x);
+    bottom: var(--chat-offset-y);
+  }
+
   .chat-panel {
-    right: max(var(--space-2), env(safe-area-inset-right));
-    bottom: max(var(--space-2), env(safe-area-inset-bottom));
+    right: var(--chat-offset-x);
+    bottom: var(--chat-offset-y);
     width: calc(100vw - (var(--space-2) * 2));
-    max-height: calc(100vh - (var(--space-2) * 2));
+    max-height: calc(100vh - var(--chat-offset-y) - var(--space-4));
   }
 
   .chat-form {

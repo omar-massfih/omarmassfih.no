@@ -81,7 +81,138 @@
     return bubble;
   }
 
-  function renderText(bubble, text) {
+  function appendInlineMarkdown(parent, text) {
+    const pattern = /(`[^`]+`|\[([^\]]+)\]\(([^)]+)\))/g;
+    let cursor = 0;
+    let match;
+
+    while ((match = pattern.exec(text)) !== null) {
+      if (match.index > cursor) {
+        parent.append(document.createTextNode(text.slice(cursor, match.index)));
+      }
+
+      if (match[0].startsWith("`")) {
+        const code = document.createElement("code");
+        code.textContent = match[0].slice(1, -1);
+        parent.append(code);
+      } else {
+        const href = match[3].trim();
+        const isSafeHref =
+          href.startsWith("/") ||
+          href.startsWith("#") ||
+          href.startsWith("https://") ||
+          href.startsWith("http://") ||
+          href.startsWith("mailto:");
+
+        if (isSafeHref) {
+          const link = document.createElement("a");
+          link.href = href;
+          link.textContent = match[2];
+          if (href.startsWith("http")) {
+            link.rel = "noopener noreferrer";
+          }
+          parent.append(link);
+        } else {
+          parent.append(document.createTextNode(match[0]));
+        }
+      }
+
+      cursor = pattern.lastIndex;
+    }
+
+    if (cursor < text.length) {
+      parent.append(document.createTextNode(text.slice(cursor)));
+    }
+  }
+
+  function renderParagraph(bubble, lines) {
+    const p = document.createElement("p");
+    appendInlineMarkdown(p, lines.join(" ").trim());
+    bubble.append(p);
+  }
+
+  function renderMarkdown(bubble, text) {
+    bubble.replaceChildren();
+
+    const lines = text.split(/\r?\n/);
+    for (let index = 0; index < lines.length; index += 1) {
+      const line = lines[index];
+      const trimmed = line.trim();
+
+      if (!trimmed) continue;
+
+      if (trimmed.startsWith("```")) {
+        const codeLines = [];
+        index += 1;
+        while (index < lines.length && !lines[index].trim().startsWith("```")) {
+          codeLines.push(lines[index]);
+          index += 1;
+        }
+
+        const pre = document.createElement("pre");
+        const code = document.createElement("code");
+        code.textContent = codeLines.join("\n");
+        pre.append(code);
+        bubble.append(pre);
+        continue;
+      }
+
+      const unorderedMatch = trimmed.match(/^[-*]\s+(.+)$/);
+      const orderedMatch = trimmed.match(/^\d+[.)]\s+(.+)$/);
+      if (unorderedMatch || orderedMatch) {
+        const list = document.createElement(unorderedMatch ? "ul" : "ol");
+        const listPattern = unorderedMatch ? /^[-*]\s+(.+)$/ : /^\d+[.)]\s+(.+)$/;
+
+        while (index < lines.length) {
+          const itemMatch = lines[index].trim().match(listPattern);
+          if (!itemMatch) break;
+
+          const item = document.createElement("li");
+          appendInlineMarkdown(item, itemMatch[1]);
+          list.append(item);
+          index += 1;
+        }
+
+        index -= 1;
+        bubble.append(list);
+        continue;
+      }
+
+      const headingMatch = trimmed.match(/^#{1,3}\s+(.+)$/);
+      if (headingMatch) {
+        const heading = document.createElement("h3");
+        appendInlineMarkdown(heading, headingMatch[1]);
+        bubble.append(heading);
+        continue;
+      }
+
+      const paragraph = [trimmed];
+      while (index + 1 < lines.length) {
+        const next = lines[index + 1].trim();
+        if (
+          !next ||
+          next.startsWith("```") ||
+          /^[-*]\s+/.test(next) ||
+          /^\d+[.)]\s+/.test(next) ||
+          /^#{1,3}\s+/.test(next)
+        ) {
+          break;
+        }
+        paragraph.push(next);
+        index += 1;
+      }
+      renderParagraph(bubble, paragraph);
+    }
+
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function renderText(bubble, text, { markdown = false } = {}) {
+    if (markdown) {
+      renderMarkdown(bubble, text);
+      return;
+    }
+
     bubble.replaceChildren();
     for (const paragraph of text.split("\n\n")) {
       const p = document.createElement("p");
@@ -133,7 +264,7 @@
       renderSources(payload.sources);
     } else if (payload.delta) {
       state.answer += payload.delta;
-      renderText(bubble, state.answer);
+      renderText(bubble, state.answer, { markdown: true });
     } else if (payload.error) {
       state.failed = true;
     }
