@@ -151,8 +151,6 @@
 
   --color-code-keyword: light-dark(#0550ae, #569cd6);
   --color-code-comment: light-dark(#316b31, #57ad57);
-
-  --accent-glow: light-dark(rgba(154, 91, 0, 0.04), rgba(255, 165, 0, 0.05));
 }
 
 /* ==========================================================================
@@ -187,14 +185,6 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-}
-
-/* Faint amber wash from the top-left corner; screen only so print stays clean. */
-@media screen {
-  body {
-    background-image: radial-gradient(50rem 24rem at 15% -5%, var(--accent-glow), transparent 70%);
-    background-repeat: no-repeat;
-  }
 }
 
 :focus-visible {
