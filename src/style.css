@@ -451,28 +451,6 @@ a:hover {
   margin: 0;
 }
 
-/* Short amber tab overlapping the divider under page section headers. */
-.cv-group h2,
-.contact > h2 {
-  position: relative;
-}
-
-.cv-group h2::after,
-.contact > h2::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: var(--space-3);
-  width: 2.5rem;
-  height: 2px;
-  border-radius: var(--radius-pill);
-  background-color: var(--color-accent);
-}
-
-.contact > h2::after {
-  left: 0;
-}
-
 .projects-link {
   margin-inline-end: 0;
 }
