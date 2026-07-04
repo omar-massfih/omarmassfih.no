@@ -6,6 +6,12 @@
       <a href="/notes.html"{% if page.url == "/notes.html" %} aria-current="page"{% endif %}>Notes</a>
       <a href="/cv.html"{% if page.url == "/cv.html" %} aria-current="page"{% endif %}>CV</a>
       <a href="/about.html"{% if page.url == "/about.html" %} aria-current="page"{% endif %}>About</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" hidden aria-label="Switch theme">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/>
+        </svg>
+      </button>
     </span>
   </nav>
 </header>

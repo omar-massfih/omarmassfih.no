@@ -324,6 +324,31 @@ header a[aria-current="page"] {
   color: var(--color-heading);
 }
 
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1) var(--space-2);
+  background: none;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: color var(--transition), background-color var(--transition), border-color var(--transition);
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-bg);
+  color: var(--color-heading);
+  border-color: var(--color-border-strong);
+}
+
+/* The button ships hidden and is revealed by JS (progressive enhancement);
+   inline-flex above would otherwise defeat the hidden attribute. */
+.theme-toggle[hidden] {
+  display: none;
+}
+
 /* ---- Links -------------------------------------------------------------- */
 a {
   color: var(--color-text);
@@ -731,9 +756,11 @@ pre code {
 }
 
 /* Light theme — semantic tokens only; primitives stay shared.
-   Keep in sync with the print block in section 9. */
+   The same token values appear three times: this OS-preference block, the
+   forced [data-theme="light"] block below (the toggle), and the print block
+   in section 9. Keep all three in sync. */
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme="dark"]) {
     --color-bg: var(--neutral-000);
     --color-surface: var(--neutral-100);
     --color-surface-hover: var(--neutral-200);
@@ -758,17 +785,61 @@ pre code {
     --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.12);
   }
 
-  .hljs-keyword,
-  .hljs-type,
-  .hljs-title,
-  .hljs-built_in,
-  .hljs-attr {
+  :root:not([data-theme="dark"]) .hljs-keyword,
+  :root:not([data-theme="dark"]) .hljs-type,
+  :root:not([data-theme="dark"]) .hljs-title,
+  :root:not([data-theme="dark"]) .hljs-built_in,
+  :root:not([data-theme="dark"]) .hljs-attr {
     color: #0550ae;
   }
 
-  .hljs-comment {
+  :root:not([data-theme="dark"]) .hljs-comment {
     color: #316b31;
   }
+}
+
+/* Forced themes via the header toggle (persisted in localStorage). */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --color-bg: var(--neutral-000);
+  --color-surface: var(--neutral-100);
+  --color-surface-hover: var(--neutral-200);
+  --color-header: var(--neutral-100);
+
+  --color-border: rgba(28, 30, 36, 0.14);
+  --color-border-strong: rgba(28, 30, 36, 0.3);
+
+  --color-text: var(--neutral-700);
+  --color-text-muted: var(--neutral-500);
+  --color-heading: var(--neutral-950);
+
+  --color-accent: var(--accent-700);
+  --color-accent-hover: var(--accent-600);
+  --color-on-accent: var(--neutral-000);
+
+  --color-focus: var(--accent-700);
+  --color-selection-bg: var(--accent-500);
+  --color-selection-text: var(--neutral-950);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+:root[data-theme="light"] .hljs-keyword,
+:root[data-theme="light"] .hljs-type,
+:root[data-theme="light"] .hljs-title,
+:root[data-theme="light"] .hljs-built_in,
+:root[data-theme="light"] .hljs-attr {
+  color: #0550ae;
+}
+
+:root[data-theme="light"] .hljs-comment {
+  color: #316b31;
 }
 
 /* ==========================================================================
@@ -776,8 +847,13 @@ pre code {
    ========================================================================== */
 @media print {
   /* Same values as the light theme above — CSS cannot OR print with a
-     color-scheme query, so the token overrides are duplicated. */
-  :root {
+     color-scheme query, so the token overrides are duplicated. The selector
+     includes [data-theme="dark"] so a forced-dark toggle choice (and its
+     color-scheme: dark) never darkens the printed page. */
+  :root,
+  :root[data-theme="dark"] {
+    color-scheme: light;
+
     --color-bg: var(--neutral-000);
     --color-surface: var(--neutral-100);
     --color-surface-hover: var(--neutral-200);
