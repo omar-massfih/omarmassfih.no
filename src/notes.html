@@ -13,7 +13,7 @@ date: git Last Modified
         <h2>{{ category }}</h2>
       </nav>
 {%- for note in notes %}
-      <a href="{{ note.url }}" class="flex-container project">
+      <a href="{{ note.url }}" class="project">
         <p>{{ note.list_title or note.title }}</p>
         <p class="source">{{ note.date_text }}</p>
       </a>

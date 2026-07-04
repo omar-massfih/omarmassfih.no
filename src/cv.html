@@ -18,8 +18,10 @@ date: git Last Modified
 
         <section class="cv-item">
           <p class="cv-kicker">{{ role.company }}</p>
-          <h3>{{ role.title }}</h3>
-          <p class="cv-meta">{{ role.meta }}</p>
+          <div class="cv-item-head">
+            <h3>{{ role.title }}</h3>
+            <p class="cv-meta">{{ role.meta }}</p>
+          </div>
           <ul class="cv-list">
 {%- for bullet in role.bullets %}
             <li>{{ bullet }}</li>
@@ -55,8 +57,10 @@ date: git Last Modified
 
         <section class="cv-item">
           <p class="cv-kicker">{{ entry.school }}</p>
-          <h3>{{ entry.degree }}</h3>
-          <p class="cv-meta">{{ entry.meta }}</p>
+          <div class="cv-item-head">
+            <h3>{{ entry.degree }}</h3>
+            <p class="cv-meta">{{ entry.meta }}</p>
+          </div>
         </section>
 {%- endfor %}
       </article>

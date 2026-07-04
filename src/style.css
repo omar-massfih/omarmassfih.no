@@ -442,11 +442,10 @@ a:hover {
 }
 
 .project {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-2);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--space-3);
+  align-items: baseline;
   width: 100%;
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
@@ -468,6 +467,7 @@ a:hover {
   color: var(--color-text-muted);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
+  white-space: nowrap;
 }
 
 /* ---- Cards (projects page) ---------------------------------------------- */
@@ -481,9 +481,9 @@ a:hover {
   margin-bottom: var(--space-6);
 }
 
-.project-main section > .flex-container {
-  justify-content: center;
-  align-items: stretch;
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
   gap: var(--space-5);
 }
 
@@ -492,9 +492,6 @@ a:hover {
   flex-direction: column;
   justify-content: space-between;
   gap: var(--space-4);
-  flex: 1 1 22rem;
-  max-width: 26rem;
-  min-height: 15rem;
   padding: var(--space-5);
   background-color: var(--color-surface);
   border: var(--border-width) solid var(--color-border);
@@ -693,6 +690,15 @@ pre code {
   font-weight: var(--weight-semibold);
 }
 
+/* Title + date on one line where space allows; wraps naturally on mobile. */
+.cv-item-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: var(--space-3);
+}
+
 .cv-kicker,
 .cv-meta {
   margin-bottom: var(--space-1);
@@ -746,6 +752,14 @@ pre code {
 
   .header-nav-right {
     flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Stack list rows: date/source drops under the title, left-aligned. */
+  .project {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-1);
   }
 }
 

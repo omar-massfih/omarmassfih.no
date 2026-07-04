@@ -32,7 +32,7 @@ date: git Last Modified
       </nav>
 {%- set publishedProjects = projects | rejectattr("draft") %}
 {%- for project in publishedProjects %}{% if loop.index <= 2 %}
-      <a href="{{ project.url }}" class="flex-container project">
+      <a href="{{ project.url }}" class="project">
         <p>{{ project.name }}</p>
         <p class="source">{{ project.source }}</p>
       </a>
@@ -45,7 +45,7 @@ date: git Last Modified
         <a class="projects-link linkbody" href="/notes.html">Show more</a>
       </nav>
 {%- for note in backendNotes %}{% if loop.index <= 2 %}
-      <a href="{{ note.url }}" class="flex-container project">
+      <a href="{{ note.url }}" class="project">
         <p>{{ note.list_title or note.title }}</p>
         <p class="source">{{ note.date_text }}</p>
       </a>
