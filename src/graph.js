@@ -211,6 +211,7 @@
 
     const linkEls = [];
     const nodeEls = new Map();
+    let filteredNodeIds = null;
 
     const createLinkEl = (link) => {
       const line = document.createElementNS(SVG_NS, "line");
@@ -351,7 +352,8 @@
     };
 
     const updateHeight = () => {
-      const rem = Math.min(30, Math.max(12, 9 + nodes.length * 0.4));
+      const visibleCount = filteredNodeIds ? filteredNodeIds.size : nodes.length;
+      const rem = Math.min(30, Math.max(12, 9 + visibleCount * 0.4));
       container.style.setProperty("--graph-height", `${rem}rem`);
     };
 
@@ -361,8 +363,12 @@
     let fittedW = 0;
     let userMoved = false;
 
+    const isNodeVisible = (node) => !filteredNodeIds || filteredNodeIds.has(node.id);
+
+    const visibleNodes = () => nodes.filter(isNodeVisible);
+
     const updateZoomClass = () => {
-      const threshold = nodes.length > CROWDED_NODE_COUNT ? 0.98 : 1.3;
+      const threshold = visibleNodes().length > CROWDED_NODE_COUNT ? 0.98 : 1.3;
       svg.classList.toggle("is-zoomed-out", view.w > fittedW * threshold);
     };
 
@@ -371,12 +377,15 @@
     };
 
     const fitView = () => {
+      const fitNodes = visibleNodes();
+      if (fitNodes.length === 0) return;
+
       let minX = Infinity;
       let minY = Infinity;
       let maxX = -Infinity;
       let maxY = -Infinity;
 
-      for (const node of nodes) {
+      for (const node of fitNodes) {
         minX = Math.min(minX, node.x);
         minY = Math.min(minY, node.y);
         maxX = Math.max(maxX, node.x);
@@ -451,6 +460,45 @@
         }
       };
       requestAnimationFrame(animate);
+    };
+
+    const applyCategoryFilter = (categories) => {
+      const active = new Set(categories || []);
+
+      if (rootId || active.size === 0) {
+        filteredNodeIds = null;
+      } else {
+        filteredNodeIds = new Set();
+        for (const node of nodes) {
+          if (node.type === "note" && active.has(node.category)) filteredNodeIds.add(node.id);
+        }
+        for (const link of links) {
+          if (filteredNodeIds.has(link.source) && link.target.startsWith("tag:")) {
+            filteredNodeIds.add(link.target);
+          }
+          if (filteredNodeIds.has(link.target) && link.source.startsWith("tag:")) {
+            filteredNodeIds.add(link.source);
+          }
+        }
+      }
+
+      nodeEls.forEach((el, id) => {
+        el.classList.toggle("is-filtered", Boolean(filteredNodeIds) && !filteredNodeIds.has(id));
+      });
+      linkEls.forEach((el, index) => {
+        const link = links[index];
+        const hidden =
+          Boolean(filteredNodeIds) &&
+          (!filteredNodeIds.has(link.source) || !filteredNodeIds.has(link.target));
+        el.classList.toggle("is-filtered", hidden);
+      });
+
+      const noteCount = visibleNodes().filter((node) => node.type === "note").length;
+      const categoryLabel = active.size ? ` filtered to ${Array.from(active).join(", ")}` : "";
+      svg.setAttribute("aria-label", `Knowledge graph${categoryLabel}: ${noteCount} notes`);
+      updateHeight();
+      userMoved = false;
+      fitView();
     };
 
     // Tag expansion: pull in the tag's 2-hop neighborhood — its hidden notes
@@ -650,6 +698,10 @@
     container.appendChild(svg);
     container.appendChild(controls);
     container.appendChild(live);
+
+    return {
+      setCategories: applyCategoryFilter,
+    };
   }
 
   const init = async () => {
@@ -678,7 +730,14 @@
 
     if (graph.nodes.length === 0) return;
 
-    render(container, graph, rootId, fullGraph);
+    const graphApi = render(container, graph, rootId, fullGraph);
+    if (!rootSlug) {
+      window.notesGraph = graphApi;
+      graphApi.setCategories(window.notesCategoryFilter || []);
+      window.addEventListener("notes:categories-changed", (event) => {
+        graphApi.setCategories(event.detail?.categories || []);
+      });
+    }
     section.hidden = false;
   };
 

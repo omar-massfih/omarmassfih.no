@@ -27,6 +27,7 @@
   const activeCategories = new Set();
 
   const apply = () => {
+    const categories = Array.from(activeCategories);
     let anyVisible = false;
     for (const row of rows) {
       const visible =
@@ -41,6 +42,11 @@
 
     if (emptyState) emptyState.hidden = anyVisible;
     if (clearButton) clearButton.setAttribute("aria-pressed", String(activeCategories.size === 0));
+
+    window.notesCategoryFilter = categories;
+    window.dispatchEvent(
+      new CustomEvent("notes:categories-changed", { detail: { categories } })
+    );
   };
 
   for (const button of categoryButtons) {

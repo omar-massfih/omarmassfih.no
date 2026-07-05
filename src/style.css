@@ -788,6 +788,11 @@ h2.section-head {
   opacity: 0.25;
 }
 
+.graph-link.is-filtered,
+.graph-node.is-filtered {
+  display: none;
+}
+
 .graph-node.is-current circle,
 .graph-node a:focus-visible circle {
   stroke: var(--color-focus);
