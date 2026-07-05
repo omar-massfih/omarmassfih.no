@@ -6,9 +6,9 @@ pagination:
 permalink: "{{ note.url }}"
 layout: layouts/note.njk
 eleventyComputed:
-  title: "{{ note.title }}"
-  heading: "{{ note.heading }}"
-  description: "{{ note.description }}"
+  title: "{{ note.title | safe }}"
+  heading: "{{ note.heading | safe }}"
+  description: "{{ note.description | safe }}"
   lang: "{{ note.lang }}"
   date: "{{ note.date }}"
   dateIso: "{{ note.date_iso }}"
