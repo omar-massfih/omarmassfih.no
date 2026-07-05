@@ -665,6 +665,12 @@ h2.section-head {
   transition: opacity var(--transition);
 }
 
+/* Note-to-note edges read as secondary to the note<->tag structure. */
+.graph-link--related {
+  stroke-dasharray: 3 3;
+  opacity: 0.55;
+}
+
 .graph-node {
   transition: opacity var(--transition);
   touch-action: none;

@@ -162,11 +162,25 @@
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // Full-graph indexes: degree drives node size, the tag/note link maps drive expansion.
+    // Expansion assumes links are note -> tag, so note-to-note edges are kept out of these
+    // maps and indexed separately for the post-expansion draw.
     const degree = new Map();
     const notesByTag = new Map();
     const noteLinksById = new Map();
+    const relatedByNote = new Map();
+
+    const addRelated = (id, link) => {
+      if (!relatedByNote.has(id)) relatedByNote.set(id, []);
+      relatedByNote.get(id).push(link);
+    };
 
     for (const link of fullGraph.links) {
+      if (!link.target.startsWith("tag:")) {
+        // Note-to-note edge: index by both endpoints, skip the tag-only maps.
+        addRelated(link.source, link);
+        addRelated(link.target, link);
+        continue;
+      }
       degree.set(link.source, (degree.get(link.source) || 0) + 1);
       degree.set(link.target, (degree.get(link.target) || 0) + 1);
       if (!notesByTag.has(link.target)) notesByTag.set(link.target, []);
@@ -194,9 +208,10 @@
     const linkEls = [];
     const nodeEls = new Map();
 
-    const createLinkEl = () => {
+    const createLinkEl = (link) => {
       const line = document.createElementNS(SVG_NS, "line");
-      line.setAttribute("class", "graph-link");
+      const related = link.source.startsWith("note:") && link.target.startsWith("note:");
+      line.setAttribute("class", related ? "graph-link graph-link--related" : "graph-link");
       linkGroup.appendChild(line);
       linkEls.push(line);
       return line;
@@ -468,17 +483,19 @@
       }
       for (const node of added) createNodeEl(node);
 
-      // Links where both endpoints are now visible and not yet drawn.
+      // Links where both endpoints are now visible and not yet drawn — both the
+      // note<->tag structure and any note-to-note edges among the newly-shown notes.
+      const drawLink = (link) => {
+        const key = `${link.source}|${link.target}`;
+        if (linkKeys.has(key) || !byId.has(link.source) || !byId.has(link.target)) return;
+        linkKeys.add(key);
+        links.push(link);
+        createLinkEl(link);
+      };
       for (const node of added) {
-        const related =
-          node.type === "note" ? noteLinksById.get(node.id) : notesByTag.get(node.id);
-        for (const link of related || []) {
-          const key = `${link.source}|${link.target}`;
-          if (linkKeys.has(key) || !byId.has(link.source) || !byId.has(link.target)) continue;
-          linkKeys.add(key);
-          links.push(link);
-          createLinkEl();
-        }
+        const tagLinks = node.type === "note" ? noteLinksById.get(node.id) : notesByTag.get(node.id);
+        for (const link of tagLinks || []) drawLink(link);
+        for (const link of relatedByNote.get(node.id) || []) drawLink(link);
       }
 
       rebuildIndexes();
@@ -494,7 +511,7 @@
 
     const linkKeys = new Set(links.map((link) => `${link.source}|${link.target}`));
 
-    for (const link of links) createLinkEl();
+    for (const link of links) createLinkEl(link);
     for (const node of nodes) createNodeEl(node);
     rebuildIndexes();
     updateHeight();
