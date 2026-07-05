@@ -705,6 +705,11 @@ h2.section-head {
 .graph-node text {
   fill: var(--color-text-muted);
   font-size: 0.7rem;
+  /* Surface-colored halo keeps labels readable where they cross edges. */
+  paint-order: stroke;
+  stroke: var(--color-surface);
+  stroke-width: 3px;
+  stroke-linejoin: round;
 }
 
 .graph-node--tag text {
@@ -1398,6 +1403,7 @@ pre code {
 
   .graph-node text {
     fill: CanvasText;
+    stroke: Canvas;
   }
 
   .graph-node--tag.is-expandable circle {

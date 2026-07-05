@@ -15,6 +15,12 @@
   const MAX_TICKS = 300;
   const PRERUN_TICKS = 40;
   const SETTLED_ENERGY = 0.02;
+  // Minimum clearance between circle edges; sized so labels below the
+  // nodes also get breathing room.
+  const COLLIDE_PADDING = 18;
+  // Note pairs need far more room than their circles: the wide title
+  // labels below them are what actually collide.
+  const NOTE_COLLIDE_DIST = 90;
   const DRAG_THRESHOLD = 4;
   const ZOOM_STEP = 1.4;
   const MAX_ZOOM_IN = 4;
@@ -106,6 +112,39 @@
         node.x += node.vx;
         node.y += node.vy;
         energy += node.vx * node.vx + node.vy * node.vy;
+      }
+
+      // Hard collision pass: push overlapping nodes directly apart so
+      // circles (and the labels hanging off them) never stack.
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i];
+          const b = nodes[j];
+          let dx = b.x - a.x;
+          let dy = b.y - a.y;
+          let distSq = dx * dx + dy * dy;
+          const minDist =
+            a.type === "note" && b.type === "note"
+              ? NOTE_COLLIDE_DIST
+              : a.r + b.r + COLLIDE_PADDING;
+          if (distSq >= minDist * minDist) continue;
+          if (distSq === 0) {
+            dx = 0.1;
+            distSq = 0.01;
+          }
+          const dist = Math.sqrt(distSq);
+          const push = ((minDist - dist) / dist) * 0.5;
+          const mx = dx * push;
+          const my = dy * push;
+          if (!a.pinned) {
+            a.x -= mx;
+            a.y -= my;
+          }
+          if (!b.pinned) {
+            b.x += mx;
+            b.y += my;
+          }
+        }
       }
 
       return energy / nodes.length;
