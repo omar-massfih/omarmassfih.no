@@ -8,12 +8,9 @@ Personal website of Omar Massfih — projects, notes, and CV.
 
 The site is a static [Eleventy](https://www.11ty.dev/) build deployed to GitHub Pages. Notes are authored in the companion backend repo ([omarmassfih.no-backend](https://github.com/omar-massfih/omarmassfih.no-backend)), seeded into Turso, and served by a FastAPI API at `backend.omarmassfih.no`.
 
-At build time, `src/_data/backendNotes.js` loads all notes in one request (`GET /notes?include=content`) via `lib/notesLoader.js`, with a local fallback for offline development:
+At build time, `src/_data/backendNotes.js` loads all notes in one request (`GET /notes?include=content`) via `lib/notesLoader.js`.
 
-1. Backend API (`BACKEND_URL` env var overrides `https://backend.omarmassfih.no`)
-2. Sibling repo checkout at `../omarmassfih.no-backend/notes` (offline authoring)
-
-If the backend API and local sibling repo are both unavailable, the build fails clearly instead of deploying stale notes.
+`BACKEND_URL` can override `https://backend.omarmassfih.no`. The loader retries transient API failures before failing the build clearly instead of deploying stale notes.
 
 ## Development
 
