@@ -51,9 +51,9 @@
   empty.append(greeting);
 
   const suggestions = [
-    "What are these notes about?",
-    "What was the latest note about?",
-    "How is this chatbot built?",
+    "What's the difference between a fault and a failure?",
+    "Why do tail latencies matter for scalability?",
+    "How do distributed systems detect failure?",
   ];
 
   for (const suggestion of suggestions) {
