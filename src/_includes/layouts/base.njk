@@ -95,6 +95,9 @@
 {% include "header.njk" %}
 {{ content | safe }}
 <script src="/chat.js?v={{ "/chat.js" | assetHash }}" defer></script>
+{%- if site.goatcounter %}
+<script data-goatcounter="https://{{ site.goatcounter }}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+{%- endif %}
 <script>
   (() => {
     const button = document.getElementById("theme-toggle");
