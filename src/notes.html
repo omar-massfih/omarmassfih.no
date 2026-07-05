@@ -7,18 +7,30 @@ date: git Last Modified
 ---
   <main id="main">
     <h1 class="center">Notes</h1>
-    <section>
-{%- for category, notes in backendNotes | groupby("category") %}
+{%- set groups = backendNotes | groupby("category") %}
+{%- if backendNotes.length %}
+    <nav class="notes-filter" hidden aria-label="Filter notes by category">
+      <button type="button" class="tag tag-filter tag-filter-clear" data-clear aria-pressed="true">All</button>
+{%- for category, notes in groups %}
+      <button type="button" class="tag tag-filter" data-category="{{ category }}" aria-pressed="false">{{ category }}</button>
+{%- endfor %}
+    </nav>
+{%- endif %}
+    <section class="notes-list">
+{%- for category, notes in groups %}
       <nav class="flex-container section-head notes-head">
         <h2>{{ category }}</h2>
       </nav>
 {%- for note in notes %}
-      <a href="{{ note.url }}" class="list-row">
-        <p>{{ note.list_title or note.title }}</p>
-        <p class="list-row-meta">{{ note.date_text }}</p>
+      <a href="{{ note.url }}" class="list-row" data-category="{{ note.category }}">
+        <span class="list-row-main">
+          <span class="list-row-title">{{ note.list_title or note.title }}</span>
+          <span class="list-row-meta">{{ note.date_text }}</span>
+        </span>
       </a>
 {%- endfor %}
 {%- endfor %}
+      <p class="notes-empty" hidden>No notes match that category.</p>
     </section>
     <section class="graph-section" hidden>
       <nav class="flex-container section-head notes-head">
@@ -27,4 +39,5 @@ date: git Last Modified
       <div class="knowledge-graph" data-graph-size="full" data-graph-src="/graph.json?v={{ backendNotes | graphHash }}"></div>
     </section>
     <script src="/graph.js?v={{ "/graph.js" | assetHash }}" defer></script>
+    <script src="/notes-filter.js?v={{ "/notes-filter.js" | assetHash }}" defer></script>
   </main>

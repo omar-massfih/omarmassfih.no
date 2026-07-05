@@ -19,6 +19,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/robots.txt");
   eleventyConfig.addPassthroughCopy("src/graph.js");
   eleventyConfig.addPassthroughCopy("src/chat.js");
+  eleventyConfig.addPassthroughCopy("src/notes-filter.js");
 
   eleventyConfig.addFilter("graphJson", (notes) =>
     JSON.stringify(buildNotesGraph(notes)).replace(/</g, "\\u003c")

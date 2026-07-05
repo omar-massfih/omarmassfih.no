@@ -34,8 +34,10 @@ date: git Last Modified
 {%- set publishedProjects = projects | rejectattr("draft") %}
 {%- for project in publishedProjects %}{% if loop.index <= 2 %}
       <a href="{{ project.url }}" class="list-row">
-        <p>{{ project.name }}</p>
-        <p class="list-row-meta">{{ project.source }}</p>
+        <span class="list-row-main">
+          <span class="list-row-title">{{ project.name }}</span>
+          <span class="list-row-meta">{{ project.source }}</span>
+        </span>
       </a>
 {%- endif %}{% endfor %}
     </article>
@@ -47,8 +49,10 @@ date: git Last Modified
       </nav>
 {%- for note in backendNotes %}{% if loop.index <= 2 %}
       <a href="{{ note.url }}" class="list-row">
-        <p>{{ note.list_title or note.title }}</p>
-        <p class="list-row-meta">{{ note.date_text }}</p>
+        <span class="list-row-main">
+          <span class="list-row-title">{{ note.list_title or note.title }}</span>
+          <span class="list-row-meta">{{ note.date_text }}</span>
+        </span>
       </a>
 {%- endif %}{% endfor %}
     </article>
