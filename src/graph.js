@@ -4,10 +4,14 @@
   const SVG_NS = "http://www.w3.org/2000/svg";
 
   const TAG_RADIUS = 4.5;
-  const LINK_REST_LENGTH = 70;
+  // Tag links stay short so a tag hugs its notes; note<->note links rest much
+  // longer so related notes sit clearly apart rather than piling up.
+  const TAG_LINK_REST = 55;
+  const NOTE_LINK_REST = 95;
   const REPULSION = 2600;
-  // Notes carry wide labels; push note pairs harder apart so labels stay legible.
-  const NOTE_PAIR_REPULSION = 3;
+  // Notes carry wide labels; push note pairs much harder apart than tags so
+  // every note keeps clear space around it and labels stay legible.
+  const NOTE_PAIR_REPULSION = 9;
   const SPRING = 0.06;
   const CENTERING = 0.012;
   const DAMPING = 0.85;
@@ -16,7 +20,7 @@
   const PRERUN_TICKS = 40;
   const SETTLED_ENERGY = 0.02;
   // Extra clearance around each node's label box in the collision pass.
-  const COLLIDE_PADDING = 6;
+  const COLLIDE_PADDING = 12;
   // Collision relaxation iterations per tick; higher untangles dense clusters.
   const COLLIDE_ITERATIONS = 4;
   const DRAG_THRESHOLD = 4;
@@ -82,7 +86,7 @@
         const dx = b.x - a.x;
         const dy = b.y - a.y;
         const dist = Math.max(Math.sqrt(dx * dx + dy * dy), 1);
-        const rest = b.type === "tag" || a.type === "tag" ? LINK_REST_LENGTH * 0.85 : LINK_REST_LENGTH;
+        const rest = b.type === "tag" || a.type === "tag" ? TAG_LINK_REST : NOTE_LINK_REST;
         const force = SPRING * (dist - rest);
         const fx = (dx / dist) * force;
         const fy = (dy / dist) * force;

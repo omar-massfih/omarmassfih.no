@@ -662,6 +662,8 @@ h2.section-head {
 .graph-link {
   stroke: var(--color-border-strong);
   stroke-width: 1;
+  /* Edges are scaffolding; keep them quiet so the note nodes read first. */
+  opacity: 0.6;
   transition: opacity var(--transition);
 }
 
