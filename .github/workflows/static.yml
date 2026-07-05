@@ -26,11 +26,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  # Build the static site and upload it as a Pages artifact.
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -53,6 +50,16 @@ jobs:
         uses: actions/upload-pages-artifact@v5
         with:
           path: '_site'
+
+  # Deploy the already-built artifact. Kept separate from the build so a
+  # transient Pages failure can be re-run in seconds without rebuilding.
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
