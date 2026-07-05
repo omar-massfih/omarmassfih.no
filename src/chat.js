@@ -52,8 +52,9 @@
 
   const suggestions = [
     "What's the difference between a fault and a failure?",
-    "Why do tail latencies matter for scalability?",
-    "How do distributed systems detect failure?",
+    "Why split documents into chunks for RAG?",
+    "What are the three laws of software architecture?",
+    "How do you protect an app with oauth2-proxy on Kubernetes?",
   ];
 
   for (const suggestion of suggestions) {
