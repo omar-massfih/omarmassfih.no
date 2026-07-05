@@ -43,7 +43,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build
-        run: npm run build
+        run: |
+          for attempt in 1 2 3; do
+            if npm run build; then
+              exit 0
+            fi
+
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+
+            echo "Build failed; retrying in 20 seconds (attempt $((attempt + 1)) of 3)..."
+            sleep 20
+          done
       - name: Setup Pages
         uses: actions/configure-pages@v6
       - name: Upload artifact
