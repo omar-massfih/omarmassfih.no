@@ -1,5 +1,14 @@
 [
   {
+    "name": "Agentic Assistant",
+    "summary": "Personal AI assistant with persistent memory, built on LangGraph over the Codex CLI.",
+    "description": "A LangGraph agent that drives the Codex CLI, with two-layer memory: conversation history through a SQLite checkpointer and long-term markdown notes recalled semantically via a local fastembed and sqlite-vec index. Durable facts are saved and forgotten automatically each turn, with no API key required.",
+    "tags": ["Python", "LangGraph", "FastAPI", "Embeddings", "Codex CLI"],
+    "url": "https://github.com/omar-massfih/agentic-assistent",
+    "source": "github",
+    "draft": false
+  },
+  {
     "name": "omarmassfih.no",
     "summary": "This website — a zero-JavaScript static site built with Eleventy.",
     "description": "Deployed to GitHub Pages through GitHub Actions, with build-time syntax highlighting, light and dark themes, an Atom feed and full SEO metadata. No client-side JavaScript.",
