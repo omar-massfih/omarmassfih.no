@@ -15,12 +15,10 @@
   const MAX_TICKS = 300;
   const PRERUN_TICKS = 40;
   const SETTLED_ENERGY = 0.02;
-  // Minimum clearance between circle edges; sized so labels below the
-  // nodes also get breathing room.
-  const COLLIDE_PADDING = 18;
-  // Note pairs need far more room than their circles: the wide title
-  // labels below them are what actually collide.
-  const NOTE_COLLIDE_DIST = 90;
+  // Extra clearance around each node's label box in the collision pass.
+  const COLLIDE_PADDING = 6;
+  // Collision relaxation iterations per tick; higher untangles dense clusters.
+  const COLLIDE_ITERATIONS = 4;
   const DRAG_THRESHOLD = 4;
   const ZOOM_STEP = 1.4;
   const MAX_ZOOM_IN = 4;
@@ -114,35 +112,42 @@
         energy += node.vx * node.vx + node.vy * node.vy;
       }
 
-      // Hard collision pass: push overlapping nodes directly apart so
-      // circles (and the labels hanging off them) never stack.
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const a = nodes[i];
-          const b = nodes[j];
-          let dx = b.x - a.x;
-          let dy = b.y - a.y;
-          let distSq = dx * dx + dy * dy;
-          const minDist =
-            a.type === "note" && b.type === "note"
-              ? NOTE_COLLIDE_DIST
-              : a.r + b.r + COLLIDE_PADDING;
-          if (distSq >= minDist * minDist) continue;
-          if (distSq === 0) {
-            dx = 0.1;
-            distSq = 0.01;
-          }
-          const dist = Math.sqrt(distSq);
-          const push = ((minDist - dist) / dist) * 0.5;
-          const mx = dx * push;
-          const my = dy * push;
-          if (!a.pinned) {
-            a.x -= mx;
-            a.y -= my;
-          }
-          if (!b.pinned) {
-            b.x += mx;
-            b.y += my;
+      // Hard collision pass. Each node's footprint is a box that includes
+      // its label (wide, and hanging below the circle), so tags never land
+      // on a note's title. Overlapping boxes separate along whichever axis
+      // they overlap least. Iterated a few times so resolving one pair can't
+      // leave a node stacked on a third in dense clusters.
+      for (let pass = 0; pass < COLLIDE_ITERATIONS; pass++) {
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            const a = nodes[i];
+            const b = nodes[j];
+            const dx = b.x - a.x;
+            const dy = b.y - a.y;
+
+            const penX = a.halfW + b.halfW - Math.abs(dx);
+            if (penX <= 0) continue;
+            const penY =
+              Math.min(a.y + a.bottom, b.y + b.bottom) - Math.max(a.y - a.top, b.y - b.top);
+            if (penY <= 0) continue;
+
+            if (penX < penY) {
+              const shift = penX * (dx < 0 ? -0.5 : 0.5);
+              if (a.pinned) b.x += shift * 2;
+              else if (b.pinned) a.x -= shift * 2;
+              else {
+                a.x -= shift;
+                b.x += shift;
+              }
+            } else {
+              const shift = penY * (dy < 0 ? -0.5 : 0.5);
+              if (a.pinned) b.y += shift * 2;
+              else if (b.pinned) a.y -= shift * 2;
+              else {
+                a.y -= shift;
+                b.y += shift;
+              }
+            }
           }
         }
       }
@@ -212,6 +217,15 @@
           ? Math.min(13, 5.5 + 2 * Math.sqrt(degree.get(node.id) || 0))
           : TAG_RADIUS;
 
+      // Collision footprint: a box around the circle and its label. The label
+      // is centered under the node, so it widens halfW and extends bottom.
+      const fontPx = node.type === "note" ? 11.2 : 9.9;
+      const labelDy = node.type === "note" ? node.r + 14 : TAG_RADIUS + 12;
+      const labelHalfW = Math.min((node.label.length * fontPx * 0.55) / 2, 130);
+      node.halfW = Math.max(node.r, labelHalfW) + COLLIDE_PADDING;
+      node.top = node.r + COLLIDE_PADDING;
+      node.bottom = labelDy + fontPx * 0.4 + COLLIDE_PADDING;
+
       const group = document.createElementNS(SVG_NS, "g");
       group.setAttribute("class", `graph-node graph-node--${node.type}`);
       group.dataset.id = node.id;
@@ -221,7 +235,7 @@
 
       const text = document.createElementNS(SVG_NS, "text");
       text.setAttribute("text-anchor", "middle");
-      text.setAttribute("dy", node.type === "note" ? node.r + 14 : TAG_RADIUS + 12);
+      text.setAttribute("dy", labelDy);
       text.textContent = node.label;
 
       if (node.type === "note" && node.id !== rootId) {
