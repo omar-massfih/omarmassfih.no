@@ -251,6 +251,8 @@
   }
 
   function renderText(bubble, text, { markdown = false } = {}) {
+    bubble.classList.remove("is-loading");
+
     if (markdown) {
       renderMarkdown(bubble, text);
       return;
@@ -262,6 +264,25 @@
       p.textContent = paragraph;
       bubble.append(p);
     }
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function renderLoading(bubble) {
+    bubble.classList.add("is-loading");
+    bubble.replaceChildren();
+
+    const loader = document.createElement("span");
+    loader.className = "chat-loading";
+    loader.setAttribute("aria-label", "Waiting for answer");
+
+    for (let index = 0; index < 3; index += 1) {
+      const dot = document.createElement("span");
+      dot.className = "chat-loading-dot";
+      dot.setAttribute("aria-hidden", "true");
+      loader.append(dot);
+    }
+
+    bubble.append(loader);
     log.scrollTop = log.scrollHeight;
   }
 
@@ -304,7 +325,7 @@
 
     const payload = JSON.parse(data);
     if (event === "sources") {
-      renderSources(payload.sources);
+      state.sources = payload.sources;
     } else if (payload.delta) {
       state.answer += payload.delta;
       renderText(bubble, state.answer, { markdown: true });
@@ -368,8 +389,8 @@
     setBusy(true);
 
     const bubble = addBubble("assistant");
-    renderText(bubble, "...");
-    const state = { answer: "", failed: false };
+    renderLoading(bubble);
+    const state = { answer: "", failed: false, sources: [] };
 
     try {
       await streamAnswer(bubble, state);
@@ -378,6 +399,7 @@
         messages.pop();
       } else {
         messages.push({ role: "assistant", content: state.answer });
+        renderSources(state.sources);
       }
     } catch {
       renderText(bubble, "Something went wrong, please try again.");
