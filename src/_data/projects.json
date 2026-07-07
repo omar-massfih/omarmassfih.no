@@ -1,5 +1,14 @@
 [
   {
+    "name": "tajator",
+    "summary": "Agentic AI options trader built with LangGraph + LangChain.",
+    "description": "A trading agent that uses deterministic code for market context and guardrails, while the LLM only makes the judgment calls. It is built around the support/resistance strategy from my trading notes and connects to Interactive Brokers for paper-first execution.",
+    "tags": ["Python", "LangGraph", "LangChain", "Interactive Brokers", "Trading"],
+    "url": "https://github.com/omar-massfih/tajator",
+    "source": "github",
+    "draft": false
+  },
+  {
     "name": "Wakiru",
     "summary": "Personal AI assistant with persistent memory, built on LangGraph over the Codex CLI.",
     "description": "A LangGraph agent that drives the Codex CLI, with two-layer memory: conversation history through a SQLite checkpointer and long-term markdown notes recalled semantically via a local fastembed and sqlite-vec index. Durable facts are saved and forgotten automatically each turn, with no API key required.",
