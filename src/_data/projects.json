@@ -1,6 +1,6 @@
 [
   {
-    "name": "tajator",
+    "name": "Tajator",
     "summary": "Agentic AI options trader built with LangGraph + LangChain.",
     "description": "A trading agent that uses deterministic code for market context and guardrails, while the LLM only makes the judgment calls. It is built around the support/resistance strategy from my trading notes and connects to Interactive Brokers for paper-first execution.",
     "tags": ["Python", "LangGraph", "LangChain", "Interactive Brokers", "Trading"],
