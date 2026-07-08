@@ -21,12 +21,22 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/chat.js");
   eleventyConfig.addPassthroughCopy("src/notes-filter.js");
 
+  // graphHash runs on every note page; keyed on the notes array so the graph
+  // is built once per data load instead of once per page.
+  const graphCache = new WeakMap();
+  const serializedGraph = (notes) => {
+    if (!graphCache.has(notes)) {
+      graphCache.set(notes, JSON.stringify(buildNotesGraph(notes)));
+    }
+    return graphCache.get(notes);
+  };
+
   eleventyConfig.addFilter("graphJson", (notes) =>
-    JSON.stringify(buildNotesGraph(notes)).replace(/</g, "\\u003c")
+    serializedGraph(notes).replace(/</g, "\\u003c")
   );
 
   eleventyConfig.addFilter("graphHash", (notes) =>
-    crypto.createHash("md5").update(JSON.stringify(buildNotesGraph(notes))).digest("hex").slice(0, 8)
+    crypto.createHash("md5").update(serializedGraph(notes)).digest("hex").slice(0, 8)
   );
 
   eleventyConfig.addFilter("assetHash", (assetPath) => {
@@ -39,7 +49,7 @@ export default function (eleventyConfig) {
       return content;
     }
     return content.replace(
-      /(<code class="language-([a-z]+)">)([\s\S]*?)(<\/code>)/g,
+      /(<code class="language-([a-z0-9-]+)">)([\s\S]*?)(<\/code>)/g,
       (match, open, language, code, close) => {
         if (!hljs.getLanguage(language)) return match;
         const { value } = hljs.highlight(decodeEntities(code), { language });

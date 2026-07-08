@@ -3,10 +3,15 @@
 
   // Mirrors DEFAULT_BACKEND_URL in lib/notesLoader.js; the localStorage
   // override exists so the widget can point at a local backend during dev.
-  const BACKEND_URL =
-    window.localStorage.getItem("notesChatBackendUrl") || "https://backend.omarmassfih.no";
+  // Storage access itself can throw when the browser blocks it.
+  let backendOverride = null;
+  try {
+    backendOverride = window.localStorage.getItem("notesChatBackendUrl");
+  } catch (error) {}
+  const BACKEND_URL = backendOverride || "https://backend.omarmassfih.no";
   const MAX_MESSAGE_LENGTH = 4000;
   const MAX_HISTORY = 20;
+  const RESPONSE_TIMEOUT_MS = 60000;
 
   const messages = [];
 
@@ -308,22 +313,28 @@
   function setBusy(busy) {
     input.disabled = busy;
     button.disabled = busy;
-    closeButton.disabled = busy;
-    if (!busy) input.focus();
+    if (!busy && !panel.hidden) input.focus();
   }
 
   function handleFrame(frame, bubble, state) {
     let event = null;
-    let data = "";
+    const dataLines = [];
 
     for (const line of frame.split("\n")) {
       if (line.startsWith("event:")) event = line.slice(6).trim();
-      if (line.startsWith("data:")) data = line.slice(5).trim();
+      if (line.startsWith("data:")) dataLines.push(line.slice(5).trim());
     }
 
+    const data = dataLines.join("\n");
     if (!data || data === "[DONE]") return;
 
-    const payload = JSON.parse(data);
+    let payload;
+    try {
+      payload = JSON.parse(data);
+    } catch (error) {
+      // Skip malformed frames rather than abandoning the whole answer.
+      return;
+    }
     if (event === "sources") {
       state.sources = payload.sources;
     } else if (payload.delta) {
@@ -339,6 +350,7 @@
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ messages }),
+      signal: AbortSignal.timeout(RESPONSE_TIMEOUT_MS),
     });
 
     if (!response.ok || !response.body) {
@@ -368,7 +380,7 @@
   closeButton.addEventListener("click", () => setOpen(false));
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !panel.hidden && !input.disabled) {
+    if (event.key === "Escape" && !panel.hidden) {
       setOpen(false);
     }
   });
