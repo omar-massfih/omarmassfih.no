@@ -19,9 +19,9 @@
   },
   {
     "name": "omarmassfih.no",
-    "summary": "This website — a zero-JavaScript static site built with Eleventy.",
-    "description": "Deployed to GitHub Pages through GitHub Actions, with build-time syntax highlighting, light and dark themes, an Atom feed and full SEO metadata. No client-side JavaScript.",
-    "tags": ["Eleventy", "Nunjucks", "CSS", "GitHub Actions"],
+    "summary": "This website — an Eleventy static site with notes, search, chat and a knowledge graph.",
+    "description": "Deployed to GitHub Pages through GitHub Actions, with build-time syntax highlighting, light and dark themes, an Atom feed, full SEO metadata, notes search, chat and an interactive knowledge graph.",
+    "tags": ["Eleventy", "Nunjucks", "CSS", "JavaScript", "GitHub Actions"],
     "url": "https://github.com/omar-massfih/omarmassfih.no",
     "source": "github",
     "draft": false
