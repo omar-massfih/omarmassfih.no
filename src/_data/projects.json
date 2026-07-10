@@ -38,7 +38,7 @@
   {
     "name": "Fragments vs Flow",
     "summary": "Retrieval-augmented generation (RAG) pipeline from my master's thesis.",
-    "description": "Provider-agnostic pipeline where generation, embedding and evaluation can each run on watsonx, Azure OpenAI or OpenAI. Uses Docling for document extraction and RAGAS for evaluation metrics.",
+    "description": "Provider-configurable pipeline using watsonx, Azure OpenAI and OpenAI across generation and embedding, with OpenAI-compatible evaluation through RAGAS. Uses Docling for document extraction.",
     "tags": ["Python", "RAG", "watsonx", "Azure OpenAI", "RAGAS"],
     "url": "https://github.com/omar-massfih/fragments-vs-flow",
     "source": "github",
