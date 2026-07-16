@@ -1,5 +1,14 @@
 [
   {
+    "name": "PR Pilot",
+    "summary": "Feature-to-PR coding agent with local memory across related projects.",
+    "description": "Turns CLI or Telegram feature requests into implementation plans, tested changes, independent agent reviews and monitored GitHub pull requests using Codex or Cursor. A local SQLite and FastEmbed knowledge graph indexes code, project relationships and prior runs to bring relevant cross-project context into planning and review.",
+    "tags": ["Python", "Codex CLI", "Cursor", "RAG", "SQLite"],
+    "url": "https://github.com/omar-massfih/pr-pilot",
+    "source": "github",
+    "draft": false
+  },
+  {
     "name": "Tajator",
     "summary": "Agentic AI options trader built with LangGraph + LangChain.",
     "description": "A trading agent that uses deterministic code for market context and guardrails, while the LLM only makes the judgment calls. It is built around the support/resistance strategy from my trading notes and connects to Interactive Brokers for paper-first execution.",
