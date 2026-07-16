@@ -5,6 +5,7 @@ pagination:
   alias: note
 permalink: "{{ note.url }}"
 layout: layouts/note.njk
+eleventyExcludeFromCollections: true
 eleventyComputed:
   title: "{{ note.title | safe }}"
   heading: "{{ note.heading | safe }}"

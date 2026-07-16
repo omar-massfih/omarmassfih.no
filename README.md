@@ -26,4 +26,6 @@ Add the note as an HTML file with front matter under `notes/` in the backend rep
 
 The backend repo seeds notes to Turso, then sends a `notes_updated` repository dispatch event to this repo. `.github/workflows/static.yml` receives that event, rebuilds from the backend API, and deploys the updated static site to GitHub Pages.
 
+The frontend also rebuilds daily as a fallback, so backend-driven pages and the sitemap recover automatically if a dispatch is missed.
+
 The backend repo needs an Actions secret named `FRONTEND_REDEPLOY_TOKEN` with permission to dispatch events to this repo.

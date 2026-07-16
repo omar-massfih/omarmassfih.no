@@ -10,4 +10,10 @@ eleventyExcludeFromCollections: true
     <lastmod>{{ side.date.toISOString().split("T")[0] }}</lastmod>
   </url>
 {%- endfor %}
+{%- for note in backendNotes %}
+  <url>
+    <loc>{{ site.url }}{{ note.url }}</loc>
+    <lastmod>{{ note.date }}</lastmod>
+  </url>
+{%- endfor %}
 </urlset>
