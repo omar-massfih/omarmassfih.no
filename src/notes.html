@@ -9,7 +9,18 @@ date: git Last Modified
     <h1 class="center">Notes</h1>
 {%- set groups = backendNotes | groupby("category") %}
 {%- if backendNotes.length %}
-    <nav class="notes-filter" hidden aria-label="Filter notes by category">
+    <nav class="notes-filter" hidden aria-label="Filter notes">
+      <label class="notes-search">
+        <span class="visually-hidden">Search notes</span>
+        <input
+          type="search"
+          class="notes-search-input"
+          name="q"
+          placeholder="Search notes"
+          autocomplete="off"
+          spellcheck="false"
+        >
+      </label>
       <button type="button" class="tag tag-filter tag-filter-clear" data-clear aria-pressed="true">All</button>
 {%- for category, notes in groups %}
       <button type="button" class="tag tag-filter" data-category="{{ category }}" aria-pressed="false">{{ category }}</button>
@@ -30,7 +41,7 @@ date: git Last Modified
       </a>
 {%- endfor %}
 {%- endfor %}
-      <p class="notes-empty" hidden>No notes match that category.</p>
+      <p class="notes-empty" hidden>No notes match those filters.</p>
     </section>
     <section class="graph-section" hidden>
       <nav class="flex-container section-head notes-head">
@@ -38,6 +49,7 @@ date: git Last Modified
       </nav>
       <div class="knowledge-graph" data-graph-size="full" data-graph-src="/graph.json?v={{ backendNotes | graphHash }}"></div>
     </section>
+    <script type="application/json" id="notes-search-data">{{ backendNotes | notesSearchJson | safe }}</script>
     <script src="/graph.js?v={{ "/graph.js" | assetHash }}" defer></script>
     <script src="/notes-filter.js?v={{ "/notes-filter.js" | assetHash }}" defer></script>
   </main>
