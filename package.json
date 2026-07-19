@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "build": "eleventy",
-    "dev": "eleventy --serve"
+    "dev": "eleventy --serve",
+    "verify": "npm run build && node scripts/verify-related-notes.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0",

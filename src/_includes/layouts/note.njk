@@ -16,16 +16,39 @@ isNote: true
       </ul>
 {%- endif %}
 {{ content | safe }}
-{%- if note.tags and note.tags.length %}
     </section>
+{%- set relatedNotes = backendNotes | relatedNotes(note, 5) %}
+{%- if relatedNotes.length %}
+    <section class="related-notes" aria-labelledby="related-notes-heading">
+      <nav class="flex-container section-head notes-head">
+        <h2 id="related-notes-heading">Related notes</h2>
+      </nav>
+      <ol class="related-notes-list">
+{%- for related in relatedNotes %}
+        <li class="related-note">
+          <a href="{{ related.url }}" class="list-row">
+            <span class="list-row-main">
+              <span class="list-row-title">{{ related.title }}</span>
+              <span class="list-row-meta">{{ related.date_text }}</span>
+            </span>
+            <span class="related-note-tags" aria-label="Shared tags">
+{%- for tag in related.sharedTags %}
+              <span class="tag">{{ tag }}</span>
+{%- endfor %}
+            </span>
+          </a>
+        </li>
+{%- endfor %}
+      </ol>
+    </section>
+{%- endif %}
+{%- if note.tags and note.tags.length %}
     <section class="graph-section" hidden>
       <nav class="flex-container section-head notes-head">
-        <h2>Related</h2>
+        <h2>Related graph</h2>
       </nav>
       <div class="knowledge-graph" data-graph-size="local" data-root-slug="{{ note.slug }}" data-graph-src="/graph.json?v={{ backendNotes | graphHash }}"></div>
     </section>
     <script src="/graph.js?v={{ "/graph.js" | assetHash }}" defer></script>
-{%- else %}
-    </section>
 {%- endif %}
   </main>
