@@ -8,8 +8,38 @@
   const rows = Array.from(list.querySelectorAll(".list-row"));
   const emptyState = list.querySelector(".notes-empty");
   const clearButton = filterBar.querySelector("[data-clear]");
+  const searchInput = filterBar.querySelector(".notes-search-input");
   const categoryButtons = Array.from(filterBar.querySelectorAll(".tag-filter[data-category]"));
   if (!rows.length || !categoryButtons.length) return;
+
+  const normalize = (value) =>
+    String(value || "").toLowerCase().trim().replace(/\s+/g, " ");
+
+  const readSearchMetadata = () => {
+    const data = document.querySelector("#notes-search-data");
+    if (!data) return new Map();
+
+    try {
+      const notes = JSON.parse(data.textContent || "[]");
+      return new Map(notes.map((note) => [note.url, note]));
+    } catch {
+      return new Map();
+    }
+  };
+
+  const searchMetadata = readSearchMetadata();
+  for (const row of rows) {
+    const note = searchMetadata.get(row.getAttribute("href"));
+    const tags = Array.isArray(note?.tags) ? note.tags : [];
+    const searchable = [
+      note?.title,
+      note?.description,
+      note?.category,
+      ...tags,
+      ...tags.map((tag) => String(tag).replace(/-/g, " ")),
+    ];
+    row.dataset.search = normalize(searchable.join(" "));
+  }
 
   // Group each category header with the rows that follow it, so headers with no
   // visible rows can be hidden while filtering.
@@ -25,13 +55,16 @@
   }
 
   const activeCategories = new Set();
+  let query = "";
 
-  const apply = () => {
+  const apply = ({ notifyCategories = true } = {}) => {
     const categories = Array.from(activeCategories);
     let anyVisible = false;
     for (const row of rows) {
-      const visible =
+      const categoryMatches =
         activeCategories.size === 0 || activeCategories.has(row.dataset.category);
+      const searchMatches = !query || row.dataset.search.includes(query);
+      const visible = categoryMatches && searchMatches;
       row.hidden = !visible;
       if (visible) anyVisible = true;
     }
@@ -41,13 +74,22 @@
     }
 
     if (emptyState) emptyState.hidden = anyVisible;
-    if (clearButton) clearButton.setAttribute("aria-pressed", String(activeCategories.size === 0));
+    if (clearButton) clearButton.setAttribute("aria-pressed", String(activeCategories.size === 0 && !query));
 
-    window.notesCategoryFilter = categories;
-    window.dispatchEvent(
-      new CustomEvent("notes:categories-changed", { detail: { categories } })
-    );
+    if (notifyCategories) {
+      window.notesCategoryFilter = categories;
+      window.dispatchEvent(
+        new CustomEvent("notes:categories-changed", { detail: { categories } })
+      );
+    }
   };
+
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      query = normalize(searchInput.value);
+      apply({ notifyCategories: false });
+    });
+  }
 
   for (const button of categoryButtons) {
     button.addEventListener("click", () => {
@@ -67,6 +109,8 @@
     clearButton.addEventListener("click", () => {
       activeCategories.clear();
       for (const button of categoryButtons) button.setAttribute("aria-pressed", "false");
+      if (searchInput) searchInput.value = "";
+      query = "";
       apply();
     });
   }
