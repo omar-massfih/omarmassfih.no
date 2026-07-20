@@ -714,6 +714,23 @@ h2.section-head {
   display: none;
 }
 
+/* ---- Related notes ------------------------------------------------------ */
+.related-notes-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.note .related-note {
+  margin: 0;
+}
+
+.related-note-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
 /* ---- Knowledge graph (notes) ---------------------------------------------- */
 .knowledge-graph {
   position: relative;

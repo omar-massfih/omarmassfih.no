@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import hljs from "highlight.js";
 import buildNotesGraph from "./lib/notesGraph.js";
+import getRelatedNotes from "./lib/relatedNotes.js";
 
 const decodeEntities = (html) =>
   html
@@ -55,6 +56,10 @@ export default function (eleventyConfig) {
     const content = fs.readFileSync(`src${assetPath}`);
     return crypto.createHash("md5").update(content).digest("hex").slice(0, 8);
   });
+
+  eleventyConfig.addFilter("relatedNotes", (notes, note, limit = 5) =>
+    getRelatedNotes(notes, note, limit)
+  );
 
   eleventyConfig.addTransform("highlightCode", function (content) {
     if (typeof this.page.outputPath !== "string" || !this.page.outputPath.endsWith(".html")) {
