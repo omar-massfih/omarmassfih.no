@@ -36,6 +36,18 @@ export default function (eleventyConfig) {
     serializedGraph(notes).replace(/</g, "\\u003c")
   );
 
+  eleventyConfig.addFilter("notesSearchJson", (notes) => {
+    const metadata = notes.map((note) => ({
+      url: note.url,
+      title: note.list_title || note.title || "",
+      description: note.description || "",
+      category: note.category || "",
+      tags: note.tags || [],
+    }));
+
+    return JSON.stringify(metadata).replace(/</g, "\\u003c");
+  });
+
   eleventyConfig.addFilter("graphHash", (notes) =>
     crypto.createHash("md5").update(serializedGraph(notes)).digest("hex").slice(0, 8)
   );
