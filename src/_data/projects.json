@@ -1,5 +1,14 @@
 [
   {
+    "name": "Platform",
+    "summary": "Single-node k3s homelab with GitOps, provisioned and deployed entirely as code.",
+    "description": "Runs all of my always-on services on one Oracle Cloud Ampere (arm64) VM. Terraform provisions the OCI networking and instance, Ansible installs k3s and cluster add-ons (Traefik ingress, cert-manager with Let's Encrypt, a disk-full safeguard), and Flux reconciles every workload from this Git repo. Container images are built on the node and served through the cluster; secrets and persistent state are migrated onto local-path volumes.",
+    "tags": ["Kubernetes", "k3s", "Flux", "Terraform", "Ansible", "GitOps"],
+    "url": "https://github.com/omar-massfih/platform",
+    "source": "github",
+    "draft": false
+  },
+  {
     "name": "PR Pilot",
     "summary": "Feature-to-PR coding agent with local memory across related projects.",
     "description": "Turns CLI or Telegram feature requests into implementation plans, tested changes, independent agent reviews and monitored GitHub pull requests using Codex or Cursor. A local SQLite and FastEmbed knowledge graph indexes code, project relationships and prior runs to bring relevant cross-project context into planning and review.",
