@@ -1468,6 +1468,216 @@ pre code {
   margin-bottom: var(--space-4);
 }
 
+/* ---- Engineering case study -------------------------------------------- */
+.case-study {
+  width: min(calc(100% - var(--gutter) - var(--gutter)), 68rem);
+}
+
+.case-study-back {
+  margin-bottom: var(--space-5);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.case-study-hero {
+  max-width: 52rem;
+  margin-bottom: var(--space-6);
+}
+
+.case-study-hero h1 {
+  font-size: var(--text-3xl);
+}
+
+.case-study-lede {
+  font-size: var(--text-lg);
+}
+
+.case-study-repos,
+.case-study-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+}
+
+.case-study-repos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.case-study-nav {
+  margin-bottom: var(--space-7);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.case-study-heading {
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.case-study-heading .kicker,
+.case-study-heading h2 {
+  margin-bottom: 0;
+}
+
+.architecture {
+  display: grid;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+}
+
+.flow-group {
+  margin: 0;
+  padding: var(--space-5);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.flow-group--control {
+  border-style: dashed;
+}
+
+.flow-group h3 {
+  margin-bottom: var(--space-4);
+}
+
+.flow-label,
+.flow-branch-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-accent);
+}
+
+.flow-label {
+  margin-bottom: var(--space-1);
+}
+
+.flow {
+  display: grid;
+  grid-template-columns: repeat(var(--flow-columns, 4), minmax(0, 1fr));
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: flow;
+}
+
+.flow-group:first-child .flow,
+.flow-group--control .flow {
+  --flow-columns: 3;
+}
+
+.flow--wrap {
+  grid-template-columns: 1fr;
+}
+
+.flow-node {
+  position: relative;
+  display: grid;
+  align-content: center;
+  min-height: 5rem;
+  margin: 0;
+  padding: var(--space-3);
+  text-align: center;
+  color: var(--color-heading);
+  background-color: var(--color-bg);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  overflow-wrap: anywhere;
+}
+
+.flow-node:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  left: calc(100% + var(--space-1));
+  top: 50%;
+  translate: 0 -50%;
+  width: calc(var(--space-5) - var(--space-2));
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-bold);
+}
+
+.flow--wrap .flow-node:not(:last-child)::after {
+  content: "↓";
+  top: calc(100% + var(--space-1));
+  left: 50%;
+  translate: -50% 0;
+  width: auto;
+  height: calc(var(--space-5) - var(--space-2));
+}
+
+.flow-node--branch {
+  gap: var(--space-1);
+  border-color: var(--color-accent);
+}
+
+.flow-branch-label {
+  display: block;
+}
+
+.case-study-section {
+  scroll-margin-top: var(--space-8);
+}
+
+.operational-note,
+.source-panel {
+  margin-bottom: var(--space-5);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+.operational-note {
+  border-inline-start: 3px solid var(--color-accent);
+  background-color: var(--color-surface);
+}
+
+.source-panel {
+  border: var(--border-width) solid var(--color-border);
+}
+
+.source-panel h3 {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-lg);
+}
+
+.source-panel ul {
+  margin: 0;
+}
+
+.source-panel a {
+  overflow-wrap: anywhere;
+}
+
+.trade-off-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.trade-off-grid article {
+  margin: 0;
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.trade-off-grid h3 {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-lg);
+}
+
+.trade-off-grid p {
+  margin: 0;
+}
+
 /* ==========================================================================
    6. UTILITIES
    ========================================================================== */
@@ -1500,6 +1710,23 @@ pre code {
 
   .about-copy > p:nth-of-type(n + 2) {
     clear: none;
+  }
+
+  .flow,
+  .flow-group:first-child .flow,
+  .flow-group--control .flow,
+  .flow--wrap,
+  .trade-off-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-node:not(:last-child)::after {
+    content: "↓";
+    top: calc(100% + var(--space-1));
+    left: 50%;
+    translate: -50% 0;
+    width: auto;
+    height: calc(var(--space-5) - var(--space-2));
   }
 }
 
@@ -1583,6 +1810,19 @@ pre code {
   .graph-controls button {
     border: 1px solid ButtonText;
   }
+
+  .flow-node,
+  .flow-group,
+  .source-panel,
+  .trade-off-grid article {
+    border: 1px solid CanvasText;
+  }
+
+  .flow-node:not(:last-child)::after,
+  .flow-label,
+  .flow-branch-label {
+    color: LinkText;
+  }
 }
 
 /* Forced themes via the header toggle (persisted in localStorage).
@@ -1631,5 +1871,47 @@ pre code {
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  .case-study {
+    width: 100%;
+  }
+
+  .case-study-nav {
+    display: none;
+  }
+
+  .flow {
+    display: block;
+  }
+
+  .flow-node {
+    min-height: 0;
+    margin-bottom: var(--space-3);
+    text-align: start;
+    break-inside: avoid;
+  }
+
+  .flow-node:not(:last-child)::after {
+    content: "↓";
+    position: static;
+    display: block;
+    translate: none;
+    width: auto;
+    height: auto;
+    margin-top: var(--space-2);
+  }
+
+  .flow-group,
+  .source-panel,
+  .trade-off-grid article {
+    break-inside: avoid;
+  }
+
+  .case-study a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-family: var(--font-mono);
+    font-size: 0.75em;
+    overflow-wrap: anywhere;
   }
 }

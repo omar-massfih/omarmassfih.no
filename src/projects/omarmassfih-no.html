@@ -1,0 +1,186 @@
+---
+title: "omarmassfih.no engineering case study"
+description: "How omarmassfih.no combines static delivery, a FastAPI and Turso publishing pipeline, GitHub Actions redeployment, and streamed hybrid-RAG chat."
+layout: layouts/base.njk
+permalink: /projects/omarmassfih-no.html
+date: git Last Modified
+---
+<main id="main" class="case-study">
+  <nav class="case-study-back" aria-label="Breadcrumb">
+    <a href="/projects.html">Projects</a> <span aria-hidden="true">/</span> omarmassfih.no
+  </nav>
+
+  <article>
+    <div class="case-study-hero">
+      <p class="kicker">Engineering case study</p>
+      <h1 id="case-study-title">Static where it should be, dynamic where it matters</h1>
+      <p class="case-study-lede">omarmassfih.no publishes notes through FastAPI and Turso, compiles them into an Eleventy site, and keeps the interactive chat dynamic. The split gives readers fast, indexable pages without giving up retrieval-backed answers.</p>
+      <ul class="case-study-repos" aria-label="Project repositories">
+        <li><a href="https://github.com/omar-massfih/omarmassfih.no">Frontend repository</a></li>
+        <li><a href="https://github.com/omar-massfih/omarmassfih.no-backend">Backend repository</a></li>
+      </ul>
+    </div>
+
+    <nav class="case-study-nav" aria-label="Case study sections">
+      <a href="#architecture">Architecture</a>
+      <a href="#build-time-loading">Build-time loading</a>
+      <a href="#publishing">Publishing</a>
+      <a href="#redeployment">Redeployment</a>
+      <a href="#hybrid-rag">Hybrid RAG</a>
+      <a href="#trade-offs">Trade-offs</a>
+    </nav>
+
+    <section id="architecture" aria-labelledby="architecture-title">
+      <div class="case-study-heading">
+        <p class="kicker">System map</p>
+        <h2 id="architecture-title">End-to-end architecture</h2>
+      </div>
+      <p>The arrows show data flow unless a group is explicitly labelled as control flow. Every node is ordinary text and remains in reading order without CSS or JavaScript.</p>
+
+      <div class="architecture" aria-label="End-to-end architecture flows">
+        <section class="flow-group" data-architecture-area="publishing" aria-labelledby="flow-publishing">
+          <h3 id="flow-publishing">Authoring and publishing</h3>
+          <ol class="flow" aria-label="Authoring and publishing flow">
+            <li class="flow-node" data-component="backend-notes"><a href="https://github.com/omar-massfih/omarmassfih.no-backend/tree/main/notes">Authored note files</a></li>
+            <li class="flow-node" data-component="seed-embed-workflow"><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/.github/workflows/seed-notes.yml">Seed and embed action</a></li>
+            <li class="flow-node" data-component="turso"><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/app/database.py">Turso / libSQL</a></li>
+          </ol>
+        </section>
+
+        <section class="flow-group" data-architecture-area="static-delivery" aria-labelledby="flow-static">
+          <h3 id="flow-static">Static delivery</h3>
+          <ol class="flow" aria-label="Static delivery flow">
+            <li class="flow-node" data-component="turso-notes">Turso</li>
+            <li class="flow-node" data-component="notes-api"><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/app/main.py">FastAPI notes API</a></li>
+            <li class="flow-node" data-component="eleventy-loader"><a href="https://github.com/omar-massfih/omarmassfih.no/blob/master/lib/notesLoader.js">Eleventy build-time loader</a></li>
+            <li class="flow-node" data-component="github-pages"><a href="https://github.com/omar-massfih/omarmassfih.no/blob/master/.github/workflows/static.yml">GitHub Pages</a></li>
+          </ol>
+        </section>
+
+        <section class="flow-group flow-group--control" data-architecture-area="redeployment" aria-labelledby="flow-redeploy">
+          <p class="flow-label">Control flow</p>
+          <h3 id="flow-redeploy">Event-driven redeployment</h3>
+          <ol class="flow" aria-label="Redeployment control flow">
+            <li class="flow-node" data-component="backend-action">Backend GitHub Action</li>
+            <li class="flow-node" data-component="repository-dispatch">Repository dispatch</li>
+            <li class="flow-node" data-component="frontend-action">Frontend GitHub Action</li>
+          </ol>
+        </section>
+
+        <section class="flow-group flow-group--query" data-architecture-area="hybrid-rag" aria-labelledby="flow-rag">
+          <h3 id="flow-rag">Interactive query flow</h3>
+          <ol class="flow flow--wrap" aria-label="Streamed hybrid-RAG query flow">
+            <li class="flow-node" data-component="browser-chat"><a href="https://github.com/omar-massfih/omarmassfih.no/blob/master/src/chat.js">Browser chat</a></li>
+            <li class="flow-node" data-component="chat-api">FastAPI</li>
+            <li class="flow-node" data-component="question-embedding">Question embedding</li>
+            <li class="flow-node flow-node--branch" data-component="hybrid-retrieval">
+              <span class="flow-branch-label">Parallel retrieval</span>
+              <span>Semantic vector search + BM25 lexical search</span>
+            </li>
+            <li class="flow-node" data-component="rank-fusion">Reciprocal-rank fusion</li>
+            <li class="flow-node" data-component="tag-neighbors">Tag-neighbor expansion</li>
+            <li class="flow-node" data-component="ai-gateway"><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/app/gateway.py">AI Gateway</a></li>
+            <li class="flow-node" data-component="sse-response">SSE sources and answer deltas</li>
+          </ol>
+        </section>
+      </div>
+    </section>
+
+    <section id="build-time-loading" class="case-study-section" data-case-study-area="build-time-loading">
+      <div class="case-study-heading">
+        <p class="kicker">01</p>
+        <h2>Build-time note loading</h2>
+      </div>
+      <p>Eleventy asks <code>GET /notes?include=content</code> for the complete published note set. The loader cache-busts the edge-cached endpoint, retries transient failures, normalizes metadata, and sorts the result before exposing it through Eleventy’s data cascade. Note pages, lists, the knowledge graph, feed, and sitemap are then static build artifacts.</p>
+      <aside class="operational-note"><strong>Boundary:</strong> unavailable or invalid note data fails the build instead of silently deploying a partial knowledge base.</aside>
+      <div class="source-panel">
+        <h3>Source and tests</h3>
+        <ul>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no/blob/master/src/_data/backendNotes.js">Eleventy data source</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no/blob/master/lib/notesLoader.js">Note loader, normalization, retry, and cache busting</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no/blob/master/eleventy.config.js">Eleventy configuration</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no/blob/master/scripts/verify-case-study.mjs">Generated-output verification</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="publishing" class="case-study-section" data-case-study-area="publishing">
+      <div class="case-study-heading">
+        <p class="kicker">02</p>
+        <h2>FastAPI and Turso publishing</h2>
+      </div>
+      <p>Notes begin as versioned HTML documents with front matter. The seed process parses the tree, initializes the schema, upserts current notes, and removes stale rows. API queries exclude drafts and future publication dates. Changed chunks are embedded separately, so editing one note does not require re-embedding the entire corpus.</p>
+      <div class="source-panel">
+        <h3>Source and tests</h3>
+        <ul>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/app/notes.py">Parsing, schema, synchronization, and publication filters</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/app/database.py">Asynchronous Turso connection</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/app/main.py">Cached notes endpoints and streaming HTTP boundary</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/scripts/seed_notes.py">Note synchronization command</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/scripts/embed_notes.py">Incremental chunk embedding</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/tests/test_notes.py">Notes parsing, filtering, API, caching, and error tests</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="redeployment" class="case-study-section" data-case-study-area="redeployment">
+      <div class="case-study-heading">
+        <p class="kicker">03</p>
+        <h2>Redeployment and recovery</h2>
+      </div>
+      <p>After notes are seeded and chunks embedded on <code>main</code>, the backend workflow sends a <code>notes_updated</code> repository dispatch. The frontend workflow receives it, rebuilds against FastAPI, verifies the generated site, and deploys the same <code>_site</code> directory to GitHub Pages.</p>
+      <aside class="operational-note"><strong>Recovery path:</strong> dispatch is skipped when its credential is unavailable. A daily frontend schedule repairs a missed event by rebuilding from the current API state.</aside>
+      <div class="source-panel">
+        <h3>Source and tests</h3>
+        <ul>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/.github/workflows/seed-notes.yml">Backend seed, embed, and dispatch workflow</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no/blob/master/.github/workflows/static.yml">Frontend verify and Pages deployment workflow</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="hybrid-rag" class="case-study-section" data-case-study-area="hybrid-rag">
+      <div class="case-study-heading">
+        <p class="kicker">04</p>
+        <h2>Streamed hybrid-RAG chat</h2>
+      </div>
+      <p>The browser posts conversation history and parses server-sent events incrementally. The backend embeds the latest question, runs semantic and deterministic BM25 retrieval, fuses both rankings, and expands context with related notes sharing tags. It emits source links before streaming grounded answer deltas through the AI Gateway, ending with <code>[DONE]</code>.</p>
+      <div class="source-panel">
+        <h3>Source and tests</h3>
+        <ul>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no/blob/master/src/chat.js">SSE browser client</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/app/chat.py">Grounded prompt, retrieval orchestration, and event stream</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/app/rag.py">Chunking, BM25, vector search, fusion, and neighbors</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/app/gateway.py">AI Gateway client and streamed completion boundary</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/tests/test_chat.py">Chat validation, sources, deltas, completion, and failure tests</a></li>
+          <li><a href="https://github.com/omar-massfih/omarmassfih.no-backend/blob/main/tests/test_rag.py">Retrieval, ranking, fusion, and expansion tests</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="trade-offs" class="case-study-section" data-case-study-area="trade-offs">
+      <div class="case-study-heading">
+        <p class="kicker">Operating model</p>
+        <h2>Design trade-offs and boundaries</h2>
+      </div>
+      <div class="trade-off-grid">
+        <article>
+          <h3>Static delivery, live conversation</h3>
+          <p>Publishing availability is separated from reading availability: generated pages stay online if the backend is down. Chat remains live because streaming and retrieval cannot be precomputed.</p>
+        </article>
+        <article>
+          <h3>Two cache needs</h3>
+          <p>The public notes API uses five-minute edge caching for normal traffic. Builds add a cache-busting query so a content-triggered deployment does not compile stale notes.</p>
+        </article>
+        <article>
+          <h3>Optional capabilities</h3>
+          <p>Embedding and repository dispatch depend on separate credentials. The seed remains useful without either, while chat configuration is validated before a stream begins.</p>
+        </article>
+        <article>
+          <h3>Failure is visible</h3>
+          <p>Build retries absorb transient API failures; exhausted retries stop deployment. The scheduled build is a deliberate backstop for missed cross-repository events.</p>
+        </article>
+      </div>
+    </section>
+  </article>
+</main>
