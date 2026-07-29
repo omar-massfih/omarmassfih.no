@@ -3,6 +3,7 @@ import fs from "node:fs";
 import hljs from "highlight.js";
 import buildNotesGraph from "./lib/notesGraph.js";
 import getRelatedNotes from "./lib/relatedNotes.js";
+import getNoteNavigation from "./lib/noteNavigation.js";
 import buildSkillsInPractice from "./lib/skillsInPractice.js";
 import buildProjectExplorer from "./lib/projectExplorer.js";
 
@@ -68,6 +69,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("relatedNotes", (notes, note, limit = 5) =>
     getRelatedNotes(notes, note, limit)
   );
+  eleventyConfig.addFilter("noteNavigation", getNoteNavigation);
 
   eleventyConfig.addFilter("skillsInPractice", buildSkillsInPractice);
   eleventyConfig.addFilter("projectExplorer", buildProjectExplorer);

@@ -139,6 +139,12 @@ test("renders deterministic duplicate-heading and heading-free note fixtures", (
   environment.addFilter("assetHash", () => "fixture");
   environment.addFilter("graphHash", () => "fixture");
   environment.addFilter("relatedNotes", () => []);
+  environment.addFilter("noteNavigation", () => ({
+    previous: null,
+    next: null,
+    position: 0,
+    total: 0,
+  }));
 
   for (const fixture of fixtures) {
     const processed = processNoteHeadings(fixture.content_html);
