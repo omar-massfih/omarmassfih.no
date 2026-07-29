@@ -611,6 +611,84 @@ h2.section-head {
   padding-top: var(--space-2);
 }
 
+.project-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.project-filter-field {
+  display: grid;
+  flex: 1 1 12rem;
+  gap: var(--space-1);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.project-filter select,
+.project-filter-clear {
+  min-height: 2.5rem;
+  padding: 0.4em var(--space-3);
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-background);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+}
+
+.project-filter select:hover,
+.project-filter-clear:hover:not(:disabled) {
+  border-color: var(--color-accent);
+}
+
+.project-filter select:focus-visible,
+.project-filter-clear:focus-visible {
+  outline: var(--focus-ring) solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.project-filter-clear {
+  cursor: pointer;
+}
+
+.project-filter-clear:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.project-result-count {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--color-text-muted);
+  text-align: left;
+}
+
+.project-empty {
+  margin-top: var(--space-5);
+  padding: var(--space-6);
+  text-align: center;
+  color: var(--color-text-muted);
+  border: var(--border-width) dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+}
+
+.project-empty p {
+  margin-top: 0;
+}
+
+.project-filter[hidden],
+.project-box[hidden],
+.project-empty[hidden] {
+  display: none;
+}
+
 /* ---- Tags (project cards + CV tech) -------------------------------------- */
 .tag-list {
   display: flex;
@@ -1962,6 +2040,8 @@ pre code {
 
   header,
   .skip-link,
+  .project-filter,
+  .project-empty,
   .cv-print-hint,
   .cv-evidence-link {
     display: none;
