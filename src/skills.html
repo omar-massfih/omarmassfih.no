@@ -1,0 +1,56 @@
+---
+title: Skills in practice
+description: Evidence for Omar Massfih's CV competencies through published projects and technical notes.
+layout: layouts/base.njk
+permalink: /skills.html
+date: git Last Modified
+---
+{%- set evidenceGroups = cv | skillsInPractice(projects, backendNotes, skillEvidence) %}
+  <main id="main" class="skills-main">
+    <section>
+      <h1 class="center">Skills in practice</h1>
+      <p class="skills-intro">A practical index of the work behind my CV: each competency links to published projects, technical notes, or both.</p>
+{%- for group in evidenceGroups %}
+{%- set groupIndex = loop.index %}
+
+      <section class="skills-group" aria-labelledby="skills-group-{{ loop.index }}">
+        <h2 id="skills-group-{{ loop.index }}" class="section-head">{{ group.group }}</h2>
+        <div class="skill-evidence-grid">
+{%- for skill in group.skills %}
+          <article class="skill-evidence" data-skill="{{ skill.name }}">
+            <h3>{{ skill.name }}</h3>
+{%- if skill.projects.length %}
+            <section aria-labelledby="skill-{{ groupIndex }}-{{ loop.index }}-projects">
+              <h4 id="skill-{{ groupIndex }}-{{ loop.index }}-projects" class="cv-kicker">Projects</h4>
+              <ul class="evidence-list">
+{%- for project in skill.projects %}
+                <li data-evidence-type="project" data-evidence-id="{{ project.name }}">
+                  <a class="linkbody" href="{{ project.url }}">{{ project.name }}</a>
+                  <p>{{ project.summary }}</p>
+                </li>
+{%- endfor %}
+              </ul>
+            </section>
+{%- endif %}
+{%- if skill.notes.length %}
+            <section aria-labelledby="skill-{{ groupIndex }}-{{ loop.index }}-notes">
+              <h4 id="skill-{{ groupIndex }}-{{ loop.index }}-notes" class="cv-kicker">Technical notes</h4>
+              <ul class="evidence-list">
+{%- for note in skill.notes %}
+                <li data-evidence-type="note" data-evidence-id="{{ note.slug }}">
+                  <a class="linkbody" href="{{ note.url }}">{{ note.list_title or note.title }}</a>
+{%- if note.description %}
+                  <p>{{ note.description }}</p>
+{%- endif %}
+                </li>
+{%- endfor %}
+              </ul>
+            </section>
+{%- endif %}
+          </article>
+{%- endfor %}
+        </div>
+      </section>
+{%- endfor %}
+    </section>
+  </main>

@@ -6,7 +6,7 @@
     "build": "eleventy",
     "dev": "eleventy --serve",
     "test": "node --test",
-    "verify": "npm run build && node scripts/verify-related-notes.mjs && node scripts/verify-case-study.mjs"
+    "verify": "npm run build && node scripts/verify-related-notes.mjs && node scripts/verify-case-study.mjs && node scripts/verify-skills-in-practice.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0",

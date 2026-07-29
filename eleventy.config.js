@@ -3,6 +3,7 @@ import fs from "node:fs";
 import hljs from "highlight.js";
 import buildNotesGraph from "./lib/notesGraph.js";
 import getRelatedNotes from "./lib/relatedNotes.js";
+import buildSkillsInPractice from "./lib/skillsInPractice.js";
 
 const decodeEntities = (html) =>
   html
@@ -48,6 +49,11 @@ export default function (eleventyConfig) {
     return JSON.stringify(metadata).replace(/</g, "\\u003c");
   });
 
+  eleventyConfig.addFilter("backendNotesManifestJson", (notes) =>
+    JSON.stringify(notes.map(({ slug, url, published }) => ({ slug, url, published })))
+      .replace(/</g, "\\u003c")
+  );
+
   eleventyConfig.addFilter("graphHash", (notes) =>
     crypto.createHash("md5").update(serializedGraph(notes)).digest("hex").slice(0, 8)
   );
@@ -60,6 +66,8 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("relatedNotes", (notes, note, limit = 5) =>
     getRelatedNotes(notes, note, limit)
   );
+
+  eleventyConfig.addFilter("skillsInPractice", buildSkillsInPractice);
 
   eleventyConfig.addTransform("highlightCode", function (content) {
     if (typeof this.page.outputPath !== "string" || !this.page.outputPath.endsWith(".html")) {
