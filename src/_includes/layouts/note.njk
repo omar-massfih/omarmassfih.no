@@ -27,6 +27,24 @@ isNote: true
 {%- endif %}
 {{ content | safe }}
     </section>
+{%- set noteNavigation = backendNotes | noteNavigation(note) %}
+{%- if noteNavigation.position %}
+    <nav class="note-navigation" aria-label="Notes in {{ note.category }}">
+      <p class="note-navigation-position">{{ noteNavigation.position }} of {{ noteNavigation.total }} in {{ note.category }}</p>
+{%- if noteNavigation.previous %}
+      <a class="note-navigation-link note-navigation-previous" href="{{ noteNavigation.previous.url }}">
+        <span class="note-navigation-direction">Previous</span>
+        <span>{{ noteNavigation.previous.title }}</span>
+      </a>
+{%- endif %}
+{%- if noteNavigation.next %}
+      <a class="note-navigation-link note-navigation-next" href="{{ noteNavigation.next.url }}">
+        <span class="note-navigation-direction">Next</span>
+        <span>{{ noteNavigation.next.title }}</span>
+      </a>
+{%- endif %}
+    </nav>
+{%- endif %}
 {%- set relatedNotes = backendNotes | relatedNotes(note, 5) %}
 {%- if relatedNotes.length %}
     <section class="related-notes" aria-labelledby="related-notes-heading">

@@ -1091,6 +1091,59 @@ pre code {
   font-size: var(--text-sm);
 }
 
+.note-navigation {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.note-navigation-position {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.note-navigation-link {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.note-navigation-next {
+  grid-column: 2;
+  text-align: right;
+}
+
+.note-navigation-direction {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 36rem) {
+  .note-navigation {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .note-navigation-position,
+  .note-navigation-next {
+    grid-column: 1;
+  }
+
+  .note-navigation-next {
+    text-align: left;
+  }
+}
+
 /* Note bodies arrive as pre-rendered HTML from the backend; shape their
    rhythm with descendant selectors. */
 .note section h2 {
