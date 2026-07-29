@@ -5,8 +5,8 @@ isNote: true
   <main id="main" class="note">
     <section>
       <h1 class="center">{{ heading or title }}</h1>
-{%- if dateText %}
-      <p class="note-meta center">{{ dateText }}</p>
+{%- if dateText or note.reading_time_text %}
+      <p class="note-meta center">{% if dateText %}{{ dateText }}{% endif %}{% if dateText and note.reading_time_text %} · {% endif %}{% if note.reading_time_text %}{{ note.reading_time_text }}{% endif %}</p>
 {%- endif %}
 {%- if note.tags and note.tags.length %}
       <ul class="tag-list note-tags">
