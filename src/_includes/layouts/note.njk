@@ -15,6 +15,16 @@ isNote: true
 {%- endfor %}
       </ul>
 {%- endif %}
+{%- if note.toc and note.toc.length %}
+      <nav class="note-toc" aria-labelledby="note-toc-heading">
+        <h2 id="note-toc-heading">On this page</h2>
+        <ol>
+{%- for entry in note.toc %}
+          <li class="note-toc-level-{{ entry.level }}"><a href="#{{ entry.id | urlencode }}">{{ entry.text }}</a></li>
+{%- endfor %}
+        </ol>
+      </nav>
+{%- endif %}
 {{ content | safe }}
     </section>
 {%- set relatedNotes = backendNotes | relatedNotes(note, 5) %}

@@ -1,0 +1,23 @@
+[
+  {
+    "slug": "duplicate-headings",
+    "title": "Duplicate headings",
+    "content_html": "<h2>Stable link</h2><h2 id=\"stable-link\">Authored target</h2><h2>Stable link</h2>",
+    "expectToc": true,
+    "expectedIds": ["stable-link-2", "stable-link", "stable-link-3"]
+  },
+  {
+    "slug": "heading-free",
+    "title": "Heading-free note",
+    "content_html": "<p>This fixture deliberately has no subheadings.</p>",
+    "expectToc": false,
+    "expectedIds": []
+  },
+  {
+    "slug": "reserved-heading-id",
+    "title": "Reserved heading ID",
+    "content_html": "<h2 id=\"note-toc-heading\">Body heading</h2>",
+    "expectToc": true,
+    "expectedIds": ["note-toc-heading-2"]
+  }
+]
