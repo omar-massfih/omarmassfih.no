@@ -5,14 +5,39 @@ layout: layouts/base.njk
 permalink: /projects.html
 date: git Last Modified
 ---
+{%- set explorer = projects | projectExplorer %}
   <main id="main" class="project-main">
     <section>
       <h1 class="center">Projects</h1>
       <p>A selection of projects from my <a href="https://github.com/omar-massfih" class="linkbody">GitHub</a>
         profile. <a href="/skills.html" class="linkbody">Explore projects and notes by skill</a>.</p>
+      <form class="project-filter" aria-label="Filter projects" hidden>
+        <div class="project-filter-field">
+          <label for="project-technology">Technology</label>
+          <select id="project-technology" name="technology">
+            <option value="">All technologies</option>
+{%- for technology in explorer.technologies %}
+            <option value="{{ technology }}">{{ technology }}</option>
+{%- endfor %}
+          </select>
+        </div>
+        <div class="project-filter-field">
+          <label for="project-source">Source</label>
+          <select id="project-source" name="source">
+            <option value="">All sources</option>
+{%- for source in explorer.sources %}
+            <option value="{{ source }}">{{ source }}</option>
+{%- endfor %}
+          </select>
+        </div>
+        <button class="project-filter-clear" type="button" data-project-clear disabled>Clear filters</button>
+        <p class="project-result-count" data-project-count aria-live="polite" aria-atomic="true">
+          {{ explorer.projects | length }} projects
+        </p>
+      </form>
       <div class="card-grid">
-{%- for project in projects %}{% if not project.draft %}
-        <article class="project-box">
+{%- for project in explorer.projects %}
+        <article class="project-box" data-source="{{ project.source }}" data-technologies="{{ project.tags | dump | escape }}">
           <p class="project-kicker">{{ project.source }}</p>
           <h2>
             <a class="project-link" href="{{ project.url }}">
@@ -30,7 +55,12 @@ date: git Last Modified
 {%- endfor %}
           </ul>
         </article>
-{%- endif %}{% endfor %}
+{%- endfor %}
+      </div>
+      <div class="project-empty" data-project-empty hidden>
+        <p>No projects match those filters.</p>
+        <button class="project-filter-clear" type="button" data-project-clear>Clear filters</button>
       </div>
     </section>
   </main>
+  <script src="/projects-filter.js?v={{ "/projects-filter.js" | assetHash }}" defer></script>

@@ -4,6 +4,7 @@ import hljs from "highlight.js";
 import buildNotesGraph from "./lib/notesGraph.js";
 import getRelatedNotes from "./lib/relatedNotes.js";
 import buildSkillsInPractice from "./lib/skillsInPractice.js";
+import buildProjectExplorer from "./lib/projectExplorer.js";
 
 const decodeEntities = (html) =>
   html
@@ -22,6 +23,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/graph.js");
   eleventyConfig.addPassthroughCopy("src/chat.js");
   eleventyConfig.addPassthroughCopy("src/notes-filter.js");
+  eleventyConfig.addPassthroughCopy("src/projects-filter.js");
 
   // graphHash runs on every note page; keyed on the notes array so the graph
   // is built once per data load instead of once per page.
@@ -68,6 +70,7 @@ export default function (eleventyConfig) {
   );
 
   eleventyConfig.addFilter("skillsInPractice", buildSkillsInPractice);
+  eleventyConfig.addFilter("projectExplorer", buildProjectExplorer);
 
   eleventyConfig.addTransform("highlightCode", function (content) {
     if (typeof this.page.outputPath !== "string" || !this.page.outputPath.endsWith(".html")) {
