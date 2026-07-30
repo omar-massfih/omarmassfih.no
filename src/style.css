@@ -1422,6 +1422,56 @@ pre code {
   margin-block: var(--space-5);
 }
 
+.learning-paths-callout,
+.learning-paths-intro {
+  color: var(--color-text-muted);
+}
+
+.learning-paths {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.learning-path {
+  padding: var(--space-5);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.learning-path-head h2 {
+  margin-bottom: var(--space-2);
+}
+
+.learning-path-head > p {
+  margin-bottom: var(--space-2);
+}
+
+.learning-path-meta {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.learning-path-steps {
+  margin: var(--space-4) 0 0;
+  padding-inline-start: var(--space-6);
+}
+
+.learning-path-steps > li {
+  padding-inline-start: var(--space-2);
+}
+
+.learning-path-steps > li::marker {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-medium);
+}
+
+.learning-path-steps .note-preview-description {
+  color: var(--color-text-muted);
+}
+
 .note-meta {
   margin-bottom: var(--space-6);
   font-family: var(--font-mono);

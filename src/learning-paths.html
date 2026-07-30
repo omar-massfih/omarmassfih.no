@@ -1,0 +1,41 @@
+---
+title: Learning paths
+description: Curated, ordered routes through notes on distributed systems, data engineering, and RAG.
+layout: layouts/base.njk
+permalink: /learning-paths.html
+date: git Last Modified
+---
+  <main id="main">
+    <h1 class="center">Learning paths</h1>
+    <p class="learning-paths-intro center">
+      Choose a curated route through the notes. Each path is ordered so you can build on what you
+      have already read.
+    </p>
+    <p class="category-back-link"><a href="/notes.html">← All notes</a></p>
+    <div class="learning-paths">
+{%- for path in learningPaths %}
+      <section class="learning-path" id="{{ path.slug }}" aria-labelledby="{{ path.slug }}-title">
+        <div class="learning-path-head">
+          <h2 id="{{ path.slug }}-title">{{ path.title | escape }}</h2>
+          <p>{{ path.description | escape }}</p>
+          <p class="learning-path-meta">{{ path.note_count }} note{% if path.note_count != 1 %}s{% endif %} · {{ path.total_reading_time_text }}</p>
+        </div>
+        <ol class="learning-path-steps">
+{%- for note in path.notes %}
+          <li>
+            <a href="{{ note.url }}" class="list-row">
+              <span class="list-row-main">
+                <span class="list-row-title">{{ (note.list_title or note.title) | escape }}</span>
+                <span class="list-row-meta">{{ note.reading_time_text | escape }}</span>
+              </span>
+{%- if note.description %}
+              <p class="note-preview-description">{{ note.description | escape }}</p>
+{%- endif %}
+            </a>
+          </li>
+{%- endfor %}
+        </ol>
+      </section>
+{%- endfor %}
+    </div>
+  </main>
