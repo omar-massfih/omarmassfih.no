@@ -1689,8 +1689,8 @@ pre code {
 .reading-list-shell {
   position: fixed;
   z-index: 20;
-  right: var(--space-4);
-  bottom: var(--space-4);
+  right: var(--chat-offset-x);
+  bottom: calc(var(--chat-offset-y) + var(--chat-launcher-size) + var(--space-3));
   max-width: min(24rem, calc(100vw - 2 * var(--space-4)));
 }
 
@@ -1715,7 +1715,7 @@ pre code {
 
 .reading-list-panel {
   width: min(24rem, calc(100vw - 2 * var(--space-4)));
-  max-height: min(32rem, calc(100vh - 2 * var(--space-4)));
+  max-height: min(32rem, calc(100vh - var(--chat-offset-y) - var(--chat-launcher-size) - var(--space-6)));
   overflow: auto;
   padding: var(--space-4);
   border: var(--border-width) solid var(--color-border-strong);

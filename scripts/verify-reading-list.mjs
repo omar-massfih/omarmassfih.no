@@ -22,6 +22,16 @@ if (!fs.existsSync(path.join(siteDir, "reading-list.js"))) {
   errors.push("_site/reading-list.js was not emitted.");
 }
 
+const cssPath = path.join(siteDir, "style.css");
+if (!fs.existsSync(cssPath)) {
+  errors.push("_site/style.css was not emitted.");
+} else {
+  const css = fs.readFileSync(cssPath, "utf8");
+  if (!/\.reading-list-shell\s*\{[^}]*right:\s*var\(--chat-offset-x\)\s*;[^}]*bottom:\s*calc\(var\(--chat-offset-y\)\s*\+\s*var\(--chat-launcher-size\)\s*\+\s*var\(--space-3\)\)\s*;/s.test(css)) {
+    errors.push("Reading-list trigger must be positioned above the chat launcher.");
+  }
+}
+
 for (const file of files) {
   const document = new JSDOM(fs.readFileSync(file, "utf8")).window.document;
   const page = publicUrl(file);
