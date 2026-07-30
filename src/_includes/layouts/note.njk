@@ -43,6 +43,17 @@ isNote: true
 {{ content | safe }}
       </div>
     </section>
+{%- set noteCanonicalUrl = site.url + page.url %}
+    <section class="note-share" data-note-share data-share-title="{{ title }}" aria-labelledby="note-share-heading">
+      <h2 id="note-share-heading">Share this note</h2>
+      <p>Pass this note along to a colleague who might find it useful.</p>
+      <div class="note-share-actions">
+        <button class="note-share-button" data-note-share-native type="button" aria-describedby="note-share-status" hidden>Share</button>
+        <button class="note-share-button" data-note-share-copy type="button" aria-describedby="note-share-status" hidden>Copy link</button>
+        <a class="note-share-email" href="mailto:?subject={{ ("Useful note: " + title) | urlencode }}&amp;body={{ ("I thought you might find this useful: " + title + "\n\n" + noteCanonicalUrl) | urlencode }}">Email</a>
+      </div>
+      <p class="note-share-status" id="note-share-status" data-note-share-status role="status" aria-live="polite"></p>
+    </section>
 {%- set noteNavigation = backendNotes | noteNavigation(note) %}
 {%- if noteNavigation.position %}
     <nav class="note-navigation" aria-label="Notes in {{ note.category }}">
@@ -98,3 +109,4 @@ isNote: true
   </main>
   <script src="/note-code-copy.js?v={{ "/note-code-copy.js" | assetHash }}" defer></script>
   <script src="/note-reading-progress.js?v={{ "/note-reading-progress.js" | assetHash }}" defer></script>
+  <script src="/note-share.js?v={{ "/note-share.js" | assetHash }}" defer></script>
