@@ -92,7 +92,18 @@
   }
 
   for (const button of categoryButtons) {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (event) => {
+      if (
+        event.button !== 0 ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      event.preventDefault();
       const category = button.dataset.category;
       if (activeCategories.has(category)) {
         activeCategories.delete(category);

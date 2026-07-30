@@ -38,8 +38,8 @@ const setup = () => {
         <input type="search" class="notes-search-input" name="q">
       </label>
       <button type="button" class="tag tag-filter tag-filter-clear" data-clear aria-pressed="true">All</button>
-      <button type="button" class="tag tag-filter" data-category="Kubernetes" aria-pressed="false">Kubernetes</button>
-      <button type="button" class="tag tag-filter" data-category="OpenShift" aria-pressed="false">OpenShift</button>
+      <a href="/notes/categories/kubernetes.html" class="tag tag-filter" data-category="Kubernetes" aria-pressed="false">Kubernetes</a>
+      <a href="/notes/categories/openshift.html" class="tag tag-filter" data-category="OpenShift" aria-pressed="false">OpenShift</a>
     </nav>
 
     <section class="notes-list">
@@ -195,6 +195,41 @@ test("category behavior and clear button still work", () => {
   assert.deepEqual(visibleRows(), ["/notes/alpha/", "/notes/gamma/", "/notes/beta/"]);
   assert.equal(kubernetesButton.getAttribute("aria-pressed"), "false");
   assert.equal(document.querySelector("[data-clear]").getAttribute("aria-pressed"), "true");
+});
+
+test("enhanced category links keep their destinations and intercept navigation", () => {
+  const { document, visibleRows } = setup();
+  const categoryLink = document.querySelector('[data-category="Kubernetes"]');
+  const click = new document.defaultView.MouseEvent("click", {
+    bubbles: true,
+    cancelable: true,
+  });
+
+  assert.equal(categoryLink.getAttribute("href"), "/notes/categories/kubernetes.html");
+  assert.equal(categoryLink.dispatchEvent(click), false);
+  assert.deepEqual(visibleRows(), ["/notes/alpha/", "/notes/gamma/"]);
+});
+
+test("category links preserve modified and non-primary click navigation", () => {
+  for (const options of [
+    { ctrlKey: true },
+    { metaKey: true },
+    { shiftKey: true },
+    { altKey: true },
+    { button: 1 },
+  ]) {
+    const { document, visibleRows } = setup();
+    const categoryLink = document.querySelector('[data-category="Kubernetes"]');
+    const click = new document.defaultView.MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+      ...options,
+    });
+
+    assert.equal(categoryLink.dispatchEvent(click), true);
+    assert.equal(categoryLink.getAttribute("aria-pressed"), "false");
+    assert.deepEqual(visibleRows(), ["/notes/alpha/", "/notes/gamma/", "/notes/beta/"]);
+  }
 });
 
 test("graph category event contract remains category-only", () => {

@@ -1407,6 +1407,21 @@ pre code {
   margin-top: var(--space-6);
 }
 
+.category-heading-link {
+  color: inherit;
+}
+
+.category-note-count,
+.note-category {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.category-back-link {
+  margin-block: var(--space-5);
+}
+
 .note-meta {
   margin-bottom: var(--space-6);
   font-family: var(--font-mono);

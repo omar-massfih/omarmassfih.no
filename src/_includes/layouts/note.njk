@@ -3,10 +3,17 @@ layout: layouts/base.njk
 isNote: true
 ---
   <main id="main" class="note">
+{%- set noteCategory = null %}
+{%- for category in noteCategories %}
+  {%- if category.title == note.category %}{% set noteCategory = category %}{% endif %}
+{%- endfor %}
     <section>
       <h1 class="center">{{ heading or title }}</h1>
 {%- if dateText or note.reading_time_text %}
       <p class="note-meta center">{% if dateText %}{{ dateText }}{% endif %}{% if dateText and note.reading_time_text %} · {% endif %}{% if note.reading_time_text %}{{ note.reading_time_text }}{% endif %}</p>
+{%- endif %}
+{%- if noteCategory %}
+      <p class="note-category center">Category: <a href="{{ noteCategory.url }}">{{ noteCategory.title }}</a></p>
 {%- endif %}
 {%- if note.tags and note.tags.length %}
       <ul class="tag-list note-tags">
@@ -30,7 +37,7 @@ isNote: true
 {%- set noteNavigation = backendNotes | noteNavigation(note) %}
 {%- if noteNavigation.position %}
     <nav class="note-navigation" aria-label="Notes in {{ note.category }}">
-      <p class="note-navigation-position">{{ noteNavigation.position }} of {{ noteNavigation.total }} in {{ note.category }}</p>
+      <p class="note-navigation-position">{{ noteNavigation.position }} of {{ noteNavigation.total }} in {% if noteCategory %}<a href="{{ noteCategory.url }}">{{ noteCategory.title }}</a>{% else %}{{ note.category }}{% endif %}</p>
 {%- if noteNavigation.previous %}
       <a class="note-navigation-link note-navigation-previous" href="{{ noteNavigation.previous.url }}">
         <span class="note-navigation-direction">Previous</span>

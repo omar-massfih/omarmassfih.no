@@ -1,0 +1,37 @@
+---
+pagination:
+  data: noteCategories
+  size: 1
+  alias: category
+permalink: "{{ category.url }}"
+layout: layouts/base.njk
+eleventyExcludeFromCollections: true
+eleventyComputed:
+  title: "{{ category.title }} notes"
+  description: "Browse {{ category.count }} {{ category.title }} note{% if category.count != 1 %}s{% endif %}."
+---
+  <main id="main">
+    <h1 class="center">{{ category.title }}</h1>
+    <p class="category-note-count center">{{ category.count }} note{% if category.count != 1 %}s{% endif %}</p>
+    <p class="category-back-link"><a href="/notes.html">← All notes</a></p>
+    <section class="notes-list" aria-label="{{ category.title }} notes">
+{%- for note in category.notes %}
+      <a href="{{ note.url }}" class="list-row">
+        <span class="list-row-main">
+          <span class="list-row-title">{{ note.list_title or note.title }}</span>
+          <span class="list-row-meta">{% if note.date_text %}{{ note.date_text }}{% endif %}{% if note.date_text and note.reading_time_text %} · {% endif %}{% if note.reading_time_text %}{{ note.reading_time_text }}{% endif %}</span>
+        </span>
+{%- if note.description %}
+        <p class="note-preview-description">{{ note.description | escape }}</p>
+{%- endif %}
+{%- if note.tags.length %}
+        <ul class="tag-list note-preview-tags" aria-label="Tags">
+{%- for tag in note.tags %}
+          <li class="tag">{{ tag | escape }}</li>
+{%- endfor %}
+        </ul>
+{%- endif %}
+      </a>
+{%- endfor %}
+    </section>
+  </main>

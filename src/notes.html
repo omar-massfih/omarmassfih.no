@@ -7,7 +7,6 @@ date: git Last Modified
 ---
   <main id="main">
     <h1 class="center">Notes</h1>
-{%- set groups = backendNotes | groupby("category") %}
 {%- if backendNotes.length %}
     <nav class="notes-filter" hidden aria-label="Filter notes">
       <label class="notes-search">
@@ -22,17 +21,17 @@ date: git Last Modified
         >
       </label>
       <button type="button" class="tag tag-filter tag-filter-clear" data-clear aria-pressed="true">All</button>
-{%- for category, notes in groups %}
-      <button type="button" class="tag tag-filter" data-category="{{ category }}" aria-pressed="false">{{ category }}</button>
+{%- for category in noteCategories %}
+      <a href="{{ category.url }}" class="tag tag-filter" data-category="{{ category.title }}" aria-pressed="false">{{ category.title }}</a>
 {%- endfor %}
     </nav>
 {%- endif %}
     <section class="notes-list">
-{%- for category, notes in groups %}
+{%- for category in noteCategories %}
       <nav class="flex-container section-head notes-head">
-        <h2>{{ category }}</h2>
+        <h2><a class="category-heading-link" href="{{ category.url }}">{{ category.title }}</a></h2>
       </nav>
-{%- for note in notes %}
+{%- for note in category.notes %}
       <a href="{{ note.url }}" class="list-row" data-category="{{ note.category }}">
         <span class="list-row-main">
           <span class="list-row-title">{{ note.list_title or note.title }}</span>
