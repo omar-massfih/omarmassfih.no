@@ -176,6 +176,8 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   font-family: var(--font-sans);
   font-size: var(--text-base);
   line-height: var(--leading-normal);
@@ -256,6 +258,7 @@ header > nav {
 }
 
 main {
+  flex: 1 0 auto;
   width: min(calc(100% - var(--gutter) - var(--gutter)), var(--container));
   margin-inline: auto;
   padding-inline: 0;
@@ -382,6 +385,7 @@ header a[aria-current="page"] {
 
 /* ---- Footer ------------------------------------------------------------- */
 .site-footer {
+  flex-shrink: 0;
   padding-inline: var(--gutter);
   padding-block: var(--space-7);
   background-color: var(--color-surface);

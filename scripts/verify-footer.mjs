@@ -114,6 +114,25 @@ function verifyFooter(filePath) {
   }
 }
 
+function verifyStickyFooterCss() {
+  const cssPath = path.join(siteDir, "style.css");
+  if (!fs.existsSync(cssPath)) {
+    errors.push("Missing built stylesheet.");
+    return;
+  }
+
+  const css = fs.readFileSync(cssPath, "utf8");
+  if (!/body\s*\{[^}]*display:\s*flex\s*;[^}]*flex-direction:\s*column\s*;/s.test(css)) {
+    errors.push("Stylesheet must make body a vertical flex container.");
+  }
+  if (!/main\s*\{[^}]*flex:\s*1\s+0\s+auto\s*;/s.test(css)) {
+    errors.push("Stylesheet must allow main to fill available vertical space.");
+  }
+  if (!/\.site-footer\s*\{[^}]*flex-shrink:\s*0\s*;/s.test(css)) {
+    errors.push("Stylesheet must prevent the site footer from shrinking.");
+  }
+}
+
 const htmlFiles = walkHtmlFiles(siteDir);
 const baseLayoutFiles = htmlFiles.filter((filePath) => !redirectPages.has(displayPath(filePath)));
 if (!htmlFiles.length) errors.push("No generated HTML files found.");
@@ -135,6 +154,7 @@ for (const relativePath of representativePaths) {
 }
 
 for (const filePath of baseLayoutFiles) verifyFooter(filePath);
+verifyStickyFooterCss();
 
 for (const redirectPage of redirectPages) {
   const filePath = path.join(siteDir, redirectPage);
