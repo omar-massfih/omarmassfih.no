@@ -166,8 +166,10 @@ test("renders deterministic duplicate-heading and heading-free note fixtures", (
     const document = new JSDOM(html).window.document;
     const headings = [...document.querySelectorAll("main.note > section:first-child h2:not(#note-toc-heading), main.note > section:first-child h3")];
     const toc = document.querySelector("nav.note-toc");
+    const contentBoundary = document.querySelector("[data-note-content]");
 
     assert.equal(Boolean(toc), fixture.expectToc, fixture.slug);
+    assert.ok(contentBoundary, fixture.slug);
     assert.equal(document.querySelectorAll("#note-toc-heading").length, fixture.expectToc ? 1 : 0, fixture.slug);
     if (toc) {
       assert.equal(
@@ -175,7 +177,17 @@ test("renders deterministic duplicate-heading and heading-free note fixtures", (
         "On this page",
         fixture.slug
       );
+      assert.equal(toc.querySelector("[data-note-reading-progress]").hidden, true, fixture.slug);
+      assert.equal(toc.querySelectorAll("progress[max='100'][value='0']").length, 1, fixture.slug);
+      assert.equal(toc.querySelectorAll("[data-note-toc-link]").length, processed.toc.length, fixture.slug);
+      assert.equal(toc.querySelector("[aria-current], .is-current"), null, fixture.slug);
+      for (const link of toc.querySelectorAll("[data-note-toc-link]")) {
+        assert.ok(link.getAttribute("href").startsWith("#"), fixture.slug);
+      }
+    } else {
+      assert.equal(document.querySelector("[data-note-reading-progress]"), null, fixture.slug);
     }
+    assert.equal(document.querySelectorAll('script[src^="/note-reading-progress.js?v="]').length, 1, fixture.slug);
     assert.deepEqual(headings.map(({ id }) => id), fixture.expectedIds, fixture.slug);
     for (const heading of headings) {
       const target = decodeURIComponent(heading.querySelector(".heading-anchor").hash.slice(1));

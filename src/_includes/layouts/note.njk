@@ -25,14 +25,23 @@ isNote: true
 {%- if note.toc and note.toc.length %}
       <nav class="note-toc" aria-labelledby="note-toc-heading">
         <h2 id="note-toc-heading">On this page</h2>
+        <div class="note-reading-progress" data-note-reading-progress hidden>
+          <label for="note-reading-progress-value">Reading progress</label>
+          <div class="note-reading-progress-row">
+            <progress id="note-reading-progress-value" data-note-reading-progress-value max="100" value="0">0%</progress>
+            <span data-note-reading-progress-text aria-hidden="true">0%</span>
+          </div>
+        </div>
         <ol>
 {%- for entry in note.toc %}
-          <li class="note-toc-level-{{ entry.level }}"><a href="#{{ entry.id | urlencode }}">{{ entry.text }}</a></li>
+          <li class="note-toc-level-{{ entry.level }}"><a class="note-toc-link" data-note-toc-link href="#{{ entry.id | urlencode }}">{{ entry.text }}</a></li>
 {%- endfor %}
         </ol>
       </nav>
 {%- endif %}
+      <div class="note-content" data-note-content>
 {{ content | safe }}
+      </div>
     </section>
 {%- set noteNavigation = backendNotes | noteNavigation(note) %}
 {%- if noteNavigation.position %}
@@ -88,3 +97,4 @@ isNote: true
 {%- endif %}
   </main>
   <script src="/note-code-copy.js?v={{ "/note-code-copy.js" | assetHash }}" defer></script>
+  <script src="/note-reading-progress.js?v={{ "/note-reading-progress.js" | assetHash }}" defer></script>
