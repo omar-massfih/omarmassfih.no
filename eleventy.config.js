@@ -6,6 +6,7 @@ import getRelatedNotes from "./lib/relatedNotes.js";
 import getNoteNavigation from "./lib/noteNavigation.js";
 import buildSkillsInPractice from "./lib/skillsInPractice.js";
 import buildProjectExplorer from "./lib/projectExplorer.js";
+import buildSiteSearchIndex from "./lib/siteSearchIndex.js";
 
 const decodeEntities = (html) =>
   html
@@ -25,6 +26,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/chat.js");
   eleventyConfig.addPassthroughCopy("src/notes-filter.js");
   eleventyConfig.addPassthroughCopy("src/projects-filter.js");
+  eleventyConfig.addPassthroughCopy("src/site-search.js");
 
   // graphHash runs on every note page; keyed on the notes array so the graph
   // is built once per data load instead of once per page.
@@ -73,6 +75,9 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addFilter("skillsInPractice", buildSkillsInPractice);
   eleventyConfig.addFilter("projectExplorer", buildProjectExplorer);
+  eleventyConfig.addFilter("siteSearchIndex", (notes, projects, cv) =>
+    JSON.stringify(buildSiteSearchIndex(notes, projects, cv)).replace(/</g, "\\u003c")
+  );
 
   eleventyConfig.addTransform("highlightCode", function (content) {
     if (typeof this.page.outputPath !== "string" || !this.page.outputPath.endsWith(".html")) {
