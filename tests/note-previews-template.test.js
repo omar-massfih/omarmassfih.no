@@ -19,6 +19,42 @@ function render(notes) {
   });
 }
 
+test("renders the notes index structure, accessible filters, and category counts", () => {
+  const html = render([
+    {
+      url: "/notes/first.html",
+      title: "First",
+      category: "Tests",
+      tags: [],
+    },
+    {
+      url: "/notes/second.html",
+      title: "Second",
+      category: "Tests",
+      tags: [],
+    },
+  ]);
+  const document = new JSDOM(html).window.document;
+  const main = document.querySelector("main.notes-index");
+  const filter = main.querySelector(".notes-filter");
+  const heading = main.querySelector(".notes-list > .notes-head");
+
+  assert.ok(main.querySelector(".notes-intro"));
+  assert.ok(main.querySelector(".graph-discovery-intro"));
+  assert.equal(filter.hasAttribute("hidden"), true);
+  assert.equal(filter.getAttribute("aria-label"), "Filter notes");
+  assert.equal(
+    filter.querySelector('label[for="notes-search-input"]').textContent.trim(),
+    "Search notes"
+  );
+  assert.equal(
+    filter.querySelector(".notes-filter-categories").getAttribute("aria-labelledby"),
+    "notes-category-filter-label"
+  );
+  assert.equal(heading.querySelector(".category-note-count").textContent.trim(), "2 notes");
+  assert.equal(heading.nextElementSibling.matches(".list-row"), true);
+});
+
 test("renders descriptions and tags as plain text when metadata contains HTML characters", () => {
   const description = 'Compare <script>alert("description")</script> & "quoted" values';
   const tag = '<img src=x onerror="alert(\'tag\')">&';
