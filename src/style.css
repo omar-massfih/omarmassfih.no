@@ -1688,11 +1688,10 @@ pre code {
 }
 
 .reading-list-shell {
-  position: fixed;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
   z-index: 20;
-  right: var(--chat-offset-x);
-  bottom: calc(var(--chat-offset-y) + var(--chat-launcher-size) + var(--space-3));
-  max-width: min(24rem, calc(100vw - 2 * var(--space-4)));
 }
 
 .reading-list-shell [hidden] {
@@ -1700,7 +1699,8 @@ pre code {
 }
 
 .reading-list-trigger {
-  box-shadow: var(--shadow-md);
+  min-height: 2rem;
+  border-radius: var(--radius-pill);
 }
 
 .reading-list-unavailable {
@@ -1715,8 +1715,11 @@ pre code {
 }
 
 .reading-list-panel {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
   width: min(24rem, calc(100vw - 2 * var(--space-4)));
-  max-height: min(32rem, calc(100vh - var(--chat-offset-y) - var(--chat-launcher-size) - var(--space-6)));
+  max-height: min(32rem, calc(100vh - var(--space-7)));
   overflow: auto;
   padding: var(--space-4);
   border: var(--border-width) solid var(--color-border-strong);
@@ -2699,8 +2702,13 @@ pre code {
   }
 
   .header-navigation-panel .site-search-trigger,
+  .header-navigation-panel .reading-list-trigger,
   .header-navigation-panel .theme-toggle {
     min-height: 2.5rem;
+  }
+
+  .header-navigation-panel .reading-list-shell {
+    min-width: 0;
   }
 
   .site-search-dialog {
