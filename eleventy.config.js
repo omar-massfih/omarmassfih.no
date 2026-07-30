@@ -29,6 +29,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/projects-filter.js");
   eleventyConfig.addPassthroughCopy("src/site-search.js");
   eleventyConfig.addPassthroughCopy("src/note-code-copy.js");
+  eleventyConfig.addPassthroughCopy("src/note-reading-progress.js");
 
   // graphHash runs on every note page; keyed on the notes array so the graph
   // is built once per data load instead of once per page.

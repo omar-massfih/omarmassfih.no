@@ -1442,6 +1442,31 @@ pre code {
   font-size: var(--text-lg);
 }
 
+.note-reading-progress {
+  margin-bottom: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.note-reading-progress[hidden] {
+  display: none;
+}
+
+.note-reading-progress-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+.note-reading-progress progress {
+  flex: 1;
+  height: 0.5rem;
+  accent-color: var(--color-accent);
+  transition: value var(--transition);
+}
+
 .note-toc ol {
   margin: 0;
   padding-inline-start: var(--space-5);
@@ -1454,6 +1479,18 @@ pre code {
 .note-toc .note-toc-level-3 {
   margin-inline-start: var(--space-4);
   font-size: var(--text-sm);
+}
+
+.note-toc-link {
+  display: inline-block;
+  padding-inline-start: var(--space-2);
+  border-inline-start: 0.2rem solid transparent;
+}
+
+.note-toc-link.is-current {
+  color: var(--color-heading);
+  font-weight: var(--weight-bold);
+  border-inline-start-color: var(--color-accent);
 }
 
 .note-navigation {
@@ -2364,6 +2401,10 @@ pre code {
    8. PREFERENCES
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
+  .note-reading-progress progress {
+    transition: none;
+  }
+
   *,
   *::before,
   *::after {
