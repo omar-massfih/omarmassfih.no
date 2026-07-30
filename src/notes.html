@@ -56,11 +56,35 @@ date: git Last Modified
 {%- endfor %}
       <p class="notes-empty" hidden>No notes match those filters.</p>
     </section>
-    <section class="graph-section" hidden>
+    <section class="graph-section graph-discovery" aria-labelledby="notes-graph-heading">
       <nav class="flex-container section-head notes-head">
-        <h2>Graph</h2>
+        <h2 id="notes-graph-heading">Discover notes</h2>
       </nav>
-      <div class="knowledge-graph" data-graph-size="full" data-graph-src="/graph.json?v={{ backendNotes | graphHash }}"></div>
+      <p>Explore connections between published notes and their tags. Select a node to read its details.</p>
+      <ul class="graph-legend" aria-label="Graph legend">
+        <li><span class="graph-key graph-key--note"></span>Note</li>
+        <li><span class="graph-key graph-key--tag"></span>Tag</li>
+        <li><span class="graph-key graph-key--link"></span>Note and tag relationship</li>
+        <li><span class="graph-key graph-key--related"></span>Related notes</li>
+      </ul>
+      <div class="graph-discovery-layout">
+        <div class="knowledge-graph" data-graph-size="full" data-graph-src="/graph.json?v={{ backendNotes | graphHash }}">
+          <p class="graph-loading">Interactive graph loading…</p>
+        </div>
+        <aside class="graph-details" aria-labelledby="notes-graph-details-heading">
+          <h3 id="notes-graph-details-heading">Selected node</h3>
+          <div data-graph-details><p>Select a note or tag in the graph to see its connections.</p></div>
+          <p class="visually-hidden" data-graph-status role="status" aria-live="polite"></p>
+        </aside>
+      </div>
+      <details class="graph-fallback">
+        <summary>Browse all notes as a list</summary>
+        <ul>
+{%- for graphNote in backendNotes %}
+          <li><a href="{{ graphNote.url }}">{{ (graphNote.list_title or graphNote.title) | escape }}</a></li>
+{%- endfor %}
+        </ul>
+      </details>
     </section>
     <script type="application/json" id="notes-search-data">{{ backendNotes | notesSearchJson | safe }}</script>
     <script src="/graph.js?v={{ "/graph.js" | assetHash }}" defer></script>
