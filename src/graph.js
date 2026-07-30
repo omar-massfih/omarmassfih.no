@@ -31,6 +31,7 @@
 
   function neighborhood(graph, rootId) {
     // Root note -> its tags -> notes sharing those tags, plus links between kept nodes.
+    if (!graph.nodes.some((node) => node.id === rootId)) return { nodes: [], links: [] };
     const keep = new Set([rootId]);
 
     for (const link of graph.links) {
@@ -202,6 +203,17 @@
     let ticks = 0;
     let running = false;
     let dragNode = null;
+    let suppressNextClick = false;
+    let selectedId = null;
+    const section = container.closest(".graph-section");
+    const details = section.querySelector("[data-graph-details]");
+    const live = section.querySelector("[data-graph-status]");
+    const neutralDetails = () => {
+      details.replaceChildren();
+      const text = document.createElement("p");
+      text.textContent = "Select a note or tag in the graph to see its connections.";
+      details.appendChild(text);
+    };
 
     const svg = document.createElementNS(SVG_NS, "svg");
     svg.setAttribute("role", "group");
@@ -249,6 +261,10 @@
       const group = document.createElementNS(SVG_NS, "g");
       group.setAttribute("class", `graph-node graph-node--${node.type}`);
       group.dataset.id = node.id;
+      group.setAttribute("role", "button");
+      group.setAttribute("tabindex", "0");
+      group.setAttribute("aria-pressed", "false");
+      group.setAttribute("aria-label", `${node.type === "note" ? "Note" : "Tag"}: ${node.label}`);
 
       const circle = document.createElementNS(SVG_NS, "circle");
       circle.setAttribute("r", node.r);
@@ -258,15 +274,12 @@
       text.setAttribute("dy", labelDy);
       text.textContent = node.label;
 
-      if (node.type === "note" && node.id !== rootId) {
-        const anchor = document.createElementNS(SVG_NS, "a");
-        anchor.setAttribute("href", node.url);
-        anchor.appendChild(circle);
-        anchor.appendChild(text);
-        group.appendChild(anchor);
-      } else if (node.type === "note") {
+      if (node.type === "note" && node.id === rootId) {
         group.classList.add("is-current");
         group.setAttribute("aria-current", "page");
+        group.appendChild(circle);
+        group.appendChild(text);
+      } else if (node.type === "note") {
         group.appendChild(circle);
         group.appendChild(text);
       } else {
@@ -278,22 +291,24 @@
 
         if (tagHasHiddenNeighborhood(node.id)) {
           group.classList.add("is-expandable");
-          group.setAttribute("role", "button");
-          group.setAttribute("tabindex", "0");
           group.setAttribute("aria-label", `Tag: ${node.label}. Show related notes and tags`);
-          group.addEventListener("click", () => expandTag(node.id));
-          group.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              expandTag(node.id);
-            }
-          });
-        } else {
-          group.setAttribute("role", "img");
-          group.setAttribute("aria-label", `Tag: ${node.label}`);
         }
       }
 
+      group.addEventListener("click", (event) => {
+        if (suppressNextClick) {
+          suppressNextClick = false;
+          event.preventDefault();
+          return;
+        }
+        selectNode(node.id, true);
+      });
+      group.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          selectNode(node.id, true);
+        }
+      });
       svg.appendChild(group);
       nodeEls.set(node.id, group);
       bindHighlight(node, group);
@@ -320,6 +335,83 @@
       el.addEventListener("pointerleave", () => setHighlight(null));
       el.addEventListener("focusin", () => setHighlight(node.id));
       el.addEventListener("focusout", () => setHighlight(null));
+    }
+
+    function selectNode(id, expand) {
+      const node = byId.get(id);
+      if (!node || (filteredNodeIds && !filteredNodeIds.has(id))) return;
+      if (node.type === "tag" && expand && tagHasHiddenNeighborhood(id)) expandTag(id);
+      const isActiveId = (nodeId) =>
+        byId.has(nodeId) && (!filteredNodeIds || filteredNodeIds.has(nodeId));
+      selectedId = id;
+      nodeEls.forEach((el, nodeId) => {
+        const selected = nodeId === id;
+        el.classList.toggle("is-selected", selected);
+        el.setAttribute("aria-pressed", String(selected));
+      });
+
+      details.replaceChildren();
+      const heading = document.createElement("h4");
+      heading.textContent = node.label;
+      details.appendChild(heading);
+      if (node.type === "note") {
+        const meta = document.createElement("p");
+        meta.textContent = `Category: ${node.category}`;
+        details.appendChild(meta);
+        const tags = (noteLinksById.get(id) || [])
+          .filter((link) => isActiveId(link.target))
+          .map((link) => fullNodeById.get(link.target)?.label)
+          .filter(Boolean);
+        if (tags.length) {
+          const tagText = document.createElement("p");
+          tagText.textContent = `Tags: ${tags.join(", ")}`;
+          details.appendChild(tagText);
+        }
+        const relatedNotes = (relatedByNote.get(id) || [])
+          .map((relatedLink) =>
+            fullNodeById.get(relatedLink.source === id ? relatedLink.target : relatedLink.source)
+          )
+          .filter((related) => related && isActiveId(related.id));
+        if (relatedNotes.length) {
+          const relatedHeading = document.createElement("p");
+          relatedHeading.textContent = "Related notes:";
+          details.appendChild(relatedHeading);
+          const relatedList = document.createElement("ul");
+          for (const related of relatedNotes) {
+            const item = document.createElement("li");
+            const relatedLink = document.createElement("a");
+            relatedLink.href = related.url;
+            relatedLink.textContent = related.label;
+            item.appendChild(relatedLink);
+            relatedList.appendChild(item);
+          }
+          details.appendChild(relatedList);
+        }
+        const link = document.createElement("a");
+        link.href = node.url;
+        link.textContent = "Open note";
+        details.appendChild(link);
+      } else {
+        const noteIds = (notesByTag.get(id) || [])
+          .map((link) => link.source)
+          .filter(isActiveId);
+        const count = document.createElement("p");
+        count.textContent = `${noteIds.length} connected note${noteIds.length === 1 ? "" : "s"}`;
+        details.appendChild(count);
+        const list = document.createElement("ul");
+        for (const noteId of noteIds) {
+          const connected = fullNodeById.get(noteId);
+          if (!connected) continue;
+          const item = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = connected.url;
+          link.textContent = connected.label;
+          item.appendChild(link);
+          list.appendChild(item);
+        }
+        details.appendChild(list);
+      }
+      live.textContent = `Selected ${node.type} ${node.label}`;
     }
 
     const rebuildIndexes = () => {
@@ -496,6 +588,18 @@
       const noteCount = visibleNodes().filter((node) => node.type === "note").length;
       const categoryLabel = active.size ? ` filtered to ${Array.from(active).join(", ")}` : "";
       svg.setAttribute("aria-label", `Knowledge graph${categoryLabel}: ${noteCount} notes`);
+      if (selectedId && filteredNodeIds && !filteredNodeIds.has(selectedId)) {
+        selectedId = null;
+        nodeEls.forEach((el) => {
+          el.classList.remove("is-selected");
+          el.setAttribute("aria-pressed", "false");
+        });
+        neutralDetails();
+        live.textContent = "Selection cleared because it is outside the active categories";
+      } else if (selectedId) {
+        // Refresh a still-visible selection so its connections match the new filter.
+        selectNode(selectedId, false);
+      }
       updateHeight();
       userMoved = false;
       fitView();
@@ -573,6 +677,13 @@
     // plain clicks (which keep navigating / expanding).
     let ptr = null;
 
+    svg.addEventListener("click", (event) => {
+      if (!suppressNextClick) return;
+      suppressNextClick = false;
+      event.preventDefault();
+      event.stopPropagation();
+    }, true);
+
     svg.addEventListener("pointerdown", (e) => {
       if (e.button !== 0 || ptr) return;
       const group = e.target.closest(".graph-node");
@@ -627,14 +738,7 @@
 
     const endPointer = (e) => {
       if (!ptr || e.pointerId !== ptr.id) return;
-      if (ptr.moved) {
-        const swallowClick = (ev) => {
-          ev.preventDefault();
-          ev.stopPropagation();
-        };
-        svg.addEventListener("click", swallowClick, true);
-        setTimeout(() => svg.removeEventListener("click", swallowClick, true), 0);
-      }
+      if (ptr.moved && e.type === "pointerup") suppressNextClick = true;
       if (dragNode) {
         dragNode.pinned = false;
         dragNode = null;
@@ -677,10 +781,6 @@
       fitView();
     });
 
-    const live = document.createElement("div");
-    live.className = "visually-hidden";
-    live.setAttribute("aria-live", "polite");
-
     if (reduceMotion) {
       settle();
       fitView();
@@ -695,9 +795,10 @@
       startLoop();
     }
 
+    container.querySelector(".graph-loading")?.remove();
     container.appendChild(svg);
     container.appendChild(controls);
-    container.appendChild(live);
+    if (rootId) selectNode(rootId, false);
 
     return {
       setCategories: applyCategoryFilter,
@@ -709,36 +810,51 @@
     const container = section && section.querySelector(".knowledge-graph");
     if (!container || !container.dataset.graphSrc) return;
 
-    let fullGraph;
+    const showUnavailable = () => {
+      const loading = container.querySelector(".graph-loading");
+      if (!loading) return;
+      loading.classList.remove("graph-loading");
+      loading.classList.add("graph-unavailable");
+      loading.textContent = "Interactive graph unavailable. Use the note links below.";
+    };
+
     try {
       const response = await fetch(container.dataset.graphSrc);
-      if (!response.ok) return;
-      fullGraph = await response.json();
+      if (!response.ok) {
+        showUnavailable();
+        return;
+      }
+      const fullGraph = await response.json();
+
+      const rootSlug = container.dataset.rootSlug;
+      let rootId = null;
+      let graph = fullGraph;
+
+      if (rootSlug) {
+        rootId = `note:${rootSlug}`;
+        graph = neighborhood(fullGraph, rootId);
+        if (graph.links.length === 0) {
+          showUnavailable();
+          return;
+        }
+      }
+
+      if (graph.nodes.length === 0) {
+        showUnavailable();
+        return;
+      }
+
+      const graphApi = render(container, graph, rootId, fullGraph);
+      if (!rootSlug) {
+        window.notesGraph = graphApi;
+        graphApi.setCategories(window.notesCategoryFilter || []);
+        window.addEventListener("notes:categories-changed", (event) => {
+          graphApi.setCategories(event.detail?.categories || []);
+        });
+      }
     } catch {
-      return;
+      showUnavailable();
     }
-
-    const rootSlug = container.dataset.rootSlug;
-    let rootId = null;
-    let graph = fullGraph;
-
-    if (rootSlug) {
-      rootId = `note:${rootSlug}`;
-      graph = neighborhood(fullGraph, rootId);
-      if (graph.links.length === 0) return;
-    }
-
-    if (graph.nodes.length === 0) return;
-
-    const graphApi = render(container, graph, rootId, fullGraph);
-    if (!rootSlug) {
-      window.notesGraph = graphApi;
-      graphApi.setCategories(window.notesCategoryFilter || []);
-      window.addEventListener("notes:categories-changed", (event) => {
-        graphApi.setCategories(event.detail?.categories || []);
-      });
-    }
-    section.hidden = false;
   };
 
   if (document.readyState === "loading") {

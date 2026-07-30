@@ -1290,6 +1290,94 @@ h2.section-head {
 }
 
 /* ---- Knowledge graph (notes) ---------------------------------------------- */
+.graph-discovery {
+  margin-block: var(--space-6);
+  padding: clamp(var(--space-3), 3vw, var(--space-5));
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-3) 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.graph-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.graph-key {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 1.5rem;
+  height: 0;
+  border-top: 2px solid var(--color-border-strong);
+}
+
+.graph-key--note,
+.graph-key--tag {
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid var(--color-border-strong);
+  border-radius: 50%;
+}
+
+.graph-key--note {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.graph-key--tag {
+  background: var(--color-surface);
+}
+
+.graph-key--related {
+  border-top-style: dashed;
+}
+
+.graph-discovery-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(15rem, 1fr);
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+.graph-details {
+  min-width: 0;
+  padding: var(--space-4);
+  background: var(--color-background);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow-wrap: anywhere;
+}
+
+.graph-details h3,
+.graph-details h4 {
+  margin-top: 0;
+}
+
+.graph-details ul {
+  padding-inline-start: 1.25rem;
+}
+
+.graph-fallback {
+  margin-top: var(--space-4);
+}
+
+.graph-fallback summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
 .knowledge-graph {
   position: relative;
   background-color: var(--color-surface);
@@ -1396,9 +1484,10 @@ h2.section-head {
 }
 
 .graph-node.is-current circle,
+.graph-node.is-selected circle,
 .graph-node a:focus-visible circle {
   stroke: var(--color-focus);
-  stroke-width: 2;
+  stroke-width: 3;
 }
 
 .graph-node.is-dimmed text {
@@ -1421,12 +1510,12 @@ h2.section-head {
   right: var(--space-2);
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-2);
 }
 
 .graph-controls button {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 2.75rem;
+  height: 2.75rem;
   padding: 0;
   font-family: var(--font-mono);
   font-size: 0.9rem;
@@ -1438,9 +1527,24 @@ h2.section-head {
   cursor: pointer;
 }
 
+.graph-controls button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
 .graph-controls button:hover {
   color: var(--color-text);
   border-color: var(--color-accent);
+}
+
+@media (max-width: 44rem) {
+  .graph-discovery-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .knowledge-graph svg {
+    min-height: 18rem;
+  }
 }
 
 /* ---- Portrait (about page) ------------------------------------------------ */

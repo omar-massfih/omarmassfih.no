@@ -103,11 +103,36 @@ isNote: true
     </section>
 {%- endif %}
 {%- if note.tags and note.tags.length %}
-    <section class="graph-section" hidden>
+{%- set localGraph = backendNotes | graphNeighborhood(note.slug) %}
+    <section class="graph-section graph-discovery" aria-labelledby="related-graph-heading">
       <nav class="flex-container section-head notes-head">
-        <h2>Related graph</h2>
+        <h2 id="related-graph-heading">Related graph</h2>
       </nav>
-      <div class="knowledge-graph" data-graph-size="local" data-root-slug="{{ note.slug }}" data-graph-src="/graph.json?v={{ backendNotes | graphHash }}"></div>
+      <p>Explore this note’s tags and nearby published notes.</p>
+      <ul class="graph-legend" aria-label="Graph legend">
+        <li><span class="graph-key graph-key--note"></span>Note</li>
+        <li><span class="graph-key graph-key--tag"></span>Tag</li>
+        <li><span class="graph-key graph-key--link"></span>Note and tag relationship</li>
+        <li><span class="graph-key graph-key--related"></span>Related notes</li>
+      </ul>
+      <div class="graph-discovery-layout">
+        <div class="knowledge-graph" data-graph-size="local" data-root-slug="{{ note.slug | escape }}" data-graph-src="/graph.json?v={{ backendNotes | graphHash }}"><p class="graph-loading">Interactive graph loading…</p></div>
+        <aside class="graph-details" aria-labelledby="related-graph-details-heading">
+          <h3 id="related-graph-details-heading">Selected node</h3>
+          <div data-graph-details><p>Select a note or tag in the graph to see its connections.</p></div>
+          <p class="visually-hidden" data-graph-status role="status" aria-live="polite"></p>
+        </aside>
+      </div>
+      <details class="graph-fallback">
+        <summary>Browse related notes as a list</summary>
+        <ul>
+{%- for graphNode in localGraph.nodes %}
+{%- if graphNode.type == "note" %}
+          <li><a href="{{ graphNode.url }}">{{ graphNode.label | escape }}</a></li>
+{%- endif %}
+{%- endfor %}
+        </ul>
+      </details>
     </section>
     <script src="/graph.js?v={{ "/graph.js" | assetHash }}" defer></script>
 {%- endif %}

@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import hljs from "highlight.js";
-import buildNotesGraph from "./lib/notesGraph.js";
+import buildNotesGraph, { getNotesGraphNeighborhood } from "./lib/notesGraph.js";
 import getRelatedNotes from "./lib/relatedNotes.js";
 import getNoteNavigation from "./lib/noteNavigation.js";
 import buildSkillsInPractice from "./lib/skillsInPractice.js";
@@ -80,6 +80,9 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addFilter("graphHash", (notes) =>
     crypto.createHash("md5").update(serializedGraph(notes)).digest("hex").slice(0, 8)
+  );
+  eleventyConfig.addFilter("graphNeighborhood", (notes, slug) =>
+    getNotesGraphNeighborhood(buildNotesGraph(notes), `note:${slug}`)
   );
 
   eleventyConfig.addFilter("assetHash", (assetPath) => {
