@@ -30,6 +30,11 @@ const notesHtml = fs.readFileSync(path.join(site, "notes.html"), "utf8");
 const notesDoc = new JSDOM(notesHtml).window.document;
 if (notesDoc.querySelectorAll('.knowledge-graph[data-graph-size="full"]').length !== 1) errors.push("notes.html must have one full panel");
 if (!notesDoc.querySelector(".graph-legend") || !notesDoc.querySelector("[data-graph-details]")) errors.push("notes.html lacks legend/details");
+const css = fs.readFileSync(path.join(site, "style.css"), "utf8");
+if (!/\.graph-discovery-layout\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)\s*;/s.test(css) ||
+    !/\.graph-details\s*\{[^}]*border-top:\s*var\(--border-width\)\s*solid\s*var\(--color-border\)\s*;/s.test(css)) {
+  errors.push("Graph details must render below the graph, not in a side column.");
+}
 const fullFallback = new Set([...notesDoc.querySelectorAll(".graph-fallback a")].map((link) => link.getAttribute("href")));
 for (const node of noteNodes) if (!fullFallback.has(node.url)) errors.push(`notes.html fallback omits ${node.url}`);
 for (const node of noteNodes) {

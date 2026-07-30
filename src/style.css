@@ -1123,7 +1123,7 @@ h2.section-head {
 
 .graph-discovery-layout {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(15rem, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
   align-items: stretch;
 }
@@ -1131,7 +1131,7 @@ h2.section-head {
 .graph-details {
   min-width: 0;
   padding: var(--space-3);
-  border-left: var(--border-width) solid var(--color-border);
+  border-top: var(--border-width) solid var(--color-border);
   overflow-wrap: anywhere;
 }
 
@@ -1313,10 +1313,6 @@ h2.section-head {
 }
 
 @media (max-width: 44rem) {
-  .graph-discovery-layout {
-    grid-template-columns: 1fr;
-  }
-
   .knowledge-graph svg {
     min-height: 18rem;
   }
@@ -2732,12 +2728,6 @@ pre code {
   .cv-print-hint .print-button {
     min-height: 2.75rem;
   }
-
-  .graph-details {
-    border-left: 0;
-    border-top: var(--border-width) solid var(--color-border);
-  }
-
 
   .flow,
   .flow-group:first-child .flow,
