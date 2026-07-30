@@ -22,6 +22,11 @@ isNote: true
 {%- endfor %}
       </ul>
 {%- endif %}
+      <p class="note-save">
+        <button class="note-save-button" data-reading-list-save="{{ note.slug }}" type="button"
+          aria-pressed="false" aria-label="Save “{{ title }}” for later"
+          aria-describedby="reading-list-status" disabled>Save for later</button>
+      </p>
 {%- if note.toc and note.toc.length %}
       <nav class="note-toc" aria-labelledby="note-toc-heading">
         <h2 id="note-toc-heading">On this page</h2>

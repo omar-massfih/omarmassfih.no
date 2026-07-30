@@ -31,6 +31,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/note-code-copy.js");
   eleventyConfig.addPassthroughCopy("src/note-reading-progress.js");
   eleventyConfig.addPassthroughCopy("src/note-share.js");
+  eleventyConfig.addPassthroughCopy("src/reading-list.js");
 
   // graphHash runs on every note page; keyed on the notes array so the graph
   // is built once per data load instead of once per page.
@@ -61,6 +62,19 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("backendNotesManifestJson", (notes) =>
     JSON.stringify(notes.map(({ slug, url, published }) => ({ slug, url, published })))
       .replace(/</g, "\\u003c")
+  );
+
+  eleventyConfig.addFilter("readingListJson", (notes) =>
+    JSON.stringify(
+      notes
+        .filter((note) => note.published !== false)
+        .map((note) => ({
+          slug: note.slug,
+          url: note.url,
+          title: note.list_title || note.title || "",
+          category: note.category || "",
+        }))
+    ).replace(/</g, "\\u003c")
   );
 
   eleventyConfig.addFilter("graphHash", (notes) =>

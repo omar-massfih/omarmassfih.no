@@ -1559,6 +1559,122 @@ pre code {
   font-weight: var(--weight-bold);
 }
 
+/* ---- Private reading list ---------------------------------------------- */
+.note-save {
+  display: flex;
+  justify-content: center;
+  margin-block: var(--space-4);
+}
+
+.note-save-button,
+.reading-list-trigger,
+.reading-list-close,
+.reading-list-items button {
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-heading);
+  background: var(--color-surface);
+  font: inherit;
+  cursor: pointer;
+}
+
+.note-save-button:hover:not(:disabled),
+.reading-list-trigger:hover,
+.reading-list-close:hover,
+.reading-list-items button:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.note-save-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.note-save-button[aria-pressed="true"] {
+  border-color: var(--color-accent);
+}
+
+.reading-list-shell {
+  position: fixed;
+  z-index: 20;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  max-width: min(24rem, calc(100vw - 2 * var(--space-4)));
+}
+
+.reading-list-shell [hidden] {
+  display: none;
+}
+
+.reading-list-trigger {
+  box-shadow: var(--shadow-md);
+}
+
+.reading-list-unavailable {
+  margin: 0;
+  max-width: 18rem;
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  font-size: var(--text-sm);
+}
+
+.reading-list-panel {
+  width: min(24rem, calc(100vw - 2 * var(--space-4)));
+  max-height: min(32rem, calc(100vh - 2 * var(--space-4)));
+  overflow: auto;
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.reading-list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.reading-list-head h2 {
+  margin: 0;
+}
+
+.reading-list-close {
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-lg);
+  line-height: 1;
+}
+
+.reading-list-items {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reading-list-items li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.reading-list-items a {
+  overflow-wrap: anywhere;
+}
+
+.reading-list-items button {
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-sm);
+}
+
 .note-navigation {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2584,6 +2700,7 @@ pre code {
 
   header,
   .skip-link,
+  .reading-list-shell,
   .project-filter,
   .project-empty,
   .cv-print-hint,
