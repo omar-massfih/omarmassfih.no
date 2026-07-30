@@ -94,6 +94,7 @@
 <a class="skip-link" href="#main">Skip to content</a>
 {% include "header.njk" %}
 {{ content | safe }}
+{% include "footer.njk" %}
 <script src="/chat.js?v={{ "/chat.js" | assetHash }}" defer></script>
 <script src="/site-search.js?v={{ "/site-search.js" | assetHash }}" defer></script>
 {%- if site.goatcounter %}

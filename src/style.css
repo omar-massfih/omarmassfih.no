@@ -345,6 +345,60 @@ header a[aria-current="page"] {
   color: var(--color-heading);
 }
 
+/* ---- Footer ------------------------------------------------------------- */
+.site-footer {
+  padding-inline: var(--gutter);
+  padding-block: var(--space-7);
+  background-color: var(--color-surface);
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.site-footer-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: var(--space-7);
+  max-width: var(--container);
+  margin-inline: auto;
+}
+
+.site-footer section {
+  margin: 0;
+}
+
+.site-footer h2 {
+  margin-bottom: var(--space-2);
+}
+
+.site-footer p {
+  margin-bottom: var(--space-3);
+}
+
+.site-footer-label {
+  color: var(--color-heading);
+  font-weight: var(--weight-semibold);
+}
+
+.site-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer-links li {
+  margin: 0;
+}
+
+.site-footer a {
+  text-underline-offset: 0.2em;
+}
+
+.site-footer a:hover {
+  color: var(--color-accent-hover);
+}
+
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -1337,6 +1391,11 @@ pre code {
 }
 
 @media (max-width: 36rem) {
+  .site-footer-inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+
   .note-navigation {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -2231,6 +2290,7 @@ pre code {
   /* Hovers signalled only by background-color disappear in forced colors;
      underline instead. */
   header a:hover,
+  .site-footer a:hover,
   .list-row:hover,
   .project-box:hover .project-link {
     text-decoration: underline;
@@ -2332,6 +2392,30 @@ pre code {
 
   main {
     padding-bottom: 0;
+  }
+
+  .site-footer {
+    margin-top: var(--space-6);
+    padding-block: var(--space-4);
+    background: none;
+    border: 0;
+    break-inside: avoid;
+  }
+
+  .site-footer-inner {
+    display: block;
+  }
+
+  .site-footer h2 {
+    font-size: var(--text-lg);
+  }
+
+  .site-footer-contact p {
+    margin-bottom: var(--space-2);
+  }
+
+  .site-footer-navigation {
+    display: none;
   }
 
   .cv-item,
