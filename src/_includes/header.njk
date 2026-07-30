@@ -1,9 +1,17 @@
 <header>
-  <nav class="flex-container">
-    <a class="header-nav-left" href="/index.html">Omar Massfih</a>
-    <span class="header-nav-right">
-      <a href="/projects.html"{% if page.url == "/projects.html" %} aria-current="page"{% endif %}>Projects</a>
-      <a href="/notes.html"{% if page.url == "/notes.html" %} aria-current="page"{% endif %}>Notes</a>
+  <nav class="header-navigation" aria-label="Primary navigation">
+    <a class="header-identity" href="/index.html"{% if page.url == "/" or page.url == "/index.html" %} aria-current="page"{% endif %}>Omar Massfih</a>
+    <button class="header-menu-toggle" id="header-menu-toggle" type="button" hidden
+      aria-expanded="false" aria-controls="header-navigation-panel"
+      aria-label="Open navigation menu">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+        <path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="header-navigation-panel" id="header-navigation-panel">
+      <a href="/projects.html"{% if page.url == "/projects.html" or page.url.indexOf("/projects/") == 0 %} aria-current="page"{% endif %}>Projects</a>
+      <a href="/notes.html"{% if page.url == "/notes.html" or page.url.indexOf("/notes/") == 0 %} aria-current="page"{% endif %}>Notes</a>
       <a href="/cv.html"{% if page.url == "/cv.html" %} aria-current="page"{% endif %}>CV</a>
       <a href="/about.html"{% if page.url == "/about.html" %} aria-current="page"{% endif %}>About</a>
       <button class="site-search-trigger" id="site-search-trigger" type="button" hidden aria-label="Search site">
@@ -19,7 +27,7 @@
           <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/>
         </svg>
       </button>
-    </span>
+    </div>
   </nav>
   <dialog class="site-search-dialog" id="site-search-dialog" aria-labelledby="site-search-title"
     aria-modal="true">
