@@ -963,6 +963,7 @@ h2.section-head {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   color: var(--color-text-muted);
+  text-decoration: none;
   border: var(--border-width) solid var(--color-border-strong);
   border-radius: var(--radius-pill);
 }

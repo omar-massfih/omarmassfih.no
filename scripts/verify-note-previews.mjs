@@ -32,6 +32,16 @@ if (!filter?.hasAttribute("hidden")) {
   errors.push("The filter controls must be initially hidden for progressive enhancement.");
 }
 
+const cssPath = path.resolve("_site/style.css");
+if (!fs.existsSync(cssPath)) {
+  errors.push("Built stylesheet is missing.");
+} else {
+  const css = fs.readFileSync(cssPath, "utf8");
+  if (!/\.tag\s*\{[^}]*text-decoration:\s*none\s*;/s.test(css)) {
+    errors.push("Tag pills must not inherit link underlines.");
+  }
+}
+
 const emptyState = document.querySelector(".notes-list > .notes-empty");
 if (!emptyState?.hasAttribute("hidden")) {
   errors.push("The empty state must exist and be initially hidden.");
