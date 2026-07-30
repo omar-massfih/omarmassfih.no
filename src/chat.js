@@ -11,9 +11,130 @@
   const BACKEND_URL = backendOverride || "https://backend.omarmassfih.no";
   const MAX_MESSAGE_LENGTH = 4000;
   const MAX_HISTORY = 20;
+  const MAX_SOURCES = 10;
+  const MAX_SOURCES_SIZE = 8000;
   const RESPONSE_TIMEOUT_MS = 60000;
+  const SESSION_KEY = "notes-chat:v1";
 
-  const messages = [];
+  let persistenceAvailable = true;
+  const messages = restoreMessages();
+
+  function isSafeSource(source) {
+    if (
+      !source ||
+      typeof source !== "object" ||
+      typeof source.title !== "string" ||
+      typeof source.url !== "string"
+    ) {
+      return false;
+    }
+
+    const title = source.title.trim();
+    const url = source.url.trim();
+    if (
+      title.length === 0 ||
+      title.length > MAX_MESSAGE_LENGTH ||
+      url.length === 0 ||
+      url.length > MAX_MESSAGE_LENGTH ||
+      (!url.startsWith("/") && !/^https?:\/\//i.test(url))
+    ) {
+      return false;
+    }
+
+    try {
+      const parsed = new window.URL(url, window.location.href);
+      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return false;
+      return !url.startsWith("/") || parsed.origin === window.location.origin;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function normalizeSources(value) {
+    if (!Array.isArray(value)) return [];
+
+    const normalized = [];
+    let totalSize = 0;
+    for (let index = 0; index < value.length && index < MAX_SOURCES; index += 1) {
+      const source = value[index];
+      if (!isSafeSource(source)) continue;
+
+      const title = source.title.trim();
+      const url = source.url.trim();
+      const sourceSize = title.length + url.length;
+      if (totalSize + sourceSize > MAX_SOURCES_SIZE) continue;
+
+      normalized.push({ title, url });
+      totalSize += sourceSize;
+    }
+    return normalized;
+  }
+
+  function normalizeMessages(value) {
+    if (!Array.isArray(value) || value.length > MAX_HISTORY || value.length % 2 !== 0) {
+      return [];
+    }
+
+    const normalized = [];
+    for (let index = 0; index < value.length; index += 1) {
+      const message = value[index];
+      const expectedRole = index % 2 === 0 ? "user" : "assistant";
+      if (
+        !message ||
+        typeof message !== "object" ||
+        message.role !== expectedRole ||
+        typeof message.content !== "string"
+      ) {
+        return [];
+      }
+
+      const content = message.content.trim();
+      if (!content || content.length > MAX_MESSAGE_LENGTH) return [];
+
+      const normalizedMessage = { role: expectedRole, content };
+      if (expectedRole === "assistant") {
+        normalizedMessage.sources = normalizeSources(message.sources);
+      }
+      normalized.push(normalizedMessage);
+    }
+    return normalized;
+  }
+
+  function restoreMessages() {
+    let stored;
+    try {
+      stored = window.sessionStorage.getItem(SESSION_KEY);
+    } catch (error) {
+      persistenceAvailable = false;
+      return [];
+    }
+    if (!stored) return [];
+    try {
+      return normalizeMessages(JSON.parse(stored));
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function persistMessages() {
+    if (!persistenceAvailable) return;
+    try {
+      window.sessionStorage.setItem(SESSION_KEY, JSON.stringify(messages));
+    } catch (error) {
+      try {
+        window.sessionStorage.removeItem(SESSION_KEY);
+      } catch (removeError) {}
+      persistenceAvailable = false;
+    }
+  }
+
+  function removePersistedMessages() {
+    try {
+      window.sessionStorage.removeItem(SESSION_KEY);
+    } catch (error) {
+      persistenceAvailable = false;
+    }
+  }
 
   const launcher = document.createElement("button");
   launcher.type = "button";
@@ -38,6 +159,14 @@
 
   const title = document.createElement("h2");
   title.textContent = "Ask the notes";
+
+  const headerActions = document.createElement("div");
+  headerActions.className = "chat-panel-actions";
+
+  const clearButton = document.createElement("button");
+  clearButton.type = "button";
+  clearButton.className = "chat-clear";
+  clearButton.textContent = "Clear conversation";
 
   const closeButton = document.createElement("button");
   closeButton.type = "button";
@@ -94,7 +223,8 @@
   button.className = "chat-send";
   button.textContent = "Ask";
 
-  header.append(title, closeButton);
+  headerActions.append(clearButton, closeButton);
+  header.append(title, headerActions);
   body.append(empty, log);
   form.append(input, button);
   panel.append(header, body, form);
@@ -310,10 +440,37 @@
     log.scrollTop = log.scrollHeight;
   }
 
+  function updateConversationControls({ busy = input.disabled } = {}) {
+    clearButton.disabled = busy || messages.length === 0;
+  }
+
   function setBusy(busy) {
     input.disabled = busy;
     button.disabled = busy;
+    updateConversationControls({ busy });
     if (!busy && !panel.hidden) input.focus();
+  }
+
+  function trimMessages() {
+    while (messages.length > MAX_HISTORY) messages.shift();
+    if (messages[0] && messages[0].role !== "user") messages.shift();
+  }
+
+  function renderConversation() {
+    if (messages.length === 0) {
+      empty.hidden = false;
+      updateConversationControls();
+      return;
+    }
+
+    empty.hidden = true;
+    for (const message of messages) {
+      renderText(addBubble(message.role), message.content, {
+        markdown: message.role === "assistant",
+      });
+      if (message.role === "assistant") renderSources(message.sources);
+    }
+    updateConversationControls();
   }
 
   function handleFrame(frame, bubble, state) {
@@ -349,7 +506,9 @@
     const response = await fetch(`${BACKEND_URL}/chat`, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ messages }),
+      body: JSON.stringify({
+        messages: messages.map(({ role, content }) => ({ role, content })),
+      }),
       signal: AbortSignal.timeout(RESPONSE_TIMEOUT_MS),
     });
 
@@ -378,6 +537,14 @@
 
   launcher.addEventListener("click", () => setOpen(true));
   closeButton.addEventListener("click", () => setOpen(false));
+  clearButton.addEventListener("click", () => {
+    messages.splice(0);
+    log.replaceChildren();
+    empty.hidden = false;
+    removePersistedMessages();
+    updateConversationControls();
+    input.focus();
+  });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !panel.hidden) {
@@ -392,9 +559,9 @@
     if (!question || input.disabled) return;
 
     empty.hidden = true;
+    const previousMessages = messages.slice();
     messages.push({ role: "user", content: question });
-    while (messages.length > MAX_HISTORY) messages.shift();
-    if (messages[0] && messages[0].role !== "user") messages.shift();
+    trimMessages();
 
     renderText(addBubble("user"), question);
     input.value = "";
@@ -406,18 +573,25 @@
 
     try {
       await streamAnswer(bubble, state);
-      if (state.failed || !state.answer) {
+      const answer = state.answer.trim().slice(0, MAX_MESSAGE_LENGTH);
+      if (state.failed || !answer) {
         renderText(bubble, "Something went wrong, please try again.");
-        messages.pop();
+        messages.splice(0, messages.length, ...previousMessages);
       } else {
-        messages.push({ role: "assistant", content: state.answer });
-        renderSources(state.sources);
+        const sources = normalizeSources(state.sources);
+        messages.push({ role: "assistant", content: answer, sources });
+        trimMessages();
+        if (answer !== state.answer) renderText(bubble, answer, { markdown: true });
+        renderSources(sources);
+        persistMessages();
       }
     } catch {
       renderText(bubble, "Something went wrong, please try again.");
-      messages.pop();
+      messages.splice(0, messages.length, ...previousMessages);
     } finally {
       setBusy(false);
     }
   });
+
+  renderConversation();
 })();
