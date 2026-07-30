@@ -16,4 +16,10 @@ eleventyExcludeFromCollections: true
     <lastmod>{{ note.date }}</lastmod>
   </url>
 {%- endfor %}
+{%- for category in noteCategories %}
+  <url>
+    <loc>{{ site.url }}{{ category.url }}</loc>
+    <lastmod>{{ category.lastModified }}</lastmod>
+  </url>
+{%- endfor %}
 </urlset>

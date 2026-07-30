@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import nunjucks from "nunjucks";
 import { JSDOM } from "jsdom";
+import buildNoteCategories from "../lib/noteCategories.js";
 
 const source = await readFile(new URL("../src/notes.html", import.meta.url), "utf8");
 const template = source.replace(/^---[\s\S]*?---/, "");
@@ -12,7 +13,10 @@ function render(notes) {
   environment.addFilter("graphHash", () => "graph");
   environment.addFilter("assetHash", () => "asset");
   environment.addFilter("notesSearchJson", () => "[]");
-  return environment.renderString(template, { backendNotes: notes });
+  return environment.renderString(template, {
+    backendNotes: notes,
+    noteCategories: buildNoteCategories(notes),
+  });
 }
 
 test("renders descriptions and tags as plain text when metadata contains HTML characters", () => {

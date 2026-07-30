@@ -12,6 +12,7 @@ function walkHtmlFiles(dir) {
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const entryPath = path.join(dir, entry.name);
+    if (entry.isDirectory() && entry.name === "categories") return [];
     if (entry.isDirectory()) return walkHtmlFiles(entryPath);
     return entry.isFile() && entry.name.endsWith(".html") ? [entryPath] : [];
   });

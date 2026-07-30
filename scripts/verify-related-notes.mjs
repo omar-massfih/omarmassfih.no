@@ -14,6 +14,7 @@ function walkHtmlFiles(dir) {
 
   for (const entry of entries) {
     const entryPath = path.join(dir, entry.name);
+    if (entry.isDirectory() && entry.name === "categories") continue;
     if (entry.isDirectory()) files.push(...walkHtmlFiles(entryPath));
     if (entry.isFile() && entry.name.endsWith(".html")) files.push(entryPath);
   }

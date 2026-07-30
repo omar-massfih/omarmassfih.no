@@ -1,3 +1,10 @@
-// Thin wrapper: Eleventy merges named exports from data files into the data
-// cascade, so the loader with its named exports lives outside _data.
-export { default } from "../../lib/notesLoader.js";
+// Cache the data promise so other global data derived from backendNotes sees
+// the exact same snapshot without making a second backend request.
+import loadBackendNotes from "../../lib/notesLoader.js";
+
+let notesPromise;
+
+export default function () {
+  notesPromise ||= loadBackendNotes();
+  return notesPromise;
+}
