@@ -31,6 +31,19 @@ const filter = document.querySelector(".notes-filter");
 if (!filter?.hasAttribute("hidden")) {
   errors.push("The filter controls must be initially hidden for progressive enhancement.");
 }
+if (!document.querySelector("main.notes-index > .notes-intro")) {
+  errors.push("The notes index must include its page-specific introduction.");
+}
+if (!filter?.querySelector('label[for="notes-search-input"]')) {
+  errors.push("The notes search must have a visible associated label.");
+}
+
+const categoryHeaders = [...document.querySelectorAll(".notes-list > .notes-head")];
+for (const header of categoryHeaders) {
+  if (!header.querySelector(".category-note-count")) {
+    errors.push(`${normalizedText(header.querySelector("h2"))}: Category heading is missing its note count.`);
+  }
+}
 
 const cssPath = path.resolve("_site/style.css");
 if (!fs.existsSync(cssPath)) {

@@ -5,35 +5,48 @@ layout: layouts/base.njk
 permalink: /notes.html
 date: git Last Modified
 ---
-  <main id="main">
-    <h1 class="center">Notes</h1>
-    <p class="learning-paths-callout center">
-      New here? <a href="/learning-paths.html">Follow a curated learning path</a> through
-      distributed systems, data engineering, or RAG.
-    </p>
+  <main id="main" class="notes-index">
+    <header class="notes-intro">
+      <p class="kicker">Technical field notes</p>
+      <h1>Notes</h1>
+      <p class="notes-intro-copy">
+        Practical references on the systems, platforms, and engineering practices I work with.
+      </p>
+      <p class="learning-paths-callout">
+        New here? <a href="/learning-paths.html">Follow a curated learning path</a> through
+        distributed systems, data engineering, or RAG.
+      </p>
+    </header>
 {%- if backendNotes.length %}
     <nav class="notes-filter" hidden aria-label="Filter notes">
-      <label class="notes-search">
-        <span class="visually-hidden">Search notes</span>
+      <div class="notes-filter-search">
+        <label class="notes-filter-label" for="notes-search-input">Search notes</label>
         <input
+          id="notes-search-input"
           type="search"
           class="notes-search-input"
           name="q"
-          placeholder="Search notes"
+          placeholder="Try “Kubernetes” or “RAG”"
           autocomplete="off"
           spellcheck="false"
         >
-      </label>
-      <button type="button" class="tag tag-filter tag-filter-clear" data-clear aria-pressed="true">All</button>
+      </div>
+      <div class="notes-filter-categories" role="group" aria-labelledby="notes-category-filter-label">
+        <span class="notes-filter-label" id="notes-category-filter-label">Browse by category</span>
+        <div class="notes-filter-options">
+          <button type="button" class="tag tag-filter tag-filter-clear" data-clear aria-pressed="true">All</button>
 {%- for category in noteCategories %}
-      <a href="{{ category.url }}" class="tag tag-filter" data-category="{{ category.title }}" aria-pressed="false">{{ category.title }}</a>
+          <a href="{{ category.url }}" class="tag tag-filter" data-category="{{ category.title }}" aria-pressed="false">{{ category.title }}</a>
 {%- endfor %}
+        </div>
+      </div>
     </nav>
 {%- endif %}
     <section class="notes-list">
 {%- for category in noteCategories %}
       <nav class="flex-container section-head notes-head">
         <h2><a class="category-heading-link" href="{{ category.url }}">{{ category.title }}</a></h2>
+        <span class="category-note-count">{{ category.count }} {% if category.count == 1 %}note{% else %}notes{% endif %}</span>
       </nav>
 {%- for note in category.notes %}
       <a href="{{ note.url }}" class="list-row" data-category="{{ note.category }}">
@@ -57,10 +70,11 @@ date: git Last Modified
       <p class="notes-empty" hidden>No notes match those filters.</p>
     </section>
     <section class="graph-section graph-discovery" aria-labelledby="notes-graph-heading">
-      <nav class="flex-container section-head notes-head">
+      <div class="graph-discovery-intro">
+        <p class="kicker">Explore further</p>
         <h2 id="notes-graph-heading">Discover notes</h2>
-      </nav>
-      <p>Explore connections between published notes and their tags. Select a node to read its details.</p>
+        <p>Explore connections between published notes and their tags. Select a node to read its details.</p>
+      </div>
       <ul class="graph-legend" aria-label="Graph legend">
         <li><span class="graph-key graph-key--note"></span>Note</li>
         <li><span class="graph-key graph-key--tag"></span>Tag</li>
