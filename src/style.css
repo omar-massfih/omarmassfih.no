@@ -1547,23 +1547,6 @@ h2.section-head {
   }
 }
 
-/* ---- Portrait (about page) ------------------------------------------------ */
-.portrait {
-  float: left;
-  margin: 0 var(--space-5) var(--space-3) 0;
-}
-
-.portrait img {
-  display: block;
-  width: min(8.75rem, 30vw);
-  aspect-ratio: 1;
-  height: auto;
-  object-fit: cover;
-  border-radius: var(--radius-pill);
-  border: var(--border-width) solid var(--color-border);
-  box-shadow: var(--shadow-sm);
-}
-
 /* ---- Print button (CV) ----------------------------------------------------
    Styled as an inline link; the underline comes from the shared link rules. */
 .print-button {
@@ -2549,16 +2532,237 @@ pre code {
 }
 
 /* ---- About -------------------------------------------------------------- */
-.about-intro-body {
-  padding-inline: var(--space-3);
+.about-main {
+  width: min(calc(100% - var(--gutter) - var(--gutter)), var(--container-wide));
 }
 
-.contact > p {
-  padding-inline: var(--space-3);
+.about-profile {
+  overflow-wrap: anywhere;
 }
 
-.about-copy > p:nth-of-type(n + 2) {
-  clear: both;
+.about-hero {
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: clamp(var(--space-5), 6vw, var(--space-8));
+  margin-bottom: var(--space-8);
+  padding: clamp(var(--space-5), 5vw, var(--space-7));
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.about-portrait {
+  margin: 0;
+}
+
+.about-portrait img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  height: auto;
+  object-fit: cover;
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.about-eyebrow,
+.about-section-kicker,
+.about-card-kicker {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+}
+
+.about-eyebrow,
+.about-section-kicker {
+  margin-bottom: var(--space-2);
+  text-transform: uppercase;
+}
+
+.about-hero h1 {
+  font-size: var(--text-3xl);
+}
+
+.about-lede {
+  color: var(--color-heading);
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+}
+
+.about-primary-paths {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.about-action {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+  color: var(--color-heading);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 3px;
+}
+
+.about-action:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-accent);
+}
+
+.about-action--primary {
+  color: var(--color-on-accent);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  text-decoration-color: currentColor;
+}
+
+.about-action--primary:hover {
+  color: var(--color-on-accent);
+  background: var(--color-accent-hover);
+}
+
+.about-section {
+  margin-bottom: var(--space-8);
+}
+
+.about-section-heading {
+  margin-bottom: var(--space-5);
+}
+
+.about-career-list,
+.about-contact-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-career-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.about-career-entry {
+  margin: 0;
+}
+
+.about-card {
+  height: 100%;
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.about-card h3 {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-lg);
+}
+
+.about-card p:last-child {
+  margin-bottom: 0;
+}
+
+.about-card-kicker {
+  margin-bottom: var(--space-2);
+}
+
+.about-highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.about-highlight-card {
+  border-top: 3px solid var(--color-accent);
+}
+
+.about-connect {
+  padding: clamp(var(--space-5), 5vw, var(--space-7));
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.about-connect-copy {
+  max-width: 40rem;
+  margin-bottom: var(--space-5);
+}
+
+.about-explore-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.about-pathway {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+  min-height: 7rem;
+  padding: var(--space-4);
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+}
+
+.about-pathway:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-accent);
+}
+
+.about-pathway-title {
+  color: var(--color-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 3px;
+}
+
+.about-contact {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.8fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.about-contact-list {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.about-contact-list li {
+  margin: 0;
+}
+
+.about-contact-link {
+  display: block;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-heading);
+  border-bottom: var(--border-width) solid var(--color-border);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 3px;
+}
+
+.about-contact-link:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 /* ---- CV ----------------------------------------------------------------- */
@@ -3115,17 +3319,36 @@ pre code {
     display: none;
   }
 
-  .portrait {
-    float: none;
-    margin: 0 auto var(--space-5);
+  .about-hero,
+  .about-career-list,
+  .about-highlight-grid,
+  .about-explore-grid,
+  .about-contact {
+    grid-template-columns: 1fr;
   }
 
-  .portrait img {
-    width: min(9.5rem, 44vw);
+  .about-hero {
+    gap: var(--space-5);
+    margin-bottom: var(--space-7);
+    padding: var(--space-5);
   }
 
-  .about-copy > p:nth-of-type(n + 2) {
-    clear: none;
+  .about-portrait {
+    width: min(16rem, 100%);
+    margin-inline: auto;
+  }
+
+  .about-section {
+    margin-bottom: var(--space-7);
+  }
+
+  .about-primary-paths {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .about-action {
+    justify-content: center;
   }
 
   .flow,
@@ -3234,6 +3457,16 @@ pre code {
 
   .graph-controls button {
     border: 1px solid ButtonText;
+  }
+
+  .about-card,
+  .about-connect,
+  .about-pathway {
+    border: 1px solid CanvasText;
+  }
+
+  .about-action {
+    border: 1px solid LinkText;
   }
 
   .flow-node,
@@ -3394,6 +3627,89 @@ pre code {
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  .about-main {
+    width: 100%;
+  }
+
+  .about-hero,
+  .about-contact {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: var(--space-4);
+  }
+
+  .about-hero {
+    margin-bottom: var(--space-5);
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .about-primary-paths {
+    display: none;
+  }
+
+  .about-section {
+    margin-bottom: var(--space-5);
+  }
+
+  .about-section-heading {
+    margin-bottom: var(--space-3);
+  }
+
+  .about-career-list,
+  .about-highlight-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .about-card {
+    padding: var(--space-3);
+    background: none;
+    border-color: #bbb;
+    box-shadow: none;
+  }
+
+  .about-career-entry,
+  .about-card,
+  .about-pathway,
+  .about-contact {
+    break-inside: avoid;
+  }
+
+  .about-connect {
+    padding: 0;
+    background: none;
+    border: 0;
+  }
+
+  .about-explore-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .about-pathway {
+    min-height: 0;
+    padding: var(--space-2);
+    border-color: #bbb;
+  }
+
+  .about-pathway[href]::after,
+  .about-contact-link[href]::after {
+    content: " (" attr(href) ")";
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.75em;
+    font-weight: var(--weight-normal);
+    overflow-wrap: anywhere;
+  }
+
+  .about-contact {
+    grid-template-columns: 1fr 1fr;
   }
 
   .case-study {
