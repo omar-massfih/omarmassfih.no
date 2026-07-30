@@ -27,9 +27,9 @@ if (!fs.existsSync(cssPath)) {
   errors.push("_site/style.css was not emitted.");
 } else {
   const css = fs.readFileSync(cssPath, "utf8");
-  if (!/\.reading-list-shell\s*\{[^}]*position:\s*relative\s*;/s.test(css) ||
-      !/\.reading-list-panel\s*\{[^}]*position:\s*absolute\s*;/s.test(css)) {
-    errors.push("Reading-list trigger and panel must be anchored in the header.");
+  if (!/\.reading-list-shell\s*\{[^}]*right:\s*calc\(var\(--chat-offset-x\)\s*\+\s*var\(--chat-launcher-size\)\s*\+\s*var\(--space-3\)\)\s*;[^}]*bottom:\s*var\(--chat-offset-y\)\s*;/s.test(css) ||
+      !/\.reading-list-panel\s*\{[^}]*bottom:\s*calc\(100%\s*\+\s*var\(--space-2\)\)\s*;/s.test(css)) {
+    errors.push("Reading-list trigger must sit to the left of the chat launcher.");
   }
 }
 
@@ -80,12 +80,8 @@ for (const file of files) {
       document.querySelectorAll("#reading-list-notes").length !== 1) {
     errors.push(`${page}: Site-wide reading-list markup is incomplete.`);
   }
-  const panel = document.querySelector(".header-navigation-panel");
-  const order = [...panel?.children ?? []];
-  const readingListIndex = order.findIndex((node) => node.matches?.("[data-reading-list-shell]"));
-  const searchIndex = order.findIndex((node) => node.matches?.("#site-search-trigger"));
-  if (readingListIndex === -1 || searchIndex === -1 || readingListIndex + 1 !== searchIndex) {
-    errors.push(`${page}: Reading-list trigger must sit directly to the left of search.`);
+  if (document.querySelector(".header-navigation-panel [data-reading-list-shell]")) {
+    errors.push(`${page}: Reading-list trigger must not be inside the header navigation.`);
   }
 }
 
