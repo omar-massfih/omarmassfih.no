@@ -28,6 +28,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/notes-filter.js");
   eleventyConfig.addPassthroughCopy("src/projects-filter.js");
   eleventyConfig.addPassthroughCopy("src/site-search.js");
+  eleventyConfig.addPassthroughCopy("src/header-navigation.js");
   eleventyConfig.addPassthroughCopy("src/note-code-copy.js");
   eleventyConfig.addPassthroughCopy("src/note-reading-progress.js");
   eleventyConfig.addPassthroughCopy("src/note-share.js");
