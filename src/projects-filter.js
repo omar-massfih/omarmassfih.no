@@ -2,14 +2,16 @@
   "use strict";
 
   const form = document.querySelector(".project-filter");
-  const grid = document.querySelector(".card-grid");
-  if (!form || !grid) return;
+  const results = document.querySelector("[data-project-results]");
+  if (!form || !results) return;
 
   const technologySelect = form.querySelector('[name="technology"]');
   const sourceSelect = form.querySelector('[name="source"]');
   const count = form.querySelector("[data-project-count]");
   const emptyState = document.querySelector("[data-project-empty]");
-  const cards = Array.from(grid.querySelectorAll(".project-box"));
+  const cards = Array.from(results.querySelectorAll(".project-box"));
+  const featuredCard = results.querySelector(".project-box--featured");
+  const featuredRegion = featuredCard?.closest(".featured-project-region");
   const clearButtons = Array.from(document.querySelectorAll("[data-project-clear]"));
   if (!technologySelect || !sourceSelect || !count || !emptyState || !cards.length) return;
 
@@ -51,6 +53,7 @@
       card.hidden = !(matchesTechnology && matchesSource);
       if (!card.hidden) visible += 1;
     }
+    if (featuredRegion && featuredCard) featuredRegion.hidden = featuredCard.hidden;
 
     const noun = cards.length === 1 ? "project" : "projects";
     count.textContent = `${visible} of ${cards.length} ${noun}`;
