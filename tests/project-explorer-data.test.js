@@ -12,8 +12,48 @@ test("excludes drafts and derives sorted, unique facets", () => {
   const explorer = buildProjectExplorer(projects);
 
   assert.deepEqual(explorer.projects.map(({ name }) => name), ["Zulu", "Alpha"]);
+  assert.equal(explorer.featuredProject.name, "Alpha");
+  assert.deepEqual(explorer.standardProjects.map(({ name }) => name), ["Zulu"]);
   assert.deepEqual(explorer.technologies, ["API", "Eleventy", "Python"]);
   assert.deepEqual(explorer.sources, ["case study", "github"]);
+});
+
+test("selects the first published case study by source and preserves source order", () => {
+  const projects = [
+    { name: "First", tags: [], source: "github" },
+    { name: "Featured", tags: [], source: "case study" },
+    { name: "Later", tags: [], source: "github" },
+    { name: "Second case study", tags: [], source: "case study" },
+    { name: "Draft case study", tags: [], source: "case study", draft: true },
+  ];
+
+  const explorer = buildProjectExplorer(projects);
+
+  assert.equal(explorer.featuredProject, projects[1]);
+  assert.deepEqual(
+    explorer.standardProjects.map(({ name }) => name),
+    ["First", "Later", "Second case study"]
+  );
+  assert.deepEqual(
+    explorer.projects.map(({ name }) => name),
+    ["First", "Featured", "Later", "Second case study"]
+  );
+  assert.equal(explorer.projects.some(({ draft }) => draft), false);
+  assert.equal(explorer.standardProjects.some(({ draft }) => draft), false);
+});
+
+test("degrades safely when no published case study exists", () => {
+  const projects = [
+    { name: "First", tags: [], source: "github" },
+    { name: "Draft", tags: [], source: "case study", draft: true },
+    { name: "Last", tags: [], source: "internal" },
+  ];
+
+  const explorer = buildProjectExplorer(projects);
+
+  assert.equal(explorer.featuredProject, undefined);
+  assert.deepEqual(explorer.standardProjects, explorer.projects);
+  assert.deepEqual(explorer.standardProjects.map(({ name }) => name), ["First", "Last"]);
 });
 
 test("handles missing, empty, and invalid tag arrays", () => {
@@ -24,6 +64,8 @@ test("handles missing, empty, and invalid tag arrays", () => {
   ]);
 
   assert.equal(explorer.projects.length, 3);
+  assert.equal(explorer.featuredProject, undefined);
+  assert.equal(explorer.standardProjects.length, 3);
   assert.deepEqual(explorer.technologies, ["Python"]);
   assert.deepEqual(explorer.sources, ["github"]);
 });

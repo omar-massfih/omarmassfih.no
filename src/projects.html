@@ -7,17 +7,19 @@ date: git Last Modified
 ---
 {%- set explorer = projects | projectExplorer %}
   <main id="main" class="project-main">
-    <section>
-      <h1 class="center">Projects</h1>
-      <p>A selection of projects from my <a href="https://github.com/omar-massfih" class="linkbody">GitHub</a>
-        profile. <a href="/skills.html" class="linkbody">Explore projects and notes by skill</a>.</p>
+    <section class="project-showcase" aria-labelledby="projects-title">
+      <header class="project-intro">
+        <h1 id="projects-title">Projects</h1>
+        <p>A selection of projects from my <a href="https://github.com/omar-massfih" class="linkbody">GitHub</a>
+          profile. <a href="/skills.html" class="linkbody">Explore projects and notes by skill</a>.</p>
+      </header>
       <form class="project-filter" aria-label="Filter projects" hidden>
         <div class="project-filter-field">
           <label for="project-technology">Technology</label>
           <select id="project-technology" name="technology">
             <option value="">All technologies</option>
 {%- for technology in explorer.technologies %}
-            <option value="{{ technology }}">{{ technology }}</option>
+            <option value="{{ technology | escape }}">{{ technology | escape }}</option>
 {%- endfor %}
           </select>
         </div>
@@ -26,7 +28,7 @@ date: git Last Modified
           <select id="project-source" name="source">
             <option value="">All sources</option>
 {%- for source in explorer.sources %}
-            <option value="{{ source }}">{{ source }}</option>
+            <option value="{{ source | escape }}">{{ source | escape }}</option>
 {%- endfor %}
           </select>
         </div>
@@ -35,27 +37,71 @@ date: git Last Modified
           {{ explorer.projects | length }} projects
         </p>
       </form>
-      <div class="card-grid">
-{%- for project in explorer.projects %}
-        <article class="project-box" data-source="{{ project.source }}" data-technologies="{{ project.tags | dump | escape }}">
-          <p class="project-kicker">{{ project.source }}</p>
-          <h2>
-            <a class="project-link" href="{{ project.url }}">
-              {{ project.name }}
-              <svg class="project-arrow" aria-hidden="true" viewBox="0 0 16 16" width="14" height="14">
-                <path d="M4.5 3h8.5v8.5M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-          </h2>
-          <p class="project-summary">{{ project.summary }}</p>
-          <p class="project-description">{{ project.description }}</p>
-          <ul class="tag-list">
+
+      <div class="project-results" data-project-results>
+{%- if explorer.featuredProject %}
+        <section class="featured-project-region" aria-labelledby="featured-project-title">
+          <p class="project-section-label">Featured work</p>
+          <article class="project-box project-box--featured" data-source="{{ explorer.featuredProject.source | escape }}" data-technologies="{{ explorer.featuredProject.tags | dump | escape }}">
+            <div class="featured-project-copy">
+              <p class="project-kicker">Engineering case study</p>
+              <h2 id="featured-project-title">
+                <a class="featured-project-link" href="{{ explorer.featuredProject.url | escape }}">
+                  {{ explorer.featuredProject.name | escape }}
+                </a>
+              </h2>
+              <p class="project-summary">{{ explorer.featuredProject.summary | escape }}</p>
+              <p class="project-description">{{ explorer.featuredProject.description | escape }}</p>
+              <a class="project-cta" href="{{ explorer.featuredProject.url | escape }}">
+                Read the case study
+                <svg class="project-arrow" aria-hidden="true" viewBox="0 0 16 16" width="14" height="14">
+                  <path d="M4.5 3h8.5v8.5M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+            <div class="project-technologies">
+              <h3 id="featured-project-technologies">Technologies</h3>
+              <ul class="tag-list" aria-labelledby="featured-project-technologies">
+{%- for tag in explorer.featuredProject.tags %}
+                <li class="tag">{{ tag | escape }}</li>
+{%- endfor %}
+              </ul>
+            </div>
+          </article>
+        </section>
+{%- endif %}
+
+        <section class="standard-projects" aria-labelledby="more-projects-title">
+          <header class="project-section-heading">
+            <p class="project-section-label">Selected builds</p>
+            <h2 id="more-projects-title">More projects</h2>
+          </header>
+          <div class="card-grid">
+{%- for project in explorer.standardProjects %}
+            <article class="project-box project-box--standard" data-source="{{ project.source | escape }}" data-technologies="{{ project.tags | dump | escape }}">
+              <p class="project-kicker">{{ project.source | escape }}</p>
+              <h3>
+                <a class="project-link" href="{{ project.url | escape }}">
+                  {{ project.name | escape }}
+                  <svg class="project-arrow" aria-hidden="true" viewBox="0 0 16 16" width="14" height="14">
+                    <path d="M4.5 3h8.5v8.5M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              </h3>
+              <p class="project-summary">{{ project.summary | escape }}</p>
+              <p class="project-description">{{ project.description | escape }}</p>
+              <div class="project-technologies">
+                <p class="project-technologies-label" id="project-technologies-{{ loop.index }}">Technologies</p>
+                <ul class="tag-list" aria-labelledby="project-technologies-{{ loop.index }}">
 {%- for tag in project.tags %}
-            <li class="tag">{{ tag }}</li>
+                  <li class="tag">{{ tag | escape }}</li>
 {%- endfor %}
-          </ul>
-        </article>
+                </ul>
+              </div>
+            </article>
 {%- endfor %}
+          </div>
+        </section>
       </div>
       <div class="project-empty" data-project-empty hidden>
         <p>No projects match those filters.</p>
