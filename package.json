@@ -6,7 +6,7 @@
     "build": "eleventy",
     "dev": "eleventy --serve",
     "test": "node --test",
-    "verify": "npm test && npm run build && node scripts/verify-related-notes.mjs && node scripts/verify-case-study.mjs && node scripts/verify-skills-in-practice.mjs && node scripts/verify-note-headings.mjs && node scripts/verify-project-explorer.mjs && node scripts/verify-reading-time.mjs && node scripts/verify-note-previews.mjs && node scripts/verify-note-categories.mjs && node scripts/verify-featured-work.mjs && node scripts/verify-site-search.mjs && node scripts/verify-note-code-copy.mjs && node scripts/verify-note-reading-progress.mjs && node scripts/verify-note-share.mjs && node scripts/verify-footer.mjs"
+    "verify": "npm test && npm run build && node scripts/verify-related-notes.mjs && node scripts/verify-case-study.mjs && node scripts/verify-skills-in-practice.mjs && node scripts/verify-note-headings.mjs && node scripts/verify-project-explorer.mjs && node scripts/verify-reading-time.mjs && node scripts/verify-note-previews.mjs && node scripts/verify-note-categories.mjs && node scripts/verify-featured-work.mjs && node scripts/verify-site-search.mjs && node scripts/verify-note-code-copy.mjs && node scripts/verify-note-reading-progress.mjs && node scripts/verify-note-share.mjs && node scripts/verify-reading-list.mjs && node scripts/verify-footer.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0",
