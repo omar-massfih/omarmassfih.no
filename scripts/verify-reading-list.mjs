@@ -27,7 +27,8 @@ if (!fs.existsSync(cssPath)) {
   errors.push("_site/style.css was not emitted.");
 } else {
   const css = fs.readFileSync(cssPath, "utf8");
-  if (!/\.reading-list-shell\s*\{[^}]*right:\s*calc\(var\(--chat-offset-x\)\s*\+\s*var\(--chat-launcher-size\)\s*\+\s*var\(--space-3\)\)\s*;[^}]*bottom:\s*var\(--chat-offset-y\)\s*;/s.test(css) ||
+  if (!/\.reading-list-shell\s*\{[^}]*right:\s*calc\(var\(--chat-offset-x\)\s*\+\s*var\(--chat-launcher-size\)\s*\+\s*var\(--space-2\)\)\s*;[^}]*bottom:\s*var\(--chat-offset-y\)\s*;/s.test(css) ||
+      !/\.reading-list-trigger\s*\{[^}]*min-height:\s*var\(--chat-launcher-size\)\s*;[^}]*border-radius:\s*var\(--radius-pill\)\s*;/s.test(css) ||
       !/\.reading-list-panel\s*\{[^}]*bottom:\s*calc\(100%\s*\+\s*var\(--space-2\)\)\s*;/s.test(css)) {
     errors.push("Reading-list trigger must sit to the left of the chat launcher.");
   }

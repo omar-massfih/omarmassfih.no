@@ -1692,9 +1692,9 @@ pre code {
   display: inline-flex;
   align-items: center;
   z-index: 20;
-  right: calc(var(--chat-offset-x) + var(--chat-launcher-size) + var(--space-3));
+  right: calc(var(--chat-offset-x) + var(--chat-launcher-size) + var(--space-2));
   bottom: var(--chat-offset-y);
-  max-width: min(24rem, calc(100vw - var(--chat-launcher-size) - var(--chat-offset-x) - var(--space-5)));
+  max-width: min(24rem, calc(100vw - var(--chat-launcher-size) - var(--chat-offset-x) - var(--space-4)));
 }
 
 .reading-list-shell [hidden] {
@@ -1702,7 +1702,8 @@ pre code {
 }
 
 .reading-list-trigger {
-  min-height: 2rem;
+  min-height: var(--chat-launcher-size);
+  padding-inline: var(--space-4);
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-md);
 }
