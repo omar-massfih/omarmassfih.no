@@ -44,10 +44,39 @@ const setup = () => {
 
     <section class="notes-list">
       <nav class="flex-container section-head notes-head">Kubernetes</nav>
-      <a href="/notes/alpha/" class="list-row" data-category="Kubernetes">Alpha Clusters</a>
-      <a href="/notes/gamma/" class="list-row" data-category="Kubernetes">Gamma Storage</a>
+      <a href="/notes/alpha/" class="list-row" data-category="Kubernetes">
+        <span class="list-row-main">
+          <span class="list-row-title">Alpha Clusters</span>
+          <span class="list-row-meta">2025-03-01 · 4 min read</span>
+        </span>
+        <p class="note-preview-description">Managing reliable control planes</p>
+        <ul class="tag-list note-preview-tags" aria-label="Tags">
+          <li class="tag">cluster-api</li>
+          <li class="tag">platform</li>
+        </ul>
+      </a>
+      <a href="/notes/gamma/" class="list-row" data-category="Kubernetes">
+        <span class="list-row-main">
+          <span class="list-row-title">Gamma Storage</span>
+          <span class="list-row-meta">2025-01-01 · 3 min read</span>
+        </span>
+        <p class="note-preview-description">Persistent volume operations</p>
+        <ul class="tag-list note-preview-tags" aria-label="Tags">
+          <li class="tag">storage</li>
+        </ul>
+      </a>
       <nav class="flex-container section-head notes-head">OpenShift</nav>
-      <a href="/notes/beta/" class="list-row" data-category="OpenShift">Beta Builds</a>
+      <a href="/notes/beta/" class="list-row" data-category="OpenShift">
+        <span class="list-row-main">
+          <span class="list-row-title">Beta Builds</span>
+          <span class="list-row-meta">2025-02-01 · 5 min read</span>
+        </span>
+        <p class="note-preview-description">Release pipelines for applications</p>
+        <ul class="tag-list note-preview-tags" aria-label="Tags">
+          <li class="tag">ci-cd</li>
+          <li class="tag">builds</li>
+        </ul>
+      </a>
       <p class="notes-empty" hidden>No notes match those filters.</p>
     </section>
 
@@ -85,11 +114,13 @@ test("filters by title", () => {
 });
 
 test("filters by description", () => {
-  const { visibleRows, search } = setup();
+  const { document, visibleRows, search } = setup();
 
   search("release pipelines");
 
   assert.deepEqual(visibleRows(), ["/notes/beta/"]);
+  assert.equal(document.querySelector('[href="/notes/beta/"] .note-preview-description').textContent,
+    "Release pipelines for applications");
 });
 
 test("filters by category metadata", () => {
@@ -101,11 +132,16 @@ test("filters by category metadata", () => {
 });
 
 test("filters by tags and de-hyphenated tags", () => {
-  const { visibleRows, search } = setup();
+  const { document, visibleRows, search } = setup();
 
   search("cluster api");
 
   assert.deepEqual(visibleRows(), ["/notes/alpha/"]);
+  assert.deepEqual(
+    Array.from(document.querySelectorAll('[href="/notes/alpha/"] .note-preview-tags .tag'),
+      (tag) => tag.textContent.trim()),
+    ["cluster-api", "platform"]
+  );
 });
 
 test("combines category and search filters", () => {
@@ -116,10 +152,13 @@ test("combines category and search filters", () => {
 
   assert.deepEqual(visibleRows(), []);
   assert.equal(document.querySelector(".notes-empty").hidden, false);
+  assert.equal(document.querySelectorAll(".notes-head:not([hidden])").length, 0);
 
   search("control planes");
   assert.deepEqual(visibleRows(), ["/notes/alpha/"]);
   assert.equal(document.querySelector(".notes-empty").hidden, true);
+  assert.equal(document.querySelector('[href="/notes/alpha/"] .note-preview-description').hidden, false);
+  assert.equal(document.querySelectorAll(".notes-head:not([hidden])").length, 1);
 });
 
 test("All control is pressed only when no filters are active", () => {
@@ -185,4 +224,5 @@ test("empty state is shown for no matches and hidden after clear", () => {
   document.querySelector("[data-clear]").click();
   assert.equal(document.querySelector(".notes-search-input").value, "");
   assert.equal(document.querySelector(".notes-empty").hidden, true);
+  assert.equal(document.querySelectorAll(".list-row:not([hidden])").length, notes.length);
 });

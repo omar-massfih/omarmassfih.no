@@ -38,6 +38,16 @@ date: git Last Modified
           <span class="list-row-title">{{ note.list_title or note.title }}</span>
           <span class="list-row-meta">{% if note.date_text %}{{ note.date_text }}{% endif %}{% if note.date_text and note.reading_time_text %} · {% endif %}{% if note.reading_time_text %}{{ note.reading_time_text }}{% endif %}</span>
         </span>
+{%- if note.description %}
+        <p class="note-preview-description">{{ note.description | escape }}</p>
+{%- endif %}
+{%- if note.tags.length %}
+        <ul class="tag-list note-preview-tags" aria-label="Tags">
+{%- for tag in note.tags %}
+          <li class="tag">{{ tag | escape }}</li>
+{%- endfor %}
+        </ul>
+{%- endif %}
       </a>
 {%- endfor %}
 {%- endfor %}
