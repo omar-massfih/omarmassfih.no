@@ -2,9 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { JSDOM } from "jsdom";
-import buildFeaturedWork, {
-  ENGINEERING_CASE_STUDY_URL,
-} from "../lib/featuredWork.js";
 import loadBackendNotes from "../lib/notesLoader.js";
 
 const errors = [];
@@ -16,7 +13,7 @@ function normalizedText(element) {
 }
 
 if (!fs.existsSync(outputPath)) {
-  console.error("Featured-work verification failed:\n- Missing _site/index.html.");
+  console.error("Homepage work verification failed:\n- Missing _site/index.html.");
   process.exit(1);
 }
 
@@ -27,180 +24,74 @@ try {
   errors.push(`Could not load normalized backend note data: ${error.message}`);
 }
 
-const expected = buildFeaturedWork(projects, notes);
 const document = new JSDOM(fs.readFileSync(outputPath, "utf8")).window.document;
-const sections = [...document.querySelectorAll("section.featured-work")];
+const sections = [...document.querySelectorAll("main > article")];
+const [projectSection, noteSection] = sections;
+const publishedProjects = projects.filter(({ draft }) => !draft).slice(0, 2);
+const latestNotes = notes.slice(0, 2);
 
-if (sections.length !== 1) {
-  errors.push(`Expected exactly one Featured work section; found ${sections.length}.`);
+if (sections.length < 2) errors.push("Expected compact project and note sections on the homepage.");
+if (normalizedText(projectSection?.querySelector("h2")) !== "Latest projects") {
+  errors.push("Homepage is missing the Latest projects heading.");
+}
+if (normalizedText(noteSection?.querySelector("h2")) !== "Latest notes") {
+  errors.push("Homepage is missing the Latest notes heading.");
 }
 
-const section = sections[0];
-if (section) {
-  const sectionHeading = section.querySelector(":scope > .section-head > h2");
-  if (normalizedText(sectionHeading) !== "Featured work") {
-    errors.push("Featured work is missing its level-two section heading.");
-  }
-  if (
-    section.getAttribute("aria-labelledby") !== sectionHeading?.id ||
-    !sectionHeading?.id
-  ) {
-    errors.push("Featured work is not labelled by its visible heading.");
-  }
-
-  const groupHeadings = [...section.querySelectorAll(".featured-work-group > .featured-work-group-head > h3")]
-    .map(normalizedText);
-  if (JSON.stringify(groupHeadings) !== JSON.stringify(["Featured projects", "Latest notes"])) {
-    errors.push("Featured work does not have the expected level-three subsection headings.");
-  }
-  if (section.querySelectorAll(".featured-card > h4").length !==
-      section.querySelectorAll(".featured-card").length) {
-    errors.push("Every featured card must have a level-four heading.");
-  }
+const projectRows = [...(projectSection?.querySelectorAll(".list-row") || [])];
+if (projectRows.length !== publishedProjects.length) {
+  errors.push(`Expected ${publishedProjects.length} project rows; found ${projectRows.length}.`);
 }
-
-const projectCards = [...(document
-  .querySelector("#featured-projects-title")
-  ?.closest(".featured-work-group")
-  ?.querySelectorAll(".featured-work-cards .featured-card") || [])];
-if (projectCards.length !== expected.projects.length) {
-  errors.push(`Expected ${expected.projects.length} featured projects; found ${projectCards.length}.`);
-}
-
-for (const [index, project] of expected.projects.entries()) {
-  const card = projectCards[index];
-  if (!card) continue;
-
-  const link = card.querySelector("h4 > a");
-  if (link?.getAttribute("href") !== project.url) {
+for (const [index, project] of publishedProjects.entries()) {
+  const row = projectRows[index];
+  if (!row) continue;
+  if (row.getAttribute("href") !== project.url) {
     errors.push(`Project "${project.name}" does not use its canonical URL.`);
   }
-  if (normalizedText(link) !== project.name) {
-    errors.push(`Project card ${index + 1} does not render the expected name.`);
+  if (normalizedText(row.querySelector(".list-row-title")) !== project.name) {
+    errors.push(`Project row ${index + 1} does not render the expected name.`);
   }
-  if (normalizedText(card.querySelector(".featured-card-kicker")) !== project.source) {
+  if (normalizedText(row.querySelector(".list-row-meta")) !== project.source) {
     errors.push(`Project "${project.name}" does not render its source.`);
   }
-  const summary = [...card.children].find(
-    (element) => element.tagName === "P" && !element.classList.contains("featured-card-kicker")
-  );
-  if (normalizedText(summary) !== project.summary) {
-    errors.push(`Project "${project.name}" does not render its summary.`);
-  }
-
-  const tagList = card.querySelector(".tag-list");
-  const tags = [...card.querySelectorAll(".tag-list > .tag")].map(normalizedText);
-  if (project.tags?.length) {
-    if (
-      tagList?.getAttribute("aria-label") !== "Technologies" ||
-      JSON.stringify(tags) !== JSON.stringify(project.tags)
-    ) {
-      errors.push(`Project "${project.name}" has incorrect or unlabelled technologies.`);
-    }
-  } else if (tagList) {
-    errors.push(`Project "${project.name}" rendered an empty technology list.`);
-  }
 }
 
-const renderedProjectUrls = projectCards
-  .map((card) => card.querySelector("h4 > a")?.getAttribute("href"))
-  .filter(Boolean);
-if (new Set(renderedProjectUrls).size !== renderedProjectUrls.length) {
-  errors.push("Featured projects contain a duplicate URL.");
+const noteRows = [...(noteSection?.querySelectorAll(".list-row") || [])];
+if (noteRows.length !== latestNotes.length) {
+  errors.push(`Expected ${latestNotes.length} note rows; found ${noteRows.length}.`);
 }
-for (const project of projects.filter(({ draft }) => draft)) {
-  if (renderedProjectUrls.includes(project.url)) {
-    errors.push(`Draft project "${project.name}" was featured.`);
-  }
-}
-
-const noteCards = [...(document
-  .querySelector("#featured-notes-title")
-  ?.closest(".featured-work-group")
-  ?.querySelectorAll(".featured-work-cards .featured-card") || [])];
-if (noteCards.length !== expected.notes.length) {
-  errors.push(`Expected ${expected.notes.length} featured notes; found ${noteCards.length}.`);
-}
-
-for (const [index, note] of expected.notes.entries()) {
-  const card = noteCards[index];
-  if (!card) continue;
-
-  const link = card.querySelector("h4 > a");
+for (const [index, note] of latestNotes.entries()) {
+  const row = noteRows[index];
+  if (!row) continue;
   const expectedTitle = note.list_title || note.title;
-  if (link?.getAttribute("href") !== note.url || normalizedText(link) !== expectedTitle) {
-    errors.push(`Note card ${index + 1} does not render "${expectedTitle}" at its canonical URL.`);
+  if (row.getAttribute("href") !== note.url) {
+    errors.push(`Note "${expectedTitle}" does not use its canonical URL.`);
   }
-
-  const description = String(note.description || "").trim();
-  const renderedDescription = card.querySelector(".featured-note-description");
-  if (description) {
-    if (normalizedText(renderedDescription) !== description.replace(/\s+/g, " ")) {
-      errors.push(`${note.url}: Description does not match normalized note data.`);
-    }
-  } else if (renderedDescription) {
-    errors.push(`${note.url}: Empty description rendered markup.`);
+  if (normalizedText(row.querySelector(".list-row-title")) !== expectedTitle) {
+    errors.push(`Note row ${index + 1} does not render "${expectedTitle}".`);
   }
-
-  const time = card.querySelector(".featured-note-meta time");
-  if (
-    time?.getAttribute("datetime") !== note.date_iso ||
-    normalizedText(time) !== (note.date_text || "")
-  ) {
-    errors.push(`${note.url}: Date is not rendered with matching time metadata.`);
-  }
-  const readingTimeText = String(note.reading_time_text || "").trim();
-  const readingTimeLabels = [...card.querySelectorAll(
-    ".featured-note-meta > span:not([aria-hidden])"
-  )];
-  if (readingTimeText) {
-    if (
-      readingTimeLabels.length !== 1 ||
-      normalizedText(readingTimeLabels[0]) !== readingTimeText
-    ) {
-      errors.push(`${note.url}: Reading-time label does not match normalized note data.`);
-    }
-  } else if (readingTimeLabels.length) {
-    errors.push(`${note.url}: Empty reading time rendered markup.`);
-  }
-
-  const tagList = card.querySelector(".tag-list");
-  const tags = [...card.querySelectorAll(".tag-list > .tag")].map(normalizedText);
-  if (note.tags?.length) {
-    if (
-      tagList?.getAttribute("aria-label") !== "Tags" ||
-      JSON.stringify(tags) !== JSON.stringify(note.tags)
-    ) {
-      errors.push(`${note.url}: Tags are incorrect or lack an accessible label.`);
-    }
-  } else if (tagList) {
-    errors.push(`${note.url}: Untagged note rendered an empty tag list.`);
+  if (normalizedText(row.querySelector(".list-row-meta")) !== (note.date_text || "")) {
+    errors.push(`${note.url}: Date label does not match normalized note data.`);
   }
 }
 
-const requiredLinks = [
-  [ENGINEERING_CASE_STUDY_URL, "Read the engineering case study"],
-  ["/projects.html", "View all projects"],
-  ["/notes.html", "View all notes"],
-];
-for (const [url, label] of requiredLinks) {
-  const link = [...(section?.querySelectorAll(`a[href="${url}"]`) || [])]
+for (const [url, label] of [
+  ["/projects.html", "Show more"],
+  ["/notes.html", "Show more"],
+]) {
+  const link = [...document.querySelectorAll(`a[href="${url}"]`)]
     .find((candidate) => normalizedText(candidate) === label);
   if (!link) errors.push(`Missing "${label}" link to ${url}.`);
 }
 
-for (const card of section?.querySelectorAll(".featured-card") || []) {
-  if (card.querySelector("a a")) errors.push("A featured card contains nested anchors.");
-  for (const list of card.querySelectorAll(".tag-list")) {
-    if (!list.children.length) errors.push("A featured card contains an empty tag list.");
-    if (!list.getAttribute("aria-label")) errors.push("A tag list lacks an accessible label.");
-  }
+for (const row of document.querySelectorAll("main > article .list-row")) {
+  if (row.querySelector("a")) errors.push("A homepage list row contains nested anchors.");
 }
 
 if (errors.length) {
-  console.error("Featured-work verification failed:");
+  console.error("Homepage work verification failed:");
   for (const error of errors) console.error(`- ${error}`);
   process.exit(1);
 }
 
-console.log("Verified deterministic featured projects and notes, metadata, links, and accessibility.");
+console.log("Verified compact homepage project and note rows, metadata, and links.");

@@ -23,32 +23,22 @@ const expect = (condition, message) => {
 };
 
 expect(document.querySelectorAll("h1").length === 1, "Expected exactly one h1.");
-expect(document.querySelector("main.about-main > article.about-profile"), "Missing About profile container.");
-expect(
-  document.querySelector(".about-hero > .about-portrait + .about-hero-content"),
-  "Hero must keep portrait and content as ordered siblings."
-);
+expect(document.querySelector("main > section.about-intro"), "Missing simple About intro section.");
+expect(document.querySelector(".about-intro-body .about-copy"), "Missing About copy container.");
 
-const portrait = document.querySelector('.about-portrait img[src="/bilder/1690240717543.jpeg"]');
+const portrait = document.querySelector('.portrait img[src="/bilder/1690240717543.jpeg"]');
 expect(portrait, "Missing expected portrait.");
 if (portrait) {
   expect(portrait.getAttribute("alt")?.trim(), "Portrait needs non-empty alternative text.");
   expect(portrait.getAttribute("width") === "800" && portrait.getAttribute("height") === "800", "Portrait dimensions changed.");
 }
 
-expect(document.querySelectorAll(".about-career-entry").length === 3, "Expected three career entries.");
-expect(document.querySelectorAll(".about-highlight-card").length === 4, "Expected four platform highlights.");
-expect(document.querySelector("ol.about-career-list"), "Missing ordered career list hook.");
-expect(document.querySelector("div.about-highlight-grid"), "Missing platform highlight grid hook.");
-expect(document.querySelector("nav.about-explore-grid"), "Missing exploration grid hook.");
-
-const careerText = document.querySelector(".about-career-list")?.textContent || "";
-for (const detail of ["BAMA", "IBM", "University of Oslo"]) {
-  expect(new RegExp(detail, "i").test(careerText), `Missing career detail: ${detail}.`);
+const biographyText = (document.querySelector(".about-copy")?.textContent || "").replace(/\s+/g, " ");
+for (const detail of ["BAMA", "IBM", "University of Oslo", "Data Platform Engineer"]) {
+  expect(new RegExp(detail, "i").test(biographyText), `Missing biography detail: ${detail}.`);
 }
-const platformText = document.querySelector(".about-highlight-grid")?.textContent || "";
 for (const detail of ["Python", "dlt", "dbt", "Azure", "Snowflake", "LangGraph", "LangChain", "Terraform", "CI/CD", "Kubernetes", "OpenShift", "10 Azure", "6 Red Hat"]) {
-  expect(platformText.includes(detail), `Missing platform detail: ${detail}.`);
+  expect(biographyText.includes(detail), `Missing platform detail: ${detail}.`);
 }
 
 const ids = [...document.querySelectorAll("[id]")].map((node) => node.id);
@@ -62,13 +52,12 @@ for (const nav of document.querySelectorAll("nav")) {
 }
 
 for (const href of internalPaths) {
-  expect(document.querySelector(`.about-primary-paths a[href="${href}"]`), `Missing primary pathway: ${href}.`);
-  expect(document.querySelector(`.about-explore-grid a[href="${href}"]`), `Missing Explore pathway: ${href}.`);
+  expect(document.querySelector(`.about-copy a[href="${href}"]`), `Missing internal About link: ${href}.`);
   const destination = `_site${href}`;
   expect(fs.existsSync(destination), `Internal destination does not exist: ${destination}.`);
 }
 for (const href of contacts) {
-  const link = document.querySelector(`.about-contact-list a[href="${href}"]`);
+  const link = document.querySelector(`.contact a[href="${href}"]`);
   expect(link, `Missing contact destination: ${href}.`);
   expect(link?.textContent.trim(), `Contact link lacks an accessible name: ${href}.`);
 }
@@ -85,4 +74,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log("Verified generated About semantics, biography coverage, responsive hooks, links, and static output.");
+console.log("Verified generated About biography, portrait, links, contacts, and static output.");

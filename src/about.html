@@ -5,135 +5,57 @@ layout: layouts/base.njk
 permalink: /about.html
 date: git Last Modified
 ---
-  <main id="main" class="about-main">
-    <article class="about-profile">
-      <header class="about-hero">
-        <figure class="about-portrait">
-          <img src="/bilder/1690240717543.jpeg" alt="Portrait of Omar Massfih" width="800" height="800"
-            decoding="async">
-        </figure>
-
-        <div class="about-hero-content">
-          <p class="about-eyebrow">Data Platform Engineer · Oslo</p>
-          <h1>Hi, I’m Omar Massfih.</h1>
-          <p class="about-lede">
-            I build and operate data platforms that give teams a dependable
-            foundation for pipelines, infrastructure and AI systems.
+  <main id="main">
+    <section class="about-intro">
+      <h1 class="center">About me</h1>
+      <div class="about-intro-body">
+        <div class="about-copy">
+          <figure class="portrait">
+            <img src="/bilder/1690240717543.jpeg" alt="Portrait of Omar Massfih" width="800" height="800"
+              loading="lazy" decoding="async">
+          </figure>
+          <p>
+            Hi, my name is Omar Massfih and I work as a Data Platform Engineer
+            at BAMA, where I build and operate data platforms that give teams a
+            dependable foundation for pipelines, infrastructure and AI systems.
+            Day to day that means ingestion and transformation pipelines with
+            Python, dlt and dbt across Azure and Snowflake, agentic AI solutions
+            with LangGraph and LangChain, and infrastructure that is automated
+            end to end with Terraform and CI/CD.
           </p>
           <p>
-            At BAMA, I work across Azure and Snowflake—from ingestion and
-            transformation to infrastructure automated end to end.
+            I hold a master's degree in informatics from the University of
+            Oslo, and before BAMA I spent two years at IBM building backend
+            services, APIs and agent-based AI, and administering Kubernetes and
+            OpenShift clusters, from initial setup to the services running on
+            them. That mix of systems, data and full-stack work is what I keep
+            coming back to.
           </p>
-          <nav class="about-primary-paths" aria-label="Primary profile links">
-            <a class="about-action about-action--primary" href="/projects.html">View projects</a>
-            <a class="about-action" href="/notes.html">Read notes</a>
-            <a class="about-action" href="/cv.html">View CV</a>
-          </nav>
-        </div>
-      </header>
-
-      <section class="about-section" aria-labelledby="career-heading">
-        <div class="about-section-heading">
-          <p class="about-section-kicker">Career</p>
-          <h2 id="career-heading">Systems, data and platforms</h2>
-        </div>
-        <ol class="about-career-list">
-          <li class="about-career-entry">
-            <article class="about-card">
-              <p class="about-card-kicker">BAMA · Current</p>
-              <h3>Data Platform Engineer</h3>
-              <p>
-                Building and operating the group’s data platform on Azure and
-                Snowflake, including ingestion, transformation and automated
-                infrastructure.
-              </p>
-            </article>
-          </li>
-          <li class="about-career-entry">
-            <article class="about-card">
-              <p class="about-card-kicker">IBM · Previous</p>
-              <h3>Backend, AI and platform work</h3>
-              <p>
-                Spent two years building backend services, APIs and agent-based
-                AI, while administering Kubernetes and OpenShift clusters from
-                initial setup to the services running on them.
-              </p>
-            </article>
-          </li>
-          <li class="about-career-entry">
-            <article class="about-card">
-              <p class="about-card-kicker">University of Oslo</p>
-              <h3>Master’s degree in informatics</h3>
-              <p>
-                A foundation for the mix of systems, data and full-stack work I
-                keep coming back to.
-              </p>
-            </article>
-          </li>
-        </ol>
-      </section>
-
-      <section class="about-section" aria-labelledby="platform-heading">
-        <div class="about-section-heading">
-          <p class="about-section-kicker">Platform engineering</p>
-          <h2 id="platform-heading">What I work across</h2>
-        </div>
-        <div class="about-highlight-grid">
-          <article class="about-card about-highlight-card">
-            <h3>Data pipelines</h3>
-            <p>Ingestion and transformation with Python, dlt and dbt across Azure and Snowflake.</p>
-          </article>
-          <article class="about-card about-highlight-card">
-            <h3>AI systems</h3>
-            <p>Agentic AI solutions built with LangGraph and LangChain.</p>
-          </article>
-          <article class="about-card about-highlight-card">
-            <h3>Platform automation</h3>
-            <p>Terraform and CI/CD for repeatable infrastructure, plus Kubernetes and OpenShift.</p>
-          </article>
-          <article class="about-card about-highlight-card">
-            <h3>Cloud depth</h3>
-            <p>10 Azure and 6 Red Hat certifications, earned by going deeper into the platform layer.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="about-section about-connect" aria-labelledby="explore-heading">
-        <div class="about-connect-copy">
-          <p class="about-section-kicker">Keep exploring</p>
-          <h2 id="explore-heading">Projects, notes and experience</h2>
           <p>
-            See the things I have built, browse what I am learning, or get the
-            concise career overview.
+            What I enjoy most is the platform side of the work: the pipelines
+            and infrastructure other teams build on without having to think
+            about it. The 10 Azure and 6 Red Hat certifications came mostly from
+            wanting to understand that layer properly.
+          </p>
+          <p>
+            On this website I share my
+            <a href="/projects.html" class="linkbody">projects</a>,
+            <a href="/notes.html" class="linkbody">notes</a> and
+            <a href="/cv.html" class="linkbody">CV</a>. Have a look around,
+            and get in touch if you would like to know more.
           </p>
         </div>
-        <nav class="about-explore-grid" aria-label="Explore Omar’s work">
-          <a class="about-pathway" href="/projects.html">
-            <span class="about-pathway-title">Projects</span>
-            <span>Selected platform, cloud and software work.</span>
-          </a>
-          <a class="about-pathway" href="/notes.html">
-            <span class="about-pathway-title">Notes</span>
-            <span>Practical writing on technology and engineering.</span>
-          </a>
-          <a class="about-pathway" href="/cv.html">
-            <span class="about-pathway-title">CV</span>
-            <span>Experience, skills, education and certifications.</span>
-          </a>
-        </nav>
-      </section>
+      </div>
+    </section>
 
-      <section class="about-section about-contact" aria-labelledby="contact-heading">
-        <div>
-          <p class="about-section-kicker">Contact</p>
-          <h2 id="contact-heading">Let’s connect</h2>
-          <p>Get in touch if you would like to know more or work together.</p>
-        </div>
-        <ul class="about-contact-list">
-          <li><a class="about-contact-link" href="mailto:me@omarmassfih.no">Email Omar</a></li>
-          <li><a class="about-contact-link" href="https://www.linkedin.com/in/omarmassfih">Omar on LinkedIn</a></li>
-          <li><a class="about-contact-link" href="https://github.com/omar-massfih">Omar on GitHub</a></li>
-        </ul>
-      </section>
-    </article>
+    <section class="contact">
+      <h2 class="section-head">Contact</h2>
+      <p>
+        Feel free to reach out by
+        <a href="mailto:me@omarmassfih.no" class="linkbody">email</a>.
+        I am also available on
+        <a href="https://www.linkedin.com/in/omarmassfih" class="linkbody">LinkedIn</a> and
+        <a href="https://github.com/omar-massfih" class="linkbody">GitHub</a>.
+      </p>
+    </section>
   </main>

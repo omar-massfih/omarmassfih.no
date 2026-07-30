@@ -43,24 +43,14 @@ const fixtures = [
   },
 ];
 
-test("renders one featured case study before ordered responsive standard cards", () => {
+test("renders ordered responsive project cards", () => {
   const document = new JSDOM(render(fixtures)).window.document;
-  const results = document.querySelector("[data-project-results].project-results");
-  const featuredRegion = results.querySelector(":scope > .featured-project-region");
-  const standardRegion = results.querySelector(":scope > .standard-projects");
-  const featured = featuredRegion.querySelector(".project-box--featured");
-  const standardCards = [...standardRegion.querySelectorAll(".card-grid > .project-box--standard")];
+  const results = document.querySelector("[data-project-results].project-results.card-grid");
+  const cards = [...results.querySelectorAll(":scope > .project-box")];
 
-  assert.equal(document.querySelectorAll(".project-box--featured").length, 1);
-  assert.equal(
-    featuredRegion.compareDocumentPosition(standardRegion) &
-      document.defaultView.Node.DOCUMENT_POSITION_FOLLOWING,
-    document.defaultView.Node.DOCUMENT_POSITION_FOLLOWING
-  );
-  assert.equal(featured.querySelector("h2").textContent.trim(), "Featured <study>");
   assert.deepEqual(
-    standardCards.map((card) => card.querySelector("h3").textContent.trim().replace(/\s+/g, " ")),
-    ["First <build>", "Last project"]
+    cards.map((card) => card.querySelector("h2").textContent.trim().replace(/\s+/g, " ")),
+    fixtures.map(({ name }) => name)
   );
   assert.equal(document.querySelectorAll(".project-box").length, fixtures.length);
   assert.equal(document.querySelector("script").getAttribute("src"),
@@ -70,9 +60,8 @@ test("renders one featured case study before ordered responsive standard cards",
 test("represents complete escaped project content and filter metadata", () => {
   const document = new JSDOM(render(fixtures)).window.document;
   const cards = [...document.querySelectorAll("[data-project-results] .project-box")];
-  const renderedOrder = [fixtures[1], fixtures[0], fixtures[2]];
 
-  for (const [index, project] of renderedOrder.entries()) {
+  for (const [index, project] of fixtures.entries()) {
     const card = cards[index];
     assert.equal(card.dataset.source, project.source);
     assert.deepEqual(JSON.parse(card.dataset.technologies), project.tags);
@@ -89,24 +78,18 @@ test("represents complete escaped project content and filter metadata", () => {
 
   assert.equal(document.querySelector("script:not([src])"), null);
   assert.equal(document.querySelector("strong"), null);
-  assert.equal(document.querySelector(".project-summary").textContent, "Featured <summary>");
-  assert.equal(document.querySelector(".tag").textContent, "Eleventy");
+  assert.equal(document.querySelector(".project-summary").textContent, "A clear <summary>");
+  assert.equal(document.querySelector(".tag").textContent, "Node <JS>");
 });
 
-test("uses semantic section headings and labeled technology lists", () => {
+test("uses semantic heading and labeled technology lists", () => {
   const document = new JSDOM(render(fixtures)).window.document;
 
-  assert.equal(document.querySelector(".project-intro > h1").textContent, "Projects");
-  assert.equal(document.querySelector(".featured-project-region h2").textContent.trim(),
-    "Featured <study>");
-  assert.equal(document.querySelector(".standard-projects > header > h2").textContent,
-    "More projects");
-  assert.equal(document.querySelectorAll(".project-box--standard h3").length, 2);
+  assert.equal(document.querySelector("h1").textContent, "Projects");
+  assert.equal(document.querySelectorAll(".project-box h2").length, fixtures.length);
 
   for (const list of document.querySelectorAll(".project-box .tag-list")) {
-    const labelId = list.getAttribute("aria-labelledby");
-    assert.ok(labelId);
-    assert.equal(document.getElementById(labelId).textContent, "Technologies");
+    assert.equal(list.getAttribute("aria-label"), "Technologies");
   }
 
   assert.equal(document.querySelector(".project-filter").hidden, true);
@@ -114,13 +97,13 @@ test("uses semantic section headings and labeled technology lists", () => {
   assert.equal(document.querySelectorAll(".project-box[hidden]").length, 0);
 });
 
-test("omits the featured region safely when no case study exists", () => {
+test("renders the same simple grid when no case study exists", () => {
   const document = new JSDOM(render([fixtures[0], fixtures[2]])).window.document;
 
   assert.equal(document.querySelector(".featured-project-region"), null);
   assert.deepEqual(
     [...document.querySelectorAll(".card-grid .project-box")].map(
-      (card) => card.querySelector("h3").textContent.trim().replace(/\s+/g, " ")
+      (card) => card.querySelector("h2").textContent.trim().replace(/\s+/g, " ")
     ),
     ["First <build>", "Last project"]
   );

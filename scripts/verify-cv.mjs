@@ -21,14 +21,14 @@ const expectOrder = (label, actual, expected) => {
   }
 };
 
-expectOrder("Experience companies", texts(".cv-timeline-entry .cv-kicker"), cv.experience.map((role) => role.company));
-expectOrder("Experience titles", texts(".cv-timeline-entry h3"), cv.experience.map((role) => role.title));
-expectOrder("Experience metadata", texts(".cv-timeline-entry .cv-meta"), cv.experience.map((role) => role.meta));
-expectOrder("Skill groups", texts(".cv-skill-panel h3"), cv.skills.map((group) => group.group));
+expectOrder("Experience companies", texts(".cv-role .cv-kicker"), cv.experience.map((role) => role.company));
+expectOrder("Experience titles", texts(".cv-role h3"), cv.experience.map((role) => role.title));
+expectOrder("Experience metadata", texts(".cv-role .cv-meta"), cv.experience.map((role) => role.meta));
+expectOrder("Skill groups", texts(".cv-skill-panel .cv-kicker"), cv.skills.map((group) => group.group));
 expectOrder("Education schools", texts(".cv-education-card .cv-kicker"), cv.education.map((entry) => entry.school));
 expectOrder("Education degrees", texts(".cv-education-card h3"), cv.education.map((entry) => entry.degree));
 expectOrder("Education metadata", texts(".cv-education-card .cv-meta"), cv.education.map((entry) => entry.meta));
-expectOrder("Certification issuers", texts(".cv-credential-card h3"), cv.certifications.map((group) => group.issuer));
+expectOrder("Certification issuers", texts(".cv-credential-card .cv-kicker"), cv.certifications.map((group) => group.issuer));
 
 const roles = [...document.querySelectorAll(".cv-role")];
 roles.forEach((role, index) => {
@@ -57,13 +57,13 @@ credentialCards.forEach((card, index) => {
 
 if (document.querySelectorAll("h1").length !== 1) errors.push("Expected exactly one h1.");
 for (const heading of ["Experience", "Skills", "Education", "Certifications"]) {
-  if (!texts(".cv-group > h2, .cv-section-head > h2").includes(heading)) {
+  if (!texts(".cv-group > h2, .cv-group .section-head > h2").includes(heading)) {
     errors.push(`Missing section heading "${heading}".`);
   }
 }
-if (!document.querySelector("ol.cv-timeline")) errors.push("Missing ordered experience timeline.");
-if (document.querySelectorAll(".cv-skill-panel").length !== cv.skills.length) errors.push("Missing grouped skill panels.");
-if (document.querySelectorAll(".cv-credential-card").length !== cv.certifications.length) errors.push("Missing credential cards.");
+if (document.querySelectorAll(".cv-role").length !== cv.experience.length) errors.push("Missing experience rows.");
+if (document.querySelectorAll(".cv-skill-panel").length !== cv.skills.length) errors.push("Missing grouped skill rows.");
+if (document.querySelectorAll(".cv-credential-card").length !== cv.certifications.length) errors.push("Missing credential rows.");
 
 const skillsLink = document.querySelector('#skills a[href="/skills.html"]');
 if (!skillsLink) errors.push("Missing Skills in Practice link.");
@@ -86,4 +86,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log("Verified generated CV data coverage, order, structure, links, headings, and static print behavior.");
+console.log("Verified generated CV data coverage, order, links, headings, and static print behavior.");

@@ -16,43 +16,17 @@ if (!fs.existsSync(outputPath)) {
 
 const html = fs.readFileSync(outputPath, "utf8");
 const document = new JSDOM(html).window.document;
-const cards = [...document.querySelectorAll(".project-box")];
-const results = document.querySelector("[data-project-results].project-results");
-const featuredRegion = results?.querySelector(":scope > .featured-project-region");
-const featuredCard = featuredRegion?.querySelector(":scope > .project-box--featured");
-const standardRegion = results?.querySelector(":scope > .standard-projects");
-const grid = standardRegion?.querySelector(":scope > .card-grid");
-const standardCards = grid ? [...grid.querySelectorAll(":scope > .project-box--standard")] : [];
+const cards = [...document.querySelectorAll("[data-project-results] > .project-box")];
+const results = document.querySelector("[data-project-results].project-results.card-grid");
 
+if (!results) errors.push("Missing shared project results grid.");
 if (cards.length !== expected.projects.length) {
   errors.push(`Expected ${expected.projects.length} published cards; found ${cards.length}.`);
 }
 
-if (!results) errors.push("Missing shared project results container.");
-if (!standardRegion || !grid) errors.push("Missing standard projects section or responsive card grid.");
-if (expected.featuredProject) {
-  if (!featuredRegion || !featuredCard) errors.push("Missing featured case-study region.");
-  if (featuredCard && featuredCard.dataset.source !== "case study") {
-    errors.push("Featured project was not selected from case-study metadata.");
-  }
-}
-if (standardCards.length !== expected.standardProjects.length) {
-  errors.push(
-    `Expected ${expected.standardProjects.length} standard cards; found ${standardCards.length}.`
-  );
-}
-if (
-  featuredRegion &&
-  standardRegion &&
-  !(featuredRegion.compareDocumentPosition(standardRegion) &
-    document.defaultView.Node.DOCUMENT_POSITION_FOLLOWING)
-) {
-  errors.push("Featured case study does not appear before the standard project grid.");
-}
-
 const cardForProject = (project) =>
   cards.filter((card) => {
-    const heading = card.querySelector("h2, h3")?.textContent.trim().replace(/\s+/g, " ");
+    const heading = card.querySelector("h2")?.textContent.trim().replace(/\s+/g, " ");
     return heading === project.name;
   });
 
@@ -93,26 +67,18 @@ for (const project of expected.projects) {
     errors.push(`Project "${project.name}" does not render its complete technology list.`);
   }
   const tagList = card.querySelector(".tag-list");
-  const technologyLabel = tagList &&
-    document.getElementById(tagList.getAttribute("aria-labelledby"));
-  if (technologyLabel?.textContent.trim() !== "Technologies") {
+  if (tagList?.getAttribute("aria-label") !== "Technologies") {
     errors.push(`Project "${project.name}" is missing a semantic technology label.`);
   }
   if (card.hasAttribute("hidden")) errors.push(`Project "${project.name}" is initially hidden.`);
 }
 
-const standardNames = standardCards.map(
-  (card) => card.querySelector("h3")?.textContent.trim().replace(/\s+/g, " ")
+const renderedNames = cards.map(
+  (card) => card.querySelector("h2")?.textContent.trim().replace(/\s+/g, " ")
 );
-if (JSON.stringify(standardNames) !==
-    JSON.stringify(expected.standardProjects.map(({ name }) => name))) {
-  errors.push("Standard projects do not preserve source order.");
-}
-if (featuredCard?.querySelector("h2")?.textContent.trim() !== expected.featuredProject?.name) {
-  errors.push("Featured case study is missing its semantic project heading.");
-}
-if (standardRegion?.querySelector(":scope > header > h2")?.textContent.trim() !== "More projects") {
-  errors.push("Standard projects section is missing its semantic heading.");
+if (JSON.stringify(renderedNames) !==
+    JSON.stringify(expected.projects.map(({ name }) => name))) {
+  errors.push("Projects do not preserve source order.");
 }
 
 for (const draft of projects.filter(({ draft }) => draft)) {
@@ -160,13 +126,8 @@ if (!fs.existsSync(cssPath)) {
   errors.push("Missing built stylesheet.");
 } else {
   const css = fs.readFileSync(cssPath, "utf8");
-  for (const hook of [
-    ".project-box--featured",
-    ".project-box--standard",
-    ".project-results",
-    "@media (max-width: 600px)",
-  ]) {
-    if (!css.includes(hook)) errors.push(`Built stylesheet is missing responsive hook "${hook}".`);
+  for (const hook of [".project-box", ".card-grid"]) {
+    if (!css.includes(hook)) errors.push(`Built stylesheet is missing project hook "${hook}".`);
   }
 }
 
@@ -177,5 +138,5 @@ if (errors.length) {
 }
 
 console.log(
-  "Verified featured and standard project output, responsive hooks, accessibility, no-JS markup, facets, and filter asset."
+  "Verified simplified project output, accessibility, no-JS markup, facets, and filter asset."
 );

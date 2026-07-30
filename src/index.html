@@ -26,65 +26,34 @@ date: git Last Modified
       </nav>
     </section>
 
-{%- set featured = projects | featuredWork(backendNotes) %}
-    <section class="featured-work" aria-labelledby="featured-work-title">
-      <div class="flex-container section-head">
-        <h2 id="featured-work-title">Featured work</h2>
-      </div>
+    <article>
+      <nav class="flex-container section-head">
+        <h2>Latest projects</h2>
+        <a class="section-head-link linkbody" href="/projects.html">Show more</a>
+      </nav>
+{%- set publishedProjects = projects | rejectattr("draft") %}
+{%- for project in publishedProjects %}{% if loop.index <= 2 %}
+      <a href="{{ project.url | escape }}" class="list-row">
+        <span class="list-row-main">
+          <span class="list-row-title">{{ project.name | escape }}</span>
+          <span class="list-row-meta">{{ project.source | escape }}</span>
+        </span>
+      </a>
+{%- endif %}{% endfor %}
+    </article>
 
-      <div class="featured-work-columns">
-        <section class="featured-work-group" aria-labelledby="featured-projects-title">
-          <div class="featured-work-group-head">
-            <h3 id="featured-projects-title">Featured projects</h3>
-            <a class="linkbody" href="/projects.html">View all projects</a>
-          </div>
-          <div class="featured-work-cards">
-{%- for project in featured.projects %}
-            <article class="featured-card">
-              <p class="featured-card-kicker">{{ project.source | escape }}</p>
-              <h4><a href="{{ project.url | escape }}">{{ project.name | escape }}</a></h4>
-              <p>{{ project.summary | escape }}</p>
-{%- if project.tags.length %}
-              <ul class="tag-list" aria-label="Technologies">
-{%- for tag in project.tags %}
-                <li class="tag">{{ tag | escape }}</li>
-{%- endfor %}
-              </ul>
-{%- endif %}
-            </article>
-{%- endfor %}
-          </div>
-          <a class="featured-work-case-study linkbody" href="/projects/omarmassfih-no.html">Read the engineering case study</a>
-        </section>
-
-        <section class="featured-work-group" aria-labelledby="featured-notes-title">
-          <div class="featured-work-group-head">
-            <h3 id="featured-notes-title">Latest notes</h3>
-            <a class="linkbody" href="/notes.html">View all notes</a>
-          </div>
-          <div class="featured-work-cards">
-{%- for note in featured.notes %}
-            <article class="featured-card">
-              <h4><a href="{{ note.url | escape }}">{{ (note.list_title or note.title) | escape }}</a></h4>
-{%- if note.description %}
-              <p class="featured-note-description">{{ note.description | escape }}</p>
-{%- endif %}
-              <p class="featured-note-meta">
-{%- if note.date_iso %}<time datetime="{{ note.date_iso | escape }}">{{ note.date_text | escape }}</time>{% endif %}
-{%- if note.date_iso and note.reading_time_text %}<span aria-hidden="true"> · </span>{% endif %}
-{%- if note.reading_time_text %}<span>{{ note.reading_time_text | escape }}</span>{% endif %}
-              </p>
-{%- if note.tags.length %}
-              <ul class="tag-list" aria-label="Tags">
-{%- for tag in note.tags %}
-                <li class="tag">{{ tag | escape }}</li>
-{%- endfor %}
-              </ul>
-{%- endif %}
-            </article>
-{%- endfor %}
-          </div>
-        </section>
-      </div>
-    </section>
+    <article>
+      <nav class="flex-container section-head">
+        <h2>Latest notes</h2>
+        <a class="section-head-link linkbody" href="/notes.html">Show more</a>
+      </nav>
+{%- for note in backendNotes %}{% if loop.index <= 2 %}
+      <a href="{{ note.url | escape }}" class="list-row">
+        <span class="list-row-main">
+          <span class="list-row-title">{{ (note.list_title or note.title) | escape }}</span>
+          <span class="list-row-meta">{% if note.date_text %}{{ note.date_text | escape }}{% endif %}</span>
+        </span>
+      </a>
+{%- endif %}{% endfor %}
+    </article>
   </main>

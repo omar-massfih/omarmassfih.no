@@ -34,15 +34,15 @@ const textsWithin = (element, selector) =>
 test("renders ordered experience and every data-driven card in source order", () => {
   const document = render();
   assert.deepEqual(
-    [...document.querySelectorAll(".cv-timeline-entry .cv-kicker")].map((node) => node.textContent.trim()),
+    [...document.querySelectorAll(".cv-role .cv-kicker")].map((node) => node.textContent.trim()),
     fixture.experience.map((role) => role.company)
   );
-  assert.equal(document.querySelectorAll(".cv-timeline-entry").length, fixture.experience.length);
+  assert.equal(document.querySelectorAll(".cv-role").length, fixture.experience.length);
   assert.equal(document.querySelectorAll(".cv-skill-panel").length, fixture.skills.length);
   assert.equal(document.querySelectorAll(".cv-education-card").length, fixture.education.length);
   assert.equal(document.querySelectorAll(".cv-credential-card").length, fixture.certifications.length);
   assert.deepEqual(
-    [...document.querySelectorAll(".cv-skill-panel h3")].map((node) => node.textContent),
+    [...document.querySelectorAll(".cv-skill-panel .cv-kicker")].map((node) => node.textContent),
     fixture.skills.map((group) => group.group)
   );
 
@@ -55,7 +55,7 @@ test("renders ordered experience and every data-driven card in source order", ()
   });
 
   [...document.querySelectorAll(".cv-skill-panel")].forEach((panel, index) => {
-    assert.equal(panel.querySelector("h3").textContent.trim(), fixture.skills[index].group);
+    assert.equal(panel.querySelector(".cv-kicker").textContent.trim(), fixture.skills[index].group);
     assert.deepEqual(textsWithin(panel, ".tag"), fixture.skills[index].items);
   });
 
@@ -66,7 +66,7 @@ test("renders ordered experience and every data-driven card in source order", ()
   });
 
   [...document.querySelectorAll(".cv-credential-card")].forEach((card, index) => {
-    assert.equal(card.querySelector("h3").textContent.trim(), fixture.certifications[index].issuer);
+    assert.equal(card.querySelector(".cv-kicker").textContent.trim(), fixture.certifications[index].issuer);
     assert.deepEqual(textsWithin(card, "li"), fixture.certifications[index].items);
     assert.equal(card.classList.contains("cv-credential-card--long"), fixture.certifications[index].items.length > 6);
   });

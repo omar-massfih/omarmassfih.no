@@ -6,7 +6,6 @@ import getRelatedNotes from "./lib/relatedNotes.js";
 import getNoteNavigation from "./lib/noteNavigation.js";
 import buildSkillsInPractice from "./lib/skillsInPractice.js";
 import buildProjectExplorer from "./lib/projectExplorer.js";
-import buildFeaturedWork from "./lib/featuredWork.js";
 import buildSiteSearchIndex from "./lib/siteSearchIndex.js";
 
 const decodeEntities = (html) =>
@@ -97,7 +96,6 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addFilter("skillsInPractice", buildSkillsInPractice);
   eleventyConfig.addFilter("projectExplorer", buildProjectExplorer);
-  eleventyConfig.addFilter("featuredWork", buildFeaturedWork);
   eleventyConfig.addFilter("siteSearchIndex", (notes, projects, cv) =>
     JSON.stringify(buildSiteSearchIndex(notes, projects, cv)).replace(/</g, "\\u003c")
   );
