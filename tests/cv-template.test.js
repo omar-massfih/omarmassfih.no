@@ -31,18 +31,18 @@ const render = () => new JSDOM(environment.renderString(source, { cv: fixture })
 const textsWithin = (element, selector) =>
   [...element.querySelectorAll(selector)].map((node) => node.textContent.trim());
 
-test("renders ordered experience and every data-driven card in source order", () => {
+test("renders ordered experience and every data-driven CV row in source order", () => {
   const document = render();
   assert.deepEqual(
     [...document.querySelectorAll(".cv-role .cv-kicker")].map((node) => node.textContent.trim()),
     fixture.experience.map((role) => role.company)
   );
   assert.equal(document.querySelectorAll(".cv-role").length, fixture.experience.length);
-  assert.equal(document.querySelectorAll(".cv-skill-panel").length, fixture.skills.length);
-  assert.equal(document.querySelectorAll(".cv-education-card").length, fixture.education.length);
-  assert.equal(document.querySelectorAll(".cv-credential-card").length, fixture.certifications.length);
+  assert.equal(document.querySelectorAll(".cv-skill-row").length, fixture.skills.length);
+  assert.equal(document.querySelectorAll(".cv-education-row").length, fixture.education.length);
+  assert.equal(document.querySelectorAll(".cv-credential-group").length, fixture.certifications.length);
   assert.deepEqual(
-    [...document.querySelectorAll(".cv-skill-panel .cv-kicker")].map((node) => node.textContent),
+    [...document.querySelectorAll(".cv-skill-row .cv-kicker")].map((node) => node.textContent),
     fixture.skills.map((group) => group.group)
   );
 
@@ -54,21 +54,21 @@ test("renders ordered experience and every data-driven card in source order", ()
     assert.deepEqual(textsWithin(role, ".tag"), fixture.experience[index].tech);
   });
 
-  [...document.querySelectorAll(".cv-skill-panel")].forEach((panel, index) => {
+  [...document.querySelectorAll(".cv-skill-row")].forEach((panel, index) => {
     assert.equal(panel.querySelector(".cv-kicker").textContent.trim(), fixture.skills[index].group);
     assert.deepEqual(textsWithin(panel, ".tag"), fixture.skills[index].items);
   });
 
-  [...document.querySelectorAll(".cv-education-card")].forEach((card, index) => {
+  [...document.querySelectorAll(".cv-education-row")].forEach((card, index) => {
     assert.equal(card.querySelector(".cv-kicker").textContent.trim(), fixture.education[index].school);
     assert.equal(card.querySelector("h3").textContent.trim(), fixture.education[index].degree);
     assert.equal(card.querySelector(".cv-meta").textContent.trim(), fixture.education[index].meta);
   });
 
-  [...document.querySelectorAll(".cv-credential-card")].forEach((card, index) => {
+  [...document.querySelectorAll(".cv-credential-group")].forEach((card, index) => {
     assert.equal(card.querySelector(".cv-kicker").textContent.trim(), fixture.certifications[index].issuer);
     assert.deepEqual(textsWithin(card, "li"), fixture.certifications[index].items);
-    assert.equal(card.classList.contains("cv-credential-card--long"), fixture.certifications[index].items.length > 6);
+    assert.equal(card.classList.contains("cv-credential-group--long"), fixture.certifications[index].items.length > 6);
   });
 });
 

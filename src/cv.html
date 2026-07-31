@@ -43,7 +43,7 @@ date: git Last Modified
         </div>
 {%- for skill in cv.skills %}
 
-        <section class="cv-item cv-skill-panel">
+        <section class="cv-item cv-skill-row">
           <p class="cv-kicker">{{ skill.group }}</p>
           <ul class="tag-list">
 {%- for item in skill.items %}
@@ -58,7 +58,7 @@ date: git Last Modified
         <h2 class="section-head">Education</h2>
 {%- for entry in cv.education %}
 
-        <section class="cv-item cv-education-card">
+        <section class="cv-item cv-education-row">
           <p class="cv-kicker">{{ entry.school }}</p>
           <div class="cv-item-head">
             <h3>{{ entry.degree }}</h3>
@@ -75,7 +75,7 @@ date: git Last Modified
         </div>
 {%- for group in cv.certifications %}
 
-        <section class="cv-item cv-credential-card{% if group.items | length > 6 %} cv-credential-card--long{% endif %}">
+        <section class="cv-item cv-credential-group{% if group.items | length > 6 %} cv-credential-group--long{% endif %}">
           <p class="cv-kicker">{{ group.issuer }}</p>
           <ul class="cv-list">
 {%- for item in group.items %}

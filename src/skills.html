@@ -15,9 +15,9 @@ date: git Last Modified
 
       <section class="skills-group" aria-labelledby="skills-group-{{ loop.index }}">
         <h2 id="skills-group-{{ loop.index }}" class="section-head">{{ group.group }}</h2>
-        <div class="skill-evidence-grid">
+        <div class="skill-evidence-list">
 {%- for skill in group.skills %}
-          <article class="skill-evidence" data-skill="{{ skill.name }}">
+          <article class="skill-evidence-row" data-skill="{{ skill.name }}">
             <h3>{{ skill.name }}</h3>
 {%- if skill.projects.length %}
             <section aria-labelledby="skill-{{ groupIndex }}-{{ loop.index }}-projects">

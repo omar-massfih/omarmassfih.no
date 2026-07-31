@@ -9,7 +9,7 @@
   const sourceSelect = form.querySelector('[name="source"]');
   const count = form.querySelector("[data-project-count]");
   const emptyState = document.querySelector("[data-project-empty]");
-  const cards = Array.from(results.querySelectorAll(".project-box"));
+  const cards = Array.from(results.querySelectorAll(".project-row"));
   const clearButtons = Array.from(document.querySelectorAll("[data-project-clear]"));
   if (!technologySelect || !sourceSelect || !count || !emptyState || !cards.length) return;
 

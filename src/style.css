@@ -780,7 +780,7 @@ h2.section-head {
   border-color: var(--color-border-strong);
 }
 
-/* ---- Cards (projects page) ---------------------------------------------- */
+/* ---- Project list -------------------------------------------------------- */
 .project-main {
   width: min(calc(100% - var(--gutter) - var(--gutter)), var(--container-wide));
 }
@@ -791,104 +791,57 @@ h2.section-head {
   margin-bottom: var(--space-6);
 }
 
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
-  gap: var(--space-5);
+.project-list {
+  border-top: var(--border-width) solid var(--color-border);
 }
 
-.project-box {
-  position: relative;
-  display: flex;
-  flex-direction: column;
+.project-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: var(--space-3);
   margin-bottom: 0;
-  padding: var(--space-4);
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-md);
-  transition: border-color var(--transition);
+  padding: var(--space-4) var(--space-3);
+  border-bottom: var(--border-width) solid var(--color-border);
 }
 
-.project-box:hover {
-  border-color: var(--color-accent);
-}
-
-/* The heading link is stretched over the whole card, so the ring belongs on
-   the card, not the anchor. */
-.project-box:focus-within {
-  outline: var(--focus-ring) solid var(--color-focus);
-  outline-offset: 2px;
-}
-
-.project-box h2 {
+.project-row h2 {
   margin: 0;
   font-size: var(--text-lg);
 }
 
-.project-box p {
+.project-row p {
   margin: 0;
   color: var(--color-text);
 }
 
-.project-kicker {
-  align-self: start;
-  padding: 0.15em var(--space-2);
+.project-source {
+  justify-self: end;
   font-family: var(--font-mono);
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   color: var(--color-text-muted);
-  border: var(--border-width) solid var(--color-border-strong);
-  border-radius: var(--radius-pill);
+  white-space: nowrap;
 }
 
 .project-link {
   color: var(--color-heading);
-  text-decoration: none;
   transition: color var(--transition);
 }
 
-.project-link::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-.project-link:focus-visible {
-  outline: none;
-}
-
-.project-box:hover .project-link {
-  color: var(--color-accent);
-}
-
-.project-arrow {
-  margin-inline-start: var(--space-1);
-  color: var(--color-text-muted);
-  transition: color var(--transition), translate var(--transition);
-}
-
-.project-box:hover .project-arrow {
-  translate: 2px -2px;
-  color: var(--color-accent);
-}
-
-.project-box .project-description {
+.project-row .project-description {
+  grid-column: 1 / -1;
   color: var(--color-text-muted);
   font-size: var(--text-sm);
 }
 
 .project-summary {
+  grid-column: 1 / -1;
   color: var(--color-heading);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
 }
 
-.project-box .tag-list {
-  margin-top: auto;
-  padding-top: var(--space-2);
+.project-row .tag-list {
+  grid-column: 1 / -1;
 }
 
 .project-filter {
@@ -897,10 +850,6 @@ h2.section-head {
   align-items: end;
   gap: var(--space-3);
   margin-bottom: var(--space-5);
-  padding: var(--space-4);
-  background: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-md);
 }
 
 .project-filter-field {
@@ -920,7 +869,7 @@ h2.section-head {
   color: var(--color-text);
   background: var(--color-bg);
   border: var(--border-width) solid var(--color-border-strong);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
 }
 
 .project-filter select:hover,
@@ -964,12 +913,12 @@ h2.section-head {
 }
 
 .project-filter[hidden],
-.project-box[hidden],
+.project-row[hidden],
 .project-empty[hidden] {
   display: none;
 }
 
-/* ---- Tags (project cards + CV tech) -------------------------------------- */
+/* ---- Tags (projects + CV tech) ------------------------------------------- */
 .tag-list {
   display: flex;
   flex-wrap: wrap;
@@ -1169,12 +1118,9 @@ h2.section-head {
 
 .graph-details {
   min-width: 0;
-  padding: var(--space-3);
+  padding-block: var(--space-3);
   color: var(--color-text-muted);
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
   border-top: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-md);
   overflow-wrap: anywhere;
 }
 
@@ -1198,9 +1144,8 @@ h2.section-head {
 
 .knowledge-graph {
   position: relative;
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-md);
+  background-color: var(--color-bg);
+  border-block: var(--border-width) solid var(--color-border);
 }
 
 .knowledge-graph svg {
@@ -1574,10 +1519,8 @@ pre code {
 
 .note-toc {
   margin-block: var(--space-5) var(--space-6);
-  padding: var(--space-4) var(--space-5);
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-md);
+  padding-block: var(--space-4);
+  border-block: var(--border-width) solid var(--color-border);
 }
 
 .note section .note-toc h2 {
@@ -1638,10 +1581,8 @@ pre code {
 
 .note-share {
   margin-top: var(--space-6);
-  padding: var(--space-4) var(--space-5);
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-md);
+  padding-block: var(--space-4);
+  border-block: var(--border-width) solid var(--color-border);
 }
 
 .note .note-share h2 {
@@ -1831,10 +1772,8 @@ pre code {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-3);
   margin-top: var(--space-6);
-  padding: var(--space-4);
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-md);
+  padding-block: var(--space-4);
+  border-block: var(--border-width) solid var(--color-border);
 }
 
 .note-navigation-position {
@@ -2430,7 +2369,7 @@ pre code {
 
 .cv-item {
   margin-bottom: 0;
-  padding: var(--space-4) var(--space-3);
+  padding: var(--space-3);
   border-bottom: var(--border-width) solid var(--color-border);
 }
 
@@ -2675,23 +2614,27 @@ pre code {
   margin-top: var(--space-7);
 }
 
-.skill-evidence-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-  gap: var(--space-4);
+.skill-evidence-list {
+  border-top: var(--border-width) solid var(--color-border);
 }
 
-.skill-evidence {
-  padding: var(--space-5);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+.skill-evidence-row {
+  margin: 0;
+  padding: var(--space-4) var(--space-3);
+  border-bottom: var(--border-width) solid var(--color-border);
 }
 
-.skill-evidence > h3 {
+.skill-evidence-row > h3 {
   margin-top: 0;
+  margin-bottom: var(--space-2);
+  font-size: var(--text-lg);
 }
 
-.skill-evidence > section + section {
+.skill-evidence-row > section {
+  margin-bottom: 0;
+}
+
+.skill-evidence-row > section + section {
   margin-top: var(--space-4);
 }
 
@@ -2830,6 +2773,14 @@ pre code {
     grid-template-columns: 1fr;
     row-gap: var(--space-1);
   }
+
+  .project-row {
+    grid-template-columns: 1fr;
+  }
+
+  .project-source {
+    justify-self: start;
+  }
 }
 
 /* ==========================================================================
@@ -2848,13 +2799,6 @@ pre code {
     scroll-behavior: auto !important;
   }
 
-  .project-box:hover {
-    transform: none;
-  }
-
-  .project-box:hover .project-arrow {
-    translate: none;
-  }
 }
 
 @media (prefers-contrast: more) {
@@ -2872,7 +2816,7 @@ pre code {
   header a:hover,
   .site-footer a:hover,
   .list-row:hover,
-  .project-box:hover .project-link {
+  .project-link:hover {
     text-decoration: underline;
   }
 
@@ -3003,25 +2947,25 @@ pre code {
   }
 
   .cv-role,
-  .cv-skill-panel,
-  .cv-education-card,
-  .cv-credential-card {
+  .cv-skill-row,
+  .cv-education-row,
+  .cv-credential-group {
     break-inside: avoid;
   }
 
-  .cv-credential-card--long {
+  .cv-credential-group--long {
     break-inside: auto;
   }
 
-  .cv-credential-card--long h3 {
+  .cv-credential-group--long h3 {
     break-after: avoid;
   }
 
-  .cv-credential-card--long .cv-list {
+  .cv-credential-group--long .cv-list {
     break-before: avoid;
   }
 
-  .cv-credential-card--long li {
+  .cv-credential-group--long li {
     break-inside: avoid;
   }
 

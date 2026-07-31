@@ -22,12 +22,12 @@ const setup = (url = "https://example.test/projects.html") => {
       <button type="button" data-project-clear disabled>Clear filters</button>
       <p data-project-count aria-live="polite" aria-atomic="true"></p>
     </form>
-    <div class="card-grid project-results" data-project-results>
-      <article class="project-box" data-name="Alpha" data-source="github"
+    <div class="project-list project-results" data-project-results>
+      <article class="project-row" data-name="Alpha" data-source="github"
         data-technologies='["Python"]'></article>
-      <article class="project-box" data-name="Beta" data-source="case study"
+      <article class="project-row" data-name="Beta" data-source="case study"
         data-technologies='["Eleventy"]'></article>
-      <article class="project-box" data-name="Gamma" data-source="case study"
+      <article class="project-row" data-name="Gamma" data-source="case study"
         data-technologies='["Python"]'></article>
     </div>
     <div data-project-empty hidden>
@@ -49,7 +49,7 @@ const setup = (url = "https://example.test/projects.html") => {
     select.dispatchEvent(new Event("change", { bubbles: true }));
   };
   const visible = () =>
-    Array.from(document.querySelectorAll(".project-box:not([hidden])"), (card) => card.dataset.name);
+    Array.from(document.querySelectorAll(".project-row:not([hidden])"), (row) => row.dataset.name);
 
   return { dom, document, technology, source, change, visible, PopStateEvent };
 };
@@ -121,18 +121,18 @@ test("popstate restores controls and results", () => {
   assert.deepEqual(visible(), ["Beta", "Gamma"]);
 });
 
-test("filters all projects in place within the regular grid", () => {
+test("filters all projects in place within the regular list", () => {
   const { document, technology, source, change, visible } = setup();
-  const grid = document.querySelector(".card-grid");
-  const beta = [...grid.querySelectorAll(".project-box")]
-    .find((card) => card.dataset.name === "Beta");
+  const list = document.querySelector(".project-list");
+  const beta = [...list.querySelectorAll(".project-row")]
+    .find((row) => row.dataset.name === "Beta");
   const betaParent = beta.parentElement;
 
   change(technology, "Python");
   assert.equal(beta.hidden, true);
   assert.deepEqual(visible(), ["Alpha", "Gamma"]);
   assert.equal(beta.parentElement, betaParent);
-  assert.equal(grid.contains(beta), true);
+  assert.equal(list.contains(beta), true);
 
   change(technology, "");
   assert.equal(beta.hidden, false);

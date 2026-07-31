@@ -24,11 +24,11 @@ const expectOrder = (label, actual, expected) => {
 expectOrder("Experience companies", texts(".cv-role .cv-kicker"), cv.experience.map((role) => role.company));
 expectOrder("Experience titles", texts(".cv-role h3"), cv.experience.map((role) => role.title));
 expectOrder("Experience metadata", texts(".cv-role .cv-meta"), cv.experience.map((role) => role.meta));
-expectOrder("Skill groups", texts(".cv-skill-panel .cv-kicker"), cv.skills.map((group) => group.group));
-expectOrder("Education schools", texts(".cv-education-card .cv-kicker"), cv.education.map((entry) => entry.school));
-expectOrder("Education degrees", texts(".cv-education-card h3"), cv.education.map((entry) => entry.degree));
-expectOrder("Education metadata", texts(".cv-education-card .cv-meta"), cv.education.map((entry) => entry.meta));
-expectOrder("Certification issuers", texts(".cv-credential-card .cv-kicker"), cv.certifications.map((group) => group.issuer));
+expectOrder("Skill groups", texts(".cv-skill-row .cv-kicker"), cv.skills.map((group) => group.group));
+expectOrder("Education schools", texts(".cv-education-row .cv-kicker"), cv.education.map((entry) => entry.school));
+expectOrder("Education degrees", texts(".cv-education-row h3"), cv.education.map((entry) => entry.degree));
+expectOrder("Education metadata", texts(".cv-education-row .cv-meta"), cv.education.map((entry) => entry.meta));
+expectOrder("Certification issuers", texts(".cv-credential-group .cv-kicker"), cv.certifications.map((group) => group.issuer));
 
 const roles = [...document.querySelectorAll(".cv-role")];
 roles.forEach((role, index) => {
@@ -39,7 +39,7 @@ roles.forEach((role, index) => {
   expectOrder(`Experience ${index + 1} technologies`, roleTexts(".tag"), cv.experience[index].tech);
 });
 
-const skillPanels = [...document.querySelectorAll(".cv-skill-panel")];
+const skillPanels = [...document.querySelectorAll(".cv-skill-row")];
 skillPanels.forEach((panel, index) => {
   if (!cv.skills[index]) return;
   const panelTexts = (selector) =>
@@ -47,7 +47,7 @@ skillPanels.forEach((panel, index) => {
   expectOrder(`Skill group ${index + 1} items`, panelTexts(".tag"), cv.skills[index].items);
 });
 
-const credentialCards = [...document.querySelectorAll(".cv-credential-card")];
+const credentialCards = [...document.querySelectorAll(".cv-credential-group")];
 credentialCards.forEach((card, index) => {
   if (!cv.certifications[index]) return;
   const cardTexts = (selector) =>
@@ -62,8 +62,8 @@ for (const heading of ["Experience", "Skills", "Education", "Certifications"]) {
   }
 }
 if (document.querySelectorAll(".cv-role").length !== cv.experience.length) errors.push("Missing experience rows.");
-if (document.querySelectorAll(".cv-skill-panel").length !== cv.skills.length) errors.push("Missing grouped skill rows.");
-if (document.querySelectorAll(".cv-credential-card").length !== cv.certifications.length) errors.push("Missing credential rows.");
+if (document.querySelectorAll(".cv-skill-row").length !== cv.skills.length) errors.push("Missing grouped skill rows.");
+if (document.querySelectorAll(".cv-credential-group").length !== cv.certifications.length) errors.push("Missing credential rows.");
 
 const skillsLink = document.querySelector('#skills a[href="/skills.html"]');
 if (!skillsLink) errors.push("Missing Skills in Practice link.");

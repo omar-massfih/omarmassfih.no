@@ -16,34 +16,34 @@ if (!fs.existsSync(outputPath)) {
 
 const html = fs.readFileSync(outputPath, "utf8");
 const document = new JSDOM(html).window.document;
-const cards = [...document.querySelectorAll("[data-project-results] > .project-box")];
-const results = document.querySelector("[data-project-results].project-results.card-grid");
+const rows = [...document.querySelectorAll("[data-project-results] > .project-row")];
+const results = document.querySelector("[data-project-results].project-results.project-list");
 
-if (!results) errors.push("Missing shared project results grid.");
-if (cards.length !== expected.projects.length) {
-  errors.push(`Expected ${expected.projects.length} published cards; found ${cards.length}.`);
+if (!results) errors.push("Missing shared project results list.");
+if (rows.length !== expected.projects.length) {
+  errors.push(`Expected ${expected.projects.length} published rows; found ${rows.length}.`);
 }
 
-const cardForProject = (project) =>
-  cards.filter((card) => {
-    const heading = card.querySelector("h2")?.textContent.trim().replace(/\s+/g, " ");
+const rowForProject = (project) =>
+  rows.filter((row) => {
+    const heading = row.querySelector("h2")?.textContent.trim().replace(/\s+/g, " ");
     return heading === project.name;
   });
 
 for (const project of expected.projects) {
-  const matches = cardForProject(project);
+  const matches = rowForProject(project);
   if (matches.length !== 1) {
     errors.push(`Expected project "${project.name}" exactly once; found ${matches.length}.`);
     continue;
   }
-  const card = matches[0];
-  if (![...card.querySelectorAll("a")].some((link) => link.getAttribute("href") === project.url)) {
+  const row = matches[0];
+  if (![...row.querySelectorAll("a")].some((link) => link.getAttribute("href") === project.url)) {
     errors.push(`Project "${project.name}" does not use its canonical URL.`);
   }
-  if (card.dataset.source !== project.source) {
+  if (row.dataset.source !== project.source) {
     errors.push(`Project "${project.name}" has incorrect source metadata.`);
   }
-  const normalizedText = card.textContent.replace(/\s+/g, " ");
+  const normalizedText = row.textContent.replace(/\s+/g, " ");
   for (const [field, value] of [
     ["source", project.source],
     ["summary", project.summary],
@@ -55,26 +55,26 @@ for (const project of expected.projects) {
   }
   let technologies;
   try {
-    technologies = JSON.parse(card.dataset.technologies);
+    technologies = JSON.parse(row.dataset.technologies);
   } catch {
     errors.push(`Project "${project.name}" has invalid technology JSON.`);
   }
   if (JSON.stringify(technologies) !== JSON.stringify(project.tags)) {
     errors.push(`Project "${project.name}" has incorrect technology metadata.`);
   }
-  const renderedTags = [...card.querySelectorAll(".tag")].map((tag) => tag.textContent.trim());
+  const renderedTags = [...row.querySelectorAll(".tag")].map((tag) => tag.textContent.trim());
   if (JSON.stringify(renderedTags) !== JSON.stringify(project.tags)) {
     errors.push(`Project "${project.name}" does not render its complete technology list.`);
   }
-  const tagList = card.querySelector(".tag-list");
+  const tagList = row.querySelector(".tag-list");
   if (tagList?.getAttribute("aria-label") !== "Technologies") {
     errors.push(`Project "${project.name}" is missing a semantic technology label.`);
   }
-  if (card.hasAttribute("hidden")) errors.push(`Project "${project.name}" is initially hidden.`);
+  if (row.hasAttribute("hidden")) errors.push(`Project "${project.name}" is initially hidden.`);
 }
 
-const renderedNames = cards.map(
-  (card) => card.querySelector("h2")?.textContent.trim().replace(/\s+/g, " ")
+const renderedNames = rows.map(
+  (row) => row.querySelector("h2")?.textContent.trim().replace(/\s+/g, " ")
 );
 if (JSON.stringify(renderedNames) !==
     JSON.stringify(expected.projects.map(({ name }) => name))) {
@@ -82,7 +82,7 @@ if (JSON.stringify(renderedNames) !==
 }
 
 for (const draft of projects.filter(({ draft }) => draft)) {
-  if (cards.some((card) => card.textContent.includes(draft.name))) {
+  if (rows.some((row) => row.textContent.includes(draft.name))) {
     errors.push(`Draft project "${draft.name}" was rendered.`);
   }
 }
@@ -126,7 +126,7 @@ if (!fs.existsSync(cssPath)) {
   errors.push("Missing built stylesheet.");
 } else {
   const css = fs.readFileSync(cssPath, "utf8");
-  for (const hook of [".project-box", ".card-grid"]) {
+  for (const hook of [".project-row", ".project-list"]) {
     if (!css.includes(hook)) errors.push(`Built stylesheet is missing project hook "${hook}".`);
   }
 }
