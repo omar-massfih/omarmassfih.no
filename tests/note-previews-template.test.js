@@ -40,7 +40,9 @@ test("renders the notes index structure, accessible filters, and category counts
   const heading = main.querySelector(".notes-list > .notes-head");
   const graphDisclosure = main.querySelector(".graph-disclosure");
 
-  assert.ok(main.querySelector(".notes-intro"));
+  assert.equal(main.querySelector("h1").textContent.trim(), "Notes");
+  assert.equal(main.querySelector(".kicker"), null);
+  assert.equal(main.querySelector(".notes-intro"), null);
   assert.ok(graphDisclosure);
   assert.equal(graphDisclosure.hasAttribute("open"), false);
   assert.equal(graphDisclosure.querySelector("summary").textContent.trim(), "Explore note graph");
@@ -48,13 +50,12 @@ test("renders the notes index structure, accessible filters, and category counts
   assert.equal(filter.hasAttribute("hidden"), true);
   assert.equal(filter.getAttribute("aria-label"), "Filter notes");
   assert.equal(
-    filter.querySelector('label[for="notes-search-input"]').textContent.trim(),
+    filter.querySelector(".notes-search .visually-hidden").textContent.trim(),
     "Search notes"
   );
-  assert.equal(
-    filter.querySelector(".notes-filter-categories").getAttribute("aria-labelledby"),
-    "notes-category-filter-label"
-  );
+  assert.ok(filter.querySelector(".notes-search-input"));
+  assert.ok(filter.querySelector(".tag-filter-clear"));
+  assert.ok(filter.querySelector('[data-category="Tests"]'));
   assert.equal(heading.querySelector(".category-note-count").textContent.trim(), "2 notes");
   assert.equal(heading.nextElementSibling.matches(".list-row"), true);
 });

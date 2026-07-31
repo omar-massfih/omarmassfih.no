@@ -31,11 +31,17 @@ const filter = document.querySelector(".notes-filter");
 if (!filter?.hasAttribute("hidden")) {
   errors.push("The filter controls must be initially hidden for progressive enhancement.");
 }
-if (!document.querySelector("main.notes-index > .notes-intro")) {
-  errors.push("The notes index must include its page-specific introduction.");
+if (normalizedText(document.querySelector("main.notes-index > h1")) !== "Notes") {
+  errors.push("The notes index must use the simple Notes heading.");
 }
-if (!filter?.querySelector('label[for="notes-search-input"]')) {
-  errors.push("The notes search must have a visible associated label.");
+if (document.querySelector(".notes-intro, .notes-intro-copy")) {
+  errors.push("The notes index should not render the newer intro panel.");
+}
+if (!filter?.querySelector(".notes-search .visually-hidden") || !filter.querySelector(".notes-search-input")) {
+  errors.push("The notes search must keep an accessible label and input.");
+}
+if (!filter?.querySelector('[data-category="RAG"]')) {
+  errors.push("The notes filter must expose category shortcuts beside search.");
 }
 
 const categoryHeaders = [...document.querySelectorAll(".notes-list > .notes-head")];
