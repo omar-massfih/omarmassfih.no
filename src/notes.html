@@ -70,29 +70,28 @@ date: git Last Modified
       <p class="notes-empty" hidden>No notes match those filters.</p>
     </section>
     <section class="graph-section graph-discovery" aria-labelledby="notes-graph-heading">
-      <div class="graph-discovery-intro">
-        <p class="kicker">Explore further</p>
-        <h2 id="notes-graph-heading">Discover notes</h2>
-        <p>Explore connections between published notes and their tags. Select a node to read its details.</p>
-      </div>
-      <ul class="graph-legend" aria-label="Graph legend">
-        <li><span class="graph-key graph-key--note"></span>Note</li>
-        <li><span class="graph-key graph-key--tag"></span>Tag</li>
-        <li><span class="graph-key graph-key--link"></span>Note and tag relationship</li>
-        <li><span class="graph-key graph-key--related"></span>Related notes</li>
-      </ul>
-      <div class="graph-discovery-layout">
-        <div class="knowledge-graph" data-graph-size="full" data-graph-src="/graph.json?v={{ backendNotes | graphHash }}">
-          <p class="graph-loading">Interactive graph loading…</p>
+      <details class="graph-disclosure">
+        <summary id="notes-graph-heading">Explore note graph</summary>
+        <p>Connections between published notes and tags.</p>
+        <ul class="graph-legend" aria-label="Graph legend">
+          <li><span class="graph-key graph-key--note"></span>Note</li>
+          <li><span class="graph-key graph-key--tag"></span>Tag</li>
+          <li><span class="graph-key graph-key--link"></span>Note and tag relationship</li>
+          <li><span class="graph-key graph-key--related"></span>Related notes</li>
+        </ul>
+        <div class="graph-discovery-layout">
+          <div class="knowledge-graph" data-graph-size="full" data-graph-src="/graph.json?v={{ backendNotes | graphHash }}">
+            <p class="graph-loading">Interactive graph loading…</p>
+          </div>
+          <aside class="graph-details" aria-labelledby="notes-graph-details-heading">
+            <h3 id="notes-graph-details-heading">Selected node</h3>
+            <div data-graph-details><p>Select a note or tag in the graph to see its connections.</p></div>
+            <p class="visually-hidden" data-graph-status role="status" aria-live="polite"></p>
+          </aside>
         </div>
-        <aside class="graph-details" aria-labelledby="notes-graph-details-heading">
-          <h3 id="notes-graph-details-heading">Selected node</h3>
-          <div data-graph-details><p>Select a note or tag in the graph to see its connections.</p></div>
-          <p class="visually-hidden" data-graph-status role="status" aria-live="polite"></p>
-        </aside>
-      </div>
+      </details>
       <details class="graph-fallback">
-        <summary>Browse all notes as a list</summary>
+        <summary>Browse all notes as plain links</summary>
         <ul>
 {%- for graphNote in backendNotes %}
           <li><a href="{{ graphNote.url }}">{{ (graphNote.list_title or graphNote.title) | escape }}</a></li>

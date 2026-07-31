@@ -30,6 +30,9 @@ const notesHtml = fs.readFileSync(path.join(site, "notes.html"), "utf8");
 const notesDoc = new JSDOM(notesHtml).window.document;
 if (notesDoc.querySelectorAll('.knowledge-graph[data-graph-size="full"]').length !== 1) errors.push("notes.html must have one full panel");
 if (!notesDoc.querySelector(".graph-legend") || !notesDoc.querySelector("[data-graph-details]")) errors.push("notes.html lacks legend/details");
+if (!notesDoc.querySelector(".graph-disclosure:not([open]) .knowledge-graph[data-graph-size='full']")) {
+  errors.push("notes.html graph must remain available but collapsed by default.");
+}
 const css = fs.readFileSync(path.join(site, "style.css"), "utf8");
 if (!/\.graph-discovery-layout\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)\s*;/s.test(css) ||
     !/\.graph-details\s*\{[^}]*border-top:\s*var\(--border-width\)\s*solid\s*var\(--color-border\)\s*;/s.test(css)) {

@@ -38,9 +38,13 @@ test("renders the notes index structure, accessible filters, and category counts
   const main = document.querySelector("main.notes-index");
   const filter = main.querySelector(".notes-filter");
   const heading = main.querySelector(".notes-list > .notes-head");
+  const graphDisclosure = main.querySelector(".graph-disclosure");
 
   assert.ok(main.querySelector(".notes-intro"));
-  assert.ok(main.querySelector(".graph-discovery-intro"));
+  assert.ok(graphDisclosure);
+  assert.equal(graphDisclosure.hasAttribute("open"), false);
+  assert.equal(graphDisclosure.querySelector("summary").textContent.trim(), "Explore note graph");
+  assert.ok(graphDisclosure.querySelector(".knowledge-graph"));
   assert.equal(filter.hasAttribute("hidden"), true);
   assert.equal(filter.getAttribute("aria-label"), "Filter notes");
   assert.equal(
