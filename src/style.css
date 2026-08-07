@@ -1495,7 +1495,8 @@ pre code {
 }
 
 .code-block pre {
-  padding-top: calc(var(--space-4) + 2.25rem);
+  padding-top: var(--space-4);
+  padding-inline-end: calc(var(--space-4) + 5rem);
 }
 
 .code-block-controls {
