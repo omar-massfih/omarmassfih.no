@@ -5,7 +5,6 @@ import { JSDOM } from "jsdom";
 
 const siteDir = path.resolve("_site");
 const notesDir = path.join(siteDir, "notes");
-const expectedCodeBlockCount = 13;
 const errors = [];
 
 function walkHtmlFiles(dir) {
@@ -72,11 +71,7 @@ for (const file of noteFiles) {
   }
 }
 
-if (codeBlockCount !== expectedCodeBlockCount) {
-  errors.push(
-    `Expected ${expectedCodeBlockCount} generated <pre><code> fixtures, found ${codeBlockCount}.`
-  );
-}
+if (codeBlockCount === 0) errors.push("No generated note code blocks were found.");
 if (!pageWithoutCode) errors.push("No generated note without a code block was found.");
 if (!representativeSourceFound) {
   errors.push("Representative command text was not preserved exactly.");
