@@ -1401,6 +1401,11 @@ h2.section-head {
     overflow: visible;
   }
 
+  .decision-matrix caption {
+    display: block;
+    width: 100%;
+  }
+
   .decision-matrix thead {
     position: absolute;
     width: 1px;
