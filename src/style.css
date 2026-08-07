@@ -1327,6 +1327,137 @@ h2.section-head {
   color: var(--color-accent);
 }
 
+/* ---- Note tables -------------------------------------------------------- */
+.note table {
+  width: 100%;
+  margin-block: var(--space-5) var(--space-6);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  line-height: var(--leading-snug);
+}
+
+.note table caption {
+  margin-bottom: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  text-align: left;
+}
+
+.note table th,
+.note table td {
+  padding: var(--space-3) var(--space-4);
+  border-block-end: var(--border-width) solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.note table tr:last-child > * {
+  border-block-end: 0;
+}
+
+.note table tr > * + * {
+  border-inline-start: var(--border-width) solid var(--color-border);
+}
+
+.note table thead th {
+  color: var(--color-heading);
+  background-color: var(--color-header);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.note table tbody th {
+  color: var(--color-heading);
+  background-color: var(--color-surface);
+  font-weight: var(--weight-semibold);
+}
+
+.note table tbody td {
+  background-color: var(--color-bg);
+}
+
+.note table td strong {
+  display: block;
+  margin-bottom: var(--space-1);
+  color: var(--color-heading);
+}
+
+.decision-matrix {
+  table-layout: fixed;
+}
+
+.decision-matrix thead th:first-child {
+  width: 28%;
+}
+
+@media (max-width: 44rem) {
+  .decision-matrix {
+    display: block;
+    border: 0;
+    overflow: visible;
+  }
+
+  .decision-matrix thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .decision-matrix tbody {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .decision-matrix tbody tr {
+    display: block;
+    overflow: hidden;
+    border: var(--border-width) solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+  }
+
+  .decision-matrix tbody th,
+  .decision-matrix tbody td {
+    display: block;
+    width: auto;
+    border: 0;
+  }
+
+  .decision-matrix tbody th {
+    border-block-end: var(--border-width) solid var(--color-border);
+  }
+
+  .decision-matrix tbody td + td {
+    border-block-start: var(--border-width) solid var(--color-border);
+  }
+
+  .decision-matrix tbody td::before {
+    display: block;
+    margin-bottom: var(--space-1);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+  }
+
+  .decision-matrix tbody td:first-of-type::before {
+    content: "If this layer can recover";
+  }
+
+  .decision-matrix tbody td:last-of-type::before {
+    content: "If this layer cannot recover";
+  }
+}
+
 /* ---- Code --------------------------------------------------------------- */
 code {
   font-family: var(--font-mono);
