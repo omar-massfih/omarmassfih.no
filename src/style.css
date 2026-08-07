@@ -1395,7 +1395,7 @@ h2.section-head {
 }
 
 @media (max-width: 44rem) {
-  .decision-matrix {
+  .note .decision-matrix {
     display: block;
     border: 0;
     overflow: visible;
