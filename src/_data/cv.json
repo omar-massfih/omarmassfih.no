@@ -7,6 +7,7 @@
       "bullets": [
         "Build and operate the group's data platform on Azure and Snowflake.",
         "Develop ingestion and transformation pipelines with Python, dlt and dbt.",
+        "Set up and operate Airflow on Azure Kubernetes Service (AKS).",
         "Build agentic AI solutions with LangGraph and LangChain.",
         "Automate infrastructure and deployments with Terraform and CI/CD."
       ],
