@@ -22,6 +22,15 @@ const mapping = {
   Java: { notes: ["python/note"] },
 };
 
+test("keeps experience visible when project source is no longer public", () => {
+  const result = buildSkillsInPractice(cv, projects, notes, {
+    ...mapping, Java: { experience: "Language implementation coursework." },
+  });
+  assert.equal(result[1].skills[0].experience, "Language implementation coursework.");
+  assert.deepEqual(result[1].skills[0].projects, []);
+  assert.deepEqual(result[1].skills[0].notes, []);
+});
+
 test("resolves canonical records and preserves CV group and competency order", () => {
   const result = buildSkillsInPractice(cv, projects, notes, mapping);
 

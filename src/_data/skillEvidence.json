@@ -1,67 +1,92 @@
 {
   "Azure": {
-    "projects": ["Fragments vs Flow"],
-    "notes": ["agentic-ai/agentic-triage-for-data-platform-failures"]
-  },
-  "AWS": {
-    "projects": ["Fragments vs Flow"]
+    "notes": [
+      "agentic-ai/agentic-triage-for-data-platform-failures"
+    ]
   },
   "Kubernetes": {
-    "projects": ["Platform", "Keycloak Auth Proxy"],
-    "notes": ["kubernetes-k3s/oauth2-proxy-ingress"]
+    "notes": [
+      "kubernetes-k3s/oauth2-proxy-ingress"
+    ]
   },
   "OpenShift": {
-    "projects": ["Keycloak Auth Proxy"],
-    "notes": ["openshift/cert_manager_ingress"]
-  },
-  "Linux": {
-    "projects": ["Platform"]
+    "notes": [
+      "openshift/cert_manager_ingress"
+    ]
   },
   "Snowflake": {
-    "notes": ["agentic-ai/agentic-triage-for-data-platform-failures"]
+    "notes": [
+      "agentic-ai/agentic-triage-for-data-platform-failures"
+    ]
   },
   "dlt": {
-    "notes": ["agentic-ai/agentic-triage-for-data-platform-failures"]
+    "notes": [
+      "agentic-ai/agentic-triage-for-data-platform-failures"
+    ]
   },
   "dbt": {
-    "notes": ["agentic-ai/agentic-triage-for-data-platform-failures"]
+    "notes": [
+      "agentic-ai/agentic-triage-for-data-platform-failures"
+    ]
   },
   "Agentic AI": {
-    "projects": ["PR Pilot", "Tajator", "Wakiru"],
-    "notes": ["agentic-ai/agentic-triage-for-data-platform-failures"]
+    "notes": [
+      "agentic-ai/agentic-triage-for-data-platform-failures"
+    ]
   },
   "LangGraph": {
-    "projects": ["Tajator", "Wakiru"],
-    "notes": ["agentic-ai/agentic-triage-for-data-platform-failures"]
+    "notes": [
+      "agentic-ai/agentic-triage-for-data-platform-failures"
+    ]
   },
   "LangChain": {
-    "projects": ["Tajator"],
-    "notes": ["agentic-ai/agentic-triage-for-data-platform-failures"]
+    "notes": [
+      "agentic-ai/agentic-triage-for-data-platform-failures"
+    ]
   },
   "watsonx": {
-    "projects": ["Fragments vs Flow"],
-    "notes": ["rag/masters-thesis-slides-vs-textbooks"]
+    "notes": [
+      "rag/masters-thesis-slides-vs-textbooks"
+    ]
   },
   "SQL/NoSQL": {
-    "projects": ["PR Pilot", "Wakiru", "omarmassfih.no"],
-    "notes": ["distributed-systems/cap-pacelc"]
+    "projects": [
+      "omarmassfih.no"
+    ],
+    "notes": [
+      "distributed-systems/cap-pacelc"
+    ]
   },
   "Python": {
-    "projects": ["PR Pilot", "Tajator", "Wakiru", "omarmassfih.no Backend"]
-  },
-  "Java": {
-    "projects": ["Asp Interpreter"]
+    "projects": [
+      "omarmassfih.no Backend"
+    ]
   },
   "TypeScript": {
-    "projects": ["omarmassfih.no"]
-  },
-  "Terraform": {
-    "projects": ["Platform"]
+    "projects": [
+      "omarmassfih.no"
+    ]
   },
   "CI/CD": {
-    "projects": ["Platform", "omarmassfih.no"]
+    "projects": [
+      "omarmassfih.no"
+    ]
   },
   "Git": {
-    "projects": ["Platform", "PR Pilot", "omarmassfih.no"]
+    "projects": [
+      "omarmassfih.no"
+    ]
+  },
+  "AWS": {
+    "experience": "Cloud delivery experience from my work at IBM."
+  },
+  "Linux": {
+    "experience": "Linux systems and container-based application operations."
+  },
+  "Java": {
+    "experience": "Java programming and language implementation coursework at the University of Oslo."
+  },
+  "Terraform": {
+    "experience": "Infrastructure and deployment automation in my data platform engineering work."
   }
 }

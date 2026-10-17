@@ -1,45 +1,15 @@
 [
   {
-    "name": "Platform",
-    "summary": "Single-node k3s homelab with GitOps, provisioned and deployed entirely as code.",
-    "description": "Runs all of my always-on services on one Oracle Cloud Ampere (arm64) VM. Terraform provisions the OCI networking and instance, Ansible installs k3s and cluster add-ons (Traefik ingress, cert-manager with Let's Encrypt, a disk-full safeguard), and Flux reconciles every workload from this Git repo. Container images are built on the node and served through the cluster; secrets and persistent state are migrated onto local-path volumes.",
-    "tags": ["Kubernetes", "k3s", "Flux", "Terraform", "Ansible", "GitOps"],
-    "url": "https://github.com/omar-massfih/platform",
-    "source": "github",
-    "draft": false
-  },
-  {
-    "name": "PR Pilot",
-    "summary": "Feature-to-PR coding agent with local memory across related projects.",
-    "description": "Turns CLI or Telegram feature requests into implementation plans, tested changes, independent agent reviews and monitored GitHub pull requests using Codex or Cursor. A local SQLite and FastEmbed knowledge graph indexes code, project relationships and prior runs to bring relevant cross-project context into planning and review.",
-    "tags": ["Python", "Codex CLI", "Cursor", "RAG", "SQLite"],
-    "url": "https://github.com/omar-massfih/pr-pilot",
-    "source": "github",
-    "draft": false
-  },
-  {
-    "name": "Tajator",
-    "summary": "Agentic AI options trader built with LangGraph + LangChain.",
-    "description": "A trading agent that uses deterministic code for market context and guardrails, while the LLM only makes the judgment calls. It is built around the support/resistance strategy from my trading notes and connects to Interactive Brokers for paper-first execution.",
-    "tags": ["Python", "LangGraph", "LangChain", "Interactive Brokers", "Trading"],
-    "url": "https://github.com/omar-massfih/tajator",
-    "source": "github",
-    "draft": false
-  },
-  {
-    "name": "Wakiru",
-    "summary": "Personal AI assistant with persistent memory, built on LangGraph over the Codex CLI.",
-    "description": "A LangGraph agent that drives the Codex CLI, with two-layer memory: conversation history through a SQLite checkpointer and long-term markdown notes recalled semantically via a local fastembed and sqlite-vec index. Durable facts are saved and forgotten automatically each turn, with no API key required.",
-    "tags": ["Python", "LangGraph", "FastAPI", "Embeddings", "Codex CLI"],
-    "url": "https://github.com/omar-massfih/wakiru",
-    "source": "github",
-    "draft": false
-  },
-  {
     "name": "omarmassfih.no",
     "summary": "Engineering case study: a static publishing pipeline with streamed hybrid-RAG chat.",
     "description": "How Eleventy, FastAPI, Turso and GitHub Actions turn versioned notes into static pages, then answer live questions with fused semantic and lexical retrieval.",
-    "tags": ["Eleventy", "FastAPI", "Turso", "Hybrid RAG", "GitHub Actions"],
+    "tags": [
+      "Eleventy",
+      "FastAPI",
+      "Turso",
+      "Hybrid RAG",
+      "GitHub Actions"
+    ],
     "url": "/projects/omarmassfih-no.html",
     "source": "case study",
     "draft": false
@@ -48,35 +18,14 @@
     "name": "omarmassfih.no Backend",
     "summary": "FastAPI backend for notes, search and chat on omarmassfih.no.",
     "description": "Serves published notes from Turso, exposes cached note APIs and powers the notes chatbot with embeddings, retrieval and streamed answers through Vercel AI Gateway.",
-    "tags": ["Python", "FastAPI", "Turso", "RAG", "Vercel"],
+    "tags": [
+      "Python",
+      "FastAPI",
+      "Turso",
+      "RAG",
+      "Vercel"
+    ],
     "url": "https://github.com/omar-massfih/omarmassfih.no-backend",
-    "source": "github",
-    "draft": false
-  },
-  {
-    "name": "Fragments vs Flow",
-    "summary": "Retrieval-augmented generation (RAG) pipeline from my master's thesis.",
-    "description": "Provider-configurable pipeline using watsonx, Azure OpenAI and OpenAI across generation and embedding, with OpenAI-compatible evaluation through RAGAS. Uses Docling for document extraction.",
-    "tags": ["Python", "RAG", "watsonx", "Azure OpenAI", "RAGAS"],
-    "url": "https://github.com/omar-massfih/fragments-vs-flow",
-    "source": "github",
-    "draft": false
-  },
-  {
-    "name": "Keycloak Auth Proxy",
-    "summary": "FastAPI-based authentication proxy that secures backend services with Keycloak.",
-    "description": "Sits behind a reverse proxy such as Traefik, Nginx or Envoy, validates JWTs and introspects access tokens before forwarding requests, and routes dynamically via Kubernetes/OpenShift DNS. Fully asynchronous using httpx.",
-    "tags": ["Python", "FastAPI", "Keycloak", "OIDC", "Kubernetes"],
-    "url": "https://github.com/omar-massfih/keycloak-auth-proxy",
-    "source": "github",
-    "draft": false
-  },
-  {
-    "name": "Asp Interpreter",
-    "summary": "Interpreter for Asp, a mini-Python programming language, written in Java.",
-    "description": "Built for the University of Oslo course IN2030. Covers the full interpretation pipeline — scanner, parser, expression evaluation and a complete interpreter handling functions, loops and conditionals.",
-    "tags": ["Java", "Interpreters", "Parsing"],
-    "url": "https://github.com/omar-massfih/asp-interpreter",
     "source": "github",
     "draft": false
   }
