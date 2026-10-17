@@ -32,4 +32,4 @@ The backend repo needs an Actions secret named `FRONTEND_REDEPLOY_TOKEN` with pe
 
 ## Public URLs
 
-Pages use directory URLs: `/`, `/projects/`, `/notes/`, `/cv/` and `/about/`. Notes, categories and the project case study also use trailing slashes. Old named `.html` URLs are no longer generated and have no redirects. GitHub Pages still serves `index.html` internally and uses `404.html` for missing pages.
+Pages use directory URLs: `/`, `/projects/`, `/notes/`, `/cv/` and `/about/`. Notes and categories also use trailing slashes. Old named `.html` URLs are no longer generated and have no redirects. GitHub Pages still serves `index.html` internally and uses `404.html` for missing pages.

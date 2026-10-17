@@ -31,7 +31,7 @@ const fixtures = [
     description: "Featured <description>",
     tags: ["Eleventy", "FastAPI"],
     url: "/featured/?value=<unsafe>",
-    source: "case study",
+    source: "example",
   },
   {
     name: "Last project",
@@ -97,7 +97,7 @@ test("uses semantic heading and labeled technology lists", () => {
   assert.equal(document.querySelectorAll(".project-row[hidden]").length, 0);
 });
 
-test("renders the same simple list when no case study exists", () => {
+test("renders the simple list for a single source", () => {
   const document = new JSDOM(render([fixtures[0], fixtures[2]])).window.document;
 
   assert.equal(document.querySelector(".featured-project-region"), null);

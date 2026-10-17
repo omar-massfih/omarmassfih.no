@@ -7,7 +7,6 @@ const errors = [];
 const pages = [
   ["index.html", "Omar Massfih"],
   ["projects/index.html", "Projects"],
-  ["projects/omarmassfih-no/index.html", "Projects"],
   ["notes/index.html", "Notes"],
   ["notes/rag/retrieval/index.html", "Notes"],
   ["notes/categories/kubernetes-k3s/index.html", "Notes"],

@@ -17,10 +17,10 @@ const checkUrl = (value, base) => {
   assert.ok(fs.statSync(outputFile(url)).isFile(), `${base}: missing destination ${value}`);
 };
 
-for (const route of ["", "projects/", "notes/", "cv/", "about/", "projects/omarmassfih-no/"]) {
+for (const route of ["", "projects/", "notes/", "cv/", "about/"]) {
   assert.ok(fs.existsSync(path.join(siteDir, route, "index.html")), `Missing /${route}`);
 }
-for (const retired of ["skills", "learning-paths", "om", "prosjekter"]) {
+for (const retired of ["skills", "learning-paths", "om", "prosjekter", "projects/omarmassfih-no"]) {
   assert.ok(!fs.existsSync(path.join(siteDir, `${retired}.html`)), `Retired ${retired}.html remains`);
   assert.ok(!fs.existsSync(path.join(siteDir, retired)), `Retired /${retired}/ remains`);
 }

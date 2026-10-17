@@ -30,7 +30,6 @@ test("renders an accessible progressive-enhancement fallback", () => {
 for (const [url, label] of [
   ["/", "Omar Massfih"],
   ["/projects/", "Projects"],
-  ["/projects/omarmassfih-no/", "Projects"],
   ["/notes/", "Notes"],
   ["/notes/rag/retrieval/", "Notes"],
   ["/notes/categories/kubernetes-k3s/", "Notes"],

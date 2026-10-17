@@ -1,8 +1,8 @@
 [
   {
     "name": "omarmassfih.no",
-    "summary": "Engineering case study: a static publishing pipeline with streamed hybrid-RAG chat.",
-    "description": "How Eleventy, FastAPI, Turso and GitHub Actions turn versioned notes into static pages, then answer live questions with fused semantic and lexical retrieval.",
+    "summary": "Personal website for projects, technical notes and CV.",
+    "description": "An Eleventy frontend that publishes technical notes and connects to a FastAPI backend for search and chat.",
     "tags": [
       "Eleventy",
       "FastAPI",
@@ -10,8 +10,8 @@
       "Hybrid RAG",
       "GitHub Actions"
     ],
-    "url": "/projects/omarmassfih-no/",
-    "source": "case study",
+    "url": "https://github.com/omar-massfih/omarmassfih.no",
+    "source": "github",
     "draft": false
   },
   {

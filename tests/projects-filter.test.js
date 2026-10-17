@@ -17,7 +17,7 @@ const setup = (url = "https://example.test/projects/") => {
       <label for="source">Source</label>
       <select id="source" name="source">
         <option value="">All sources</option>
-        <option>case study</option><option>github</option>
+        <option>example</option><option>github</option>
       </select>
       <button type="button" data-project-clear disabled>Clear filters</button>
       <p data-project-count aria-live="polite" aria-atomic="true"></p>
@@ -25,9 +25,9 @@ const setup = (url = "https://example.test/projects/") => {
     <div class="project-list project-results" data-project-results>
       <article class="project-row" data-name="Alpha" data-source="github"
         data-technologies='["Python"]'></article>
-      <article class="project-row" data-name="Beta" data-source="case study"
+      <article class="project-row" data-name="Beta" data-source="example"
         data-technologies='["Eleventy"]'></article>
-      <article class="project-row" data-name="Gamma" data-source="case study"
+      <article class="project-row" data-name="Gamma" data-source="example"
         data-technologies='["Python"]'></article>
     </div>
     <div data-project-empty hidden>
@@ -68,7 +68,7 @@ test("restores technology and source filters from the URL with AND semantics", (
   assert.equal(technologyOnly.technology.value, "Python");
   assert.deepEqual(technologyOnly.visible(), ["Alpha", "Gamma"]);
 
-  const sourceOnly = setup("https://example.test/projects/?source=case%20study");
+  const sourceOnly = setup("https://example.test/projects/?source=example");
   assert.deepEqual(sourceOnly.visible(), ["Beta", "Gamma"]);
 
   const combined = setup(
@@ -84,12 +84,12 @@ test("changes update results, clear state, URL, and preserve unrelated state", (
     "https://example.test/projects/?campaign=summer#work"
   );
   change(technology, "Python");
-  change(source, "case study");
+  change(source, "example");
 
   assert.deepEqual(visible(), ["Gamma"]);
   assert.equal(document.querySelector("[data-project-count]").textContent, "1 of 3 projects");
   assert.equal(document.querySelector("[data-project-clear]").disabled, false);
-  assert.equal(dom.window.location.search, "?campaign=summer&technology=Python&source=case+study");
+  assert.equal(dom.window.location.search, "?campaign=summer&technology=Python&source=example");
   assert.equal(dom.window.location.hash, "#work");
 
   document.querySelector("[data-project-clear]").click();
@@ -114,7 +114,7 @@ test("popstate restores controls and results", () => {
   change(technology, "Python");
   assert.deepEqual(visible(), ["Alpha", "Gamma"]);
 
-  dom.window.history.replaceState({}, "", "/projects/?source=case%20study");
+  dom.window.history.replaceState({}, "", "/projects/?source=example");
   dom.window.dispatchEvent(new PopStateEvent("popstate"));
 
   assert.equal(technology.value, "");
@@ -136,7 +136,7 @@ test("filters all projects in place within the regular list", () => {
 
   change(technology, "");
   assert.equal(beta.hidden, false);
-  change(source, "case study");
+  change(source, "example");
   assert.equal(beta.hidden, false);
   assert.deepEqual(visible(), ["Beta", "Gamma"]);
   assert.equal(beta.parentElement, betaParent);
