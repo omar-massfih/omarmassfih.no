@@ -21,17 +21,17 @@ for (const node of graph.nodes || []) {
 for (const link of graph.links || []) {
   if (!ids.has(link.source) || !ids.has(link.target)) errors.push(`Missing link endpoint: ${link.source} -> ${link.target}`);
 }
-const fileForUrl = (url) => path.join(site, url.replace(/^\/+/, ""));
+const fileForUrl = (url) => path.join(site, url.replace(/^\/+/, ""), url.endsWith("/") ? "index.html" : "");
 const noteNodes = (graph.nodes || []).filter(({ type }) => type === "note");
 for (const node of noteNodes) {
   if (!node.url || !fs.existsSync(fileForUrl(node.url))) errors.push(`Missing generated note: ${node.id} (${node.url})`);
 }
-const notesHtml = fs.readFileSync(path.join(site, "notes.html"), "utf8");
+const notesHtml = fs.readFileSync(path.join(site, "notes/index.html"), "utf8");
 const notesDoc = new JSDOM(notesHtml).window.document;
-if (notesDoc.querySelectorAll('.knowledge-graph[data-graph-size="full"]').length !== 1) errors.push("notes.html must have one full panel");
-if (!notesDoc.querySelector(".graph-legend") || !notesDoc.querySelector("[data-graph-details]")) errors.push("notes.html lacks legend/details");
+if (notesDoc.querySelectorAll('.knowledge-graph[data-graph-size="full"]').length !== 1) errors.push("notes/index.html must have one full panel");
+if (!notesDoc.querySelector(".graph-legend") || !notesDoc.querySelector("[data-graph-details]")) errors.push("notes/index.html lacks legend/details");
 if (!notesDoc.querySelector(".graph-disclosure:not([open]) .knowledge-graph[data-graph-size='full']")) {
-  errors.push("notes.html graph must remain available but collapsed by default.");
+  errors.push("notes/index.html graph must remain available but collapsed by default.");
 }
 const css = fs.readFileSync(path.join(site, "style.css"), "utf8");
 if (!/\.graph-discovery-layout\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)\s*;/s.test(css) ||
@@ -39,7 +39,7 @@ if (!/\.graph-discovery-layout\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1f
   errors.push("Graph details must render below the graph, not in a side column.");
 }
 const fullFallback = new Set([...notesDoc.querySelectorAll(".graph-fallback a")].map((link) => link.getAttribute("href")));
-for (const node of noteNodes) if (!fullFallback.has(node.url)) errors.push(`notes.html fallback omits ${node.url}`);
+for (const node of noteNodes) if (!fullFallback.has(node.url)) errors.push(`notes/index.html fallback omits ${node.url}`);
 for (const node of noteNodes) {
   const doc = new JSDOM(fs.readFileSync(fileForUrl(node.url), "utf8")).window.document;
   const panel = doc.querySelector(".knowledge-graph[data-root-slug]");

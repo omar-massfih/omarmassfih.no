@@ -8,7 +8,7 @@ import buildNoteCategories from "../lib/noteCategories.js";
 const siteRoot = path.resolve("_site");
 const errors = [];
 const text = (element) => element?.textContent.trim().replace(/\s+/g, " ") || "";
-const outputFile = (url) => path.join(siteRoot, url.replace(/^\//, ""));
+const outputFile = (url) => path.join(siteRoot, url.replace(/^\//, ""), url.endsWith("/") ? "index.html" : "");
 const count = (values, expected) => values.filter((value) => value === expected).length;
 const sortedUnique = (values) => [...new Set(values)].sort();
 const categoryUrlPrefix = "/notes/categories/";
@@ -32,9 +32,9 @@ const categories = buildNoteCategories(notes);
 const expectedCategoryUrls = categories.map((category) => category.url).sort();
 const categoryDir = path.join(siteRoot, "notes", "categories");
 const generatedFiles = fs.existsSync(categoryDir)
-  ? fs.readdirSync(categoryDir).filter((file) => file.endsWith(".html")).sort()
+  ? htmlFiles(categoryDir).map((file) => path.relative(categoryDir, file).split(path.sep).join("/")).sort()
   : [];
-const expectedFiles = categories.map((category) => `${category.slug}.html`).sort();
+const expectedFiles = categories.map((category) => `${category.slug}/index.html`).sort();
 
 if (JSON.stringify(generatedFiles) !== JSON.stringify(expectedFiles)) {
   errors.push(
@@ -42,11 +42,11 @@ if (JSON.stringify(generatedFiles) !== JSON.stringify(expectedFiles)) {
   );
 }
 
-const indexFile = outputFile("/notes.html");
+const indexFile = outputFile("/notes/");
 const indexDocument = fs.existsSync(indexFile)
   ? new JSDOM(fs.readFileSync(indexFile, "utf8")).window.document
   : null;
-if (!indexDocument) errors.push("_site/notes.html is missing.");
+if (!indexDocument) errors.push("_site/notes/index.html is missing.");
 
 const generatedCategoryLinks = sortedUnique(
   htmlFiles(siteRoot).flatMap((file) => {
@@ -97,8 +97,8 @@ for (const category of categories) {
   const indexLinks = indexDocument
     ? [...indexDocument.querySelectorAll(`a[href="${category.url}"]`)]
     : [];
-  if (!indexLinks.length) errors.push(`/notes.html does not link to ${category.url}.`);
-  if (!fs.existsSync(file)) errors.push(`/notes.html category link ${category.url} does not resolve.`);
+  if (!indexLinks.length) errors.push(`/notes/ does not link to ${category.url}.`);
+  if (!fs.existsSync(file)) errors.push(`/notes/ category link ${category.url} does not resolve.`);
 
   for (const note of category.notes) {
     const noteFile = outputFile(note.url);

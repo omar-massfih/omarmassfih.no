@@ -1,13 +1,13 @@
 ---
 title: Omar Massfih
 layout: layouts/base.njk
-permalink: /index.html
+permalink: /
 date: git Last Modified
 ---
   <main id="main">
     <section class="home-intro">
       <p class="kicker">Data Platform Engineer</p>
-      <h1>Hi, my name is <a href="/about.html" class="linkbody">Omar</a>.</h1>
+      <h1>Hi, my name is <a href="/about/" class="linkbody">Omar</a>.</h1>
       <p>I build platforms, data solutions and AI systems at Bama. Along the way I have earned 10 Azure certifications and 6 Red Hat certifications.</p>
       <nav class="social-links flex-container">
         <a class="image-link" href="https://www.linkedin.com/in/omarmassfih" aria-label="LinkedIn">
@@ -29,7 +29,7 @@ date: git Last Modified
     <article>
       <nav class="flex-container section-head">
         <h2>Latest projects</h2>
-        <a class="section-head-link linkbody" href="/projects.html">Show more</a>
+        <a class="section-head-link linkbody" href="/projects/">Show more</a>
       </nav>
 {%- set publishedProjects = projects | rejectattr("draft") %}
 {%- for project in publishedProjects %}{% if loop.index <= 2 %}
@@ -45,7 +45,7 @@ date: git Last Modified
     <article>
       <nav class="flex-container section-head">
         <h2>Latest notes</h2>
-        <a class="section-head-link linkbody" href="/notes.html">Show more</a>
+        <a class="section-head-link linkbody" href="/notes/">Show more</a>
       </nav>
 {%- for note in backendNotes %}{% if loop.index <= 2 %}
       <a href="{{ note.url | escape }}" class="list-row">

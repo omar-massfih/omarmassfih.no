@@ -19,10 +19,10 @@ function walkHtmlFiles(dir) {
 }
 
 function pageUrl(filePath) {
-  return `/${path.relative(siteDir, filePath).split(path.sep).join("/")}`;
+  return `/${path.relative(siteDir, filePath).split(path.sep).join("/")}`.replace(/index\.html$/, "");
 }
 
-const noteFiles = walkHtmlFiles(notesDir);
+const noteFiles = walkHtmlFiles(notesDir).filter((file) => file !== path.join(notesDir, "index.html"));
 if (!noteFiles.length) errors.push("No generated note HTML files found under _site/notes.");
 
 for (const file of noteFiles) {

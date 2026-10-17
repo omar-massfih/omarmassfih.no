@@ -13,7 +13,7 @@ eleventyComputed:
   <main id="main">
     <h1 class="center">{{ category.title }}</h1>
     <p class="category-note-count center">{{ category.count }} note{% if category.count != 1 %}s{% endif %}</p>
-    <p class="category-back-link"><a href="/notes.html">← All notes</a></p>
+    <p class="category-back-link"><a href="/notes/">← All notes</a></p>
     <section class="notes-list" aria-label="{{ category.title }} notes">
 {%- for note in category.notes %}
       <a href="{{ note.url }}" class="list-row">

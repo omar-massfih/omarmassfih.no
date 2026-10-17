@@ -4,8 +4,8 @@ import process from "node:process";
 import { JSDOM } from "jsdom";
 
 const siteDir = path.resolve("_site");
-const caseStudyPath = path.join(siteDir, "projects", "omarmassfih-no.html");
-const projectsPath = path.join(siteDir, "projects.html");
+const caseStudyPath = path.join(siteDir, "projects", "omarmassfih-no", "index.html");
+const projectsPath = path.join(siteDir, "projects/index.html");
 const sitemapPath = path.join(siteDir, "sitemap.xml");
 const errors = [];
 
@@ -27,8 +27,8 @@ const requireMatch = (html, pattern, message) => {
 
 requireMatch(
   projects,
-  /href="\/projects\/omarmassfih-no\.html"/,
-  "Projects page does not link to /projects/omarmassfih-no.html."
+  /href="\/projects\/omarmassfih-no\/"/,
+  "Projects page does not link to /projects/omarmassfih-no/."
 );
 
 const caseStudyDocument = new JSDOM(caseStudy).window.document;
@@ -131,7 +131,7 @@ for (const [, fragment] of caseStudy.matchAll(/href="#([^"]+)"/g)) {
 
 requireMatch(
   sitemap,
-  /<loc>https:\/\/omarmassfih\.no\/projects\/omarmassfih-no\.html<\/loc>/,
+  /<loc>https:\/\/omarmassfih\.no\/projects\/omarmassfih-no\/<\/loc>/,
   "Sitemap does not contain the case-study URL."
 );
 

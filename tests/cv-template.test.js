@@ -76,7 +76,6 @@ test("preserves headings, links, and print behavior", () => {
   const document = render();
   assert.equal(document.querySelectorAll("h1").length, 1);
   assert.ok(document.querySelector("#skills"));
-  assert.equal(document.querySelector('#skills a').getAttribute("href"), "/skills.html");
   const credly = document.querySelector('a[href^="https://www.credly.com/"]');
   assert.equal(credly.getAttribute("target"), "_blank");
   assert.equal(credly.getAttribute("rel"), "me noopener");

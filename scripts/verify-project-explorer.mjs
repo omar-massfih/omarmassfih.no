@@ -7,10 +7,10 @@ import buildProjectExplorer from "../lib/projectExplorer.js";
 const errors = [];
 const projects = JSON.parse(fs.readFileSync("src/_data/projects.json", "utf8"));
 const expected = buildProjectExplorer(projects);
-const outputPath = path.resolve("_site/projects.html");
+const outputPath = path.resolve("_site/projects/index.html");
 
 if (!fs.existsSync(outputPath)) {
-  console.error("Project explorer verification failed:\n- Missing _site/projects.html.");
+  console.error("Project explorer verification failed:\n- Missing _site/projects/index.html.");
   process.exit(1);
 }
 

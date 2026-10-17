@@ -22,7 +22,7 @@ const fixtures = [
     summary: "A clear <summary>",
     description: "A detailed <description>",
     tags: ["Node <JS>", "CSS"],
-    url: "/first.html?value=<unsafe>",
+    url: "/first/?value=<unsafe>",
     source: "github",
   },
   {
@@ -30,7 +30,7 @@ const fixtures = [
     summary: "Featured <summary>",
     description: "Featured <description>",
     tags: ["Eleventy", "FastAPI"],
-    url: "/featured.html?value=<unsafe>",
+    url: "/featured/?value=<unsafe>",
     source: "case study",
   },
   {

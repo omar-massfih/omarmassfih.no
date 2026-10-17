@@ -6,7 +6,7 @@ import { JSDOM } from "jsdom";
 
 const script = await readFile(new URL("../src/projects-filter.js", import.meta.url), "utf8");
 
-const setup = (url = "https://example.test/projects.html") => {
+const setup = (url = "https://example.test/projects/") => {
   const dom = new JSDOM(`
     <form class="project-filter" hidden>
       <label for="technology">Technology</label>
@@ -64,15 +64,15 @@ test("initializes with all projects visible and controls revealed", () => {
 });
 
 test("restores technology and source filters from the URL with AND semantics", () => {
-  const technologyOnly = setup("https://example.test/projects.html?technology=Python");
+  const technologyOnly = setup("https://example.test/projects/?technology=Python");
   assert.equal(technologyOnly.technology.value, "Python");
   assert.deepEqual(technologyOnly.visible(), ["Alpha", "Gamma"]);
 
-  const sourceOnly = setup("https://example.test/projects.html?source=case%20study");
+  const sourceOnly = setup("https://example.test/projects/?source=case%20study");
   assert.deepEqual(sourceOnly.visible(), ["Beta", "Gamma"]);
 
   const combined = setup(
-    "https://example.test/projects.html?technology=Eleventy&source=github"
+    "https://example.test/projects/?technology=Eleventy&source=github"
   );
   assert.deepEqual(combined.visible(), []);
   assert.equal(combined.document.querySelector("[data-project-count]").textContent, "0 of 3 projects");
@@ -81,7 +81,7 @@ test("restores technology and source filters from the URL with AND semantics", (
 
 test("changes update results, clear state, URL, and preserve unrelated state", () => {
   const { dom, document, technology, source, change, visible } = setup(
-    "https://example.test/projects.html?campaign=summer#work"
+    "https://example.test/projects/?campaign=summer#work"
   );
   change(technology, "Python");
   change(source, "case study");
@@ -100,7 +100,7 @@ test("changes update results, clear state, URL, and preserve unrelated state", (
 
 test("unsupported URL values are ignored and canonicalized", () => {
   const { dom, technology, source, visible } = setup(
-    "https://example.test/projects.html?technology=COBOL&source=unknown&keep=yes#projects"
+    "https://example.test/projects/?technology=COBOL&source=unknown&keep=yes#projects"
   );
   assert.equal(technology.value, "");
   assert.equal(source.value, "");
@@ -114,7 +114,7 @@ test("popstate restores controls and results", () => {
   change(technology, "Python");
   assert.deepEqual(visible(), ["Alpha", "Gamma"]);
 
-  dom.window.history.replaceState({}, "", "/projects.html?source=case%20study");
+  dom.window.history.replaceState({}, "", "/projects/?source=case%20study");
   dom.window.dispatchEvent(new PopStateEvent("popstate"));
 
   assert.equal(technology.value, "");
@@ -144,7 +144,7 @@ test("filters all projects in place within the regular list", () => {
 });
 
 test("missing required DOM elements is a safe no-op", () => {
-  const dom = new JSDOM("<main></main>", { url: "https://example.test/projects.html" });
+  const dom = new JSDOM("<main></main>", { url: "https://example.test/projects/" });
   assert.doesNotThrow(() =>
     runInNewContext(script, {
       document: dom.window.document,

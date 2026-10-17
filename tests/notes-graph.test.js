@@ -3,16 +3,16 @@ import test from "node:test";
 import buildNotesGraph, { getNotesGraphNeighborhood } from "../lib/notesGraph.js";
 
 const notes = [
-  { slug: "alpha", title: "Alpha", category: "Systems", url: "/notes/alpha.html", tags: ["scale", "data"] },
-  { slug: "beta", list_title: "Beta list", title: "Beta", category: "RAG", url: "/notes/beta.html", tags: ["scale", "data", "ai"] },
-  { slug: "gamma", title: "Gamma", category: "Systems", url: "/notes/gamma.html", tags: ["other"] },
-  { slug: "plain", title: "Plain", url: "/notes/plain.html" },
+  { slug: "alpha", title: "Alpha", category: "Systems", url: "/notes/alpha/", tags: ["scale", "data"] },
+  { slug: "beta", list_title: "Beta list", title: "Beta", category: "RAG", url: "/notes/beta/", tags: ["scale", "data", "ai"] },
+  { slug: "gamma", title: "Gamma", category: "Systems", url: "/notes/gamma/", tags: ["other"] },
+  { slug: "plain", title: "Plain", url: "/notes/plain/" },
 ];
 
 test("builds note, tag, relationship, and weighted related-note records", () => {
   const graph = buildNotesGraph(notes);
   assert.deepEqual(graph.nodes.find(({ id }) => id === "note:beta"), {
-    id: "note:beta", type: "note", label: "Beta list", category: "RAG", url: "/notes/beta.html",
+    id: "note:beta", type: "note", label: "Beta list", category: "RAG", url: "/notes/beta/",
   });
   assert.equal(graph.nodes.filter(({ type }) => type === "tag").length, 4);
   assert(graph.links.some(({ source, target }) => source === "note:alpha" && target === "tag:scale"));
@@ -36,7 +36,7 @@ test("handles empty graphs, missing roots, and tagless roots", () => {
   assert.deepEqual(getNotesGraphNeighborhood({}, "note:alpha"), { nodes: [], links: [] });
   assert.deepEqual(getNotesGraphNeighborhood(buildNotesGraph(notes), "note:missing"), { nodes: [], links: [] });
   assert.deepEqual(getNotesGraphNeighborhood(buildNotesGraph(notes), "note:plain"), {
-    nodes: [{ id: "note:plain", type: "note", label: "Plain", category: "Notes", url: "/notes/plain.html" }],
+    nodes: [{ id: "note:plain", type: "note", label: "Plain", category: "Notes", url: "/notes/plain/" }],
     links: [],
   });
 });

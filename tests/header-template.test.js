@@ -29,15 +29,14 @@ test("renders an accessible progressive-enhancement fallback", () => {
 
 for (const [url, label] of [
   ["/", "Omar Massfih"],
-  ["/index.html", "Omar Massfih"],
-  ["/projects.html", "Projects"],
-  ["/projects/omarmassfih-no.html", "Projects"],
-  ["/notes.html", "Notes"],
-  ["/notes/rag/retrieval.html", "Notes"],
-  ["/notes/categories/kubernetes-k3s.html", "Notes"],
-  ["/notes/projects/example.html", "Notes"],
-  ["/cv.html", "CV"],
-  ["/about.html", "About"],
+  ["/projects/", "Projects"],
+  ["/projects/omarmassfih-no/", "Projects"],
+  ["/notes/", "Notes"],
+  ["/notes/rag/retrieval/", "Notes"],
+  ["/notes/categories/kubernetes-k3s/", "Notes"],
+  ["/notes/projects/example/", "Notes"],
+  ["/cv/", "CV"],
+  ["/about/", "About"],
 ]) {
   test(`marks ${url} as the single current destination`, () => {
     const current = [...render(url).querySelectorAll('[aria-current="page"]')];

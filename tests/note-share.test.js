@@ -5,7 +5,7 @@ import test from "node:test";
 import { JSDOM } from "jsdom";
 
 const script = await readFile(new URL("../src/note-share.js", import.meta.url), "utf8");
-const canonicalUrl = "https://example.test/notes/canonical.html";
+const canonicalUrl = "https://example.test/notes/canonical/";
 
 function setup({ clipboard, share, markup } = {}) {
   const dom = new JSDOM(markup ?? `

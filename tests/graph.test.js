@@ -7,8 +7,8 @@ import { JSDOM } from "jsdom";
 const script = await readFile(new URL("../src/graph.js", import.meta.url), "utf8");
 const graph = {
   nodes: [
-    { id: "note:a", type: "note", label: "Alpha", category: "Systems", url: "/a.html" },
-    { id: "note:b", type: "note", label: "Beta", category: "RAG", url: "/b.html" },
+    { id: "note:a", type: "note", label: "Alpha", category: "Systems", url: "/a/" },
+    { id: "note:b", type: "note", label: "Beta", category: "RAG", url: "/b/" },
     { id: "tag:x", type: "tag", label: "x" },
   ],
   links: [
@@ -24,7 +24,7 @@ const setup = async ({ ok = true, reduced = true, root = "", graphData = graph }
       <p class="graph-loading">Loading</p>
     </div>
     <aside><div data-graph-details><p>Instructions</p></div><p data-graph-status></p></aside>
-    <details class="graph-fallback"><a href="/a.html">Alpha</a></details>
+    <details class="graph-fallback"><a href="/a/">Alpha</a></details>
   </section>`, { url: "https://example.test/" });
   const { window } = dom;
   window.matchMedia = () => ({ matches: reduced });
@@ -55,7 +55,7 @@ test("enhances successfully, preserves fallback, and creates accessible controls
 test("fetch failure leaves static fallback and instructions usable", async () => {
   const { window } = await setup({ ok: false });
   assert(!window.document.querySelector("svg"));
-  assert.equal(window.document.querySelector(".graph-fallback a").href, "https://example.test/a.html");
+  assert.equal(window.document.querySelector(".graph-fallback a").href, "https://example.test/a/");
   assert.match(window.document.querySelector("[data-graph-details]").textContent, /Instructions/);
   assert(!window.document.querySelector(".graph-loading"));
   assert.match(window.document.querySelector(".graph-unavailable").textContent, /Use the note links below/);
@@ -90,11 +90,11 @@ test("note and tag keyboard selection populate details without navigating", asyn
   assert.match(noteDetails.textContent, /Related notes:/);
   assert.equal(
     [...noteDetails.querySelectorAll("a")].find((link) => link.textContent === "Beta")?.getAttribute("href"),
-    "/b.html"
+    "/b/"
   );
   assert.equal(
     [...noteDetails.querySelectorAll("a")].find((link) => link.textContent === "Open note")?.getAttribute("href"),
-    "/a.html"
+    "/a/"
   );
   const tag = window.document.querySelector('[data-id="tag:x"]');
   tag.dispatchEvent(new window.KeyboardEvent("keydown", { key: " ", bubbles: true }));
@@ -105,7 +105,7 @@ test("tag activation details include notes revealed by expansion", async () => {
   const expandableGraph = {
     nodes: [
       ...graph.nodes,
-      { id: "note:c", type: "note", label: "Gamma", category: "Systems", url: "/c.html" },
+      { id: "note:c", type: "note", label: "Gamma", category: "Systems", url: "/c/" },
     ],
     links: [
       ...graph.links,
@@ -150,7 +150,7 @@ test("tag details only list notes visible under the active category filter", asy
   assert.match(details.textContent, /1 connected note/);
   assert.deepEqual(
     [...details.querySelectorAll("a")].map((link) => [link.textContent, link.getAttribute("href")]),
-    [["Alpha", "/a.html"]]
+    [["Alpha", "/a/"]]
   );
   assert.doesNotMatch(details.textContent, /Beta/);
 });

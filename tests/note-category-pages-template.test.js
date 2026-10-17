@@ -22,14 +22,14 @@ test("renders a focused static category with escaped existing previews", () => {
     count: 2,
     notes: [
       {
-        url: "/notes/one.html",
+        url: "/notes/one/",
         title: "One",
         date_text: "Jul 30",
         reading_time_text: "2 min read",
         description,
         tags: [tag],
       },
-      { url: "/notes/two.html", title: "Two", tags: [] },
+      { url: "/notes/two/", title: "Two", tags: [] },
     ],
   })).window.document;
 
@@ -37,20 +37,20 @@ test("renders a focused static category with escaped existing previews", () => {
   assert.equal(document.querySelector(".category-note-count").textContent.trim(), "2 notes");
   assert.deepEqual(
     [...document.querySelectorAll(".notes-list > .list-row")].map((row) => row.getAttribute("href")),
-    ["/notes/one.html", "/notes/two.html"]
+    ["/notes/one/", "/notes/two/"]
   );
   assert.equal(document.querySelector(".note-preview-description").textContent, description);
   assert.equal(document.querySelector(".note-preview-tags .tag").textContent, tag);
   assert.equal(document.querySelector(".notes-list script"), null);
   assert.equal(document.querySelector(".notes-list img"), null);
-  assert.equal(document.querySelector('a[href="/notes.html"]').textContent.trim(), "← All notes");
+  assert.equal(document.querySelector('a[href="/notes/"]').textContent.trim(), "← All notes");
 });
 
 test("renders the singular note count", () => {
   const document = new JSDOM(render({
     title: "Singleton",
     count: 1,
-    notes: [{ url: "/notes/only.html", title: "Only", tags: [] }],
+    notes: [{ url: "/notes/only/", title: "Only", tags: [] }],
   })).window.document;
 
   assert.equal(document.querySelector(".category-note-count").textContent.trim(), "1 note");

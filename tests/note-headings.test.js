@@ -153,7 +153,7 @@ test("renders deterministic duplicate-heading and heading-free note fixtures", (
       content: processed.content_html,
       dateIso: "2026-01-01T00:00:00.000Z",
       note: { ...fixture, toc: processed.toc, tags: [] },
-      page: { url: `/notes/${fixture.slug}.html` },
+      page: { url: `/notes/${fixture.slug}/` },
       site: {
         title: "Fixture site",
         description: "Fixture description",

@@ -3,8 +3,8 @@ import process from "node:process";
 import { JSDOM } from "jsdom";
 
 const errors = [];
-const outputPath = "_site/about.html";
-const internalPaths = ["/projects.html", "/notes.html", "/cv.html"];
+const outputPath = "_site/about/index.html";
+const internalPaths = ["/projects/", "/notes/", "/cv/"];
 const contacts = [
   "mailto:me@omarmassfih.no",
   "https://www.linkedin.com/in/omarmassfih",

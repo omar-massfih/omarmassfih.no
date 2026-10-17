@@ -4,7 +4,7 @@ import { JSDOM } from "jsdom";
 
 const errors = [];
 const cv = JSON.parse(fs.readFileSync("src/_data/cv.json", "utf8"));
-const outputPath = "_site/cv.html";
+const outputPath = "_site/cv/index.html";
 
 if (!fs.existsSync(outputPath)) {
   console.error(`CV verification failed:\n- Missing generated page: ${outputPath}`);
@@ -65,8 +65,6 @@ if (document.querySelectorAll(".cv-role").length !== cv.experience.length) error
 if (document.querySelectorAll(".cv-skill-row").length !== cv.skills.length) errors.push("Missing grouped skill rows.");
 if (document.querySelectorAll(".cv-credential-group").length !== cv.certifications.length) errors.push("Missing credential rows.");
 
-const skillsLink = document.querySelector('#skills a[href="/skills.html"]');
-if (!skillsLink) errors.push("Missing Skills in Practice link.");
 const credly = document.querySelector('a[href="https://www.credly.com/users/omar-massfih"]');
 if (!credly || credly.getAttribute("target") !== "_blank" || credly.getAttribute("rel") !== "me noopener") {
   errors.push("Credly link is missing or has incorrect external-link attributes.");

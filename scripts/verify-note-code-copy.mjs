@@ -17,7 +17,7 @@ function walkHtmlFiles(dir) {
   });
 }
 
-const noteFiles = walkHtmlFiles(notesDir);
+const noteFiles = walkHtmlFiles(notesDir).filter((file) => file !== path.join(notesDir, "index.html"));
 let codeBlockCount = 0;
 let pageWithoutCode = false;
 let representativeSourceFound = false;

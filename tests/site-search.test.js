@@ -9,7 +9,7 @@ const data = [
   { type: "note", title: "Platform Notes", url: "/notes/platform/", summary: "Exact", searchText: "platform notes kubernetes" },
   { type: "note", title: "A Platform Guide", url: "/notes/guide/", summary: "Contains", searchText: "a platform guide" },
   { type: "project", title: "Platform", url: "https://example.com/project", summary: "Project", searchText: "platform gitops" },
-  { type: "skill", title: "Kubernetes", url: "/cv.html#skills", summary: "Cloud", searchText: "kubernetes cloud platform" },
+  { type: "skill", title: "Kubernetes", url: "/cv/#skills", summary: "Cloud", searchText: "kubernetes cloud platform" },
 ];
 
 const markup = `

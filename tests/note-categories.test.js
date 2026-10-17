@@ -17,14 +17,14 @@ test("builds category records while preserving note order", () => {
     {
       title: "Kubernetes/k3s",
       slug: "kubernetes-k3s",
-      url: "/notes/categories/kubernetes-k3s.html",
+      url: "/notes/categories/kubernetes-k3s/",
       count: 2,
       lastModified: "2026-07-30",
     },
     {
       title: "Cloud & Platform",
       slug: "cloud-platform",
-      url: "/notes/categories/cloud-platform.html",
+      url: "/notes/categories/cloud-platform/",
       count: 1,
       lastModified: "2026-07-29",
     },
@@ -53,7 +53,7 @@ test("rejects category page URLs that collide with note URLs", () => {
       {
         category: "Kubernetes",
         date: "2026-01-01",
-        url: "/notes/categories/kubernetes.html",
+        url: "/notes/categories/kubernetes/",
       },
     ]),
     /collides with an existing note URL/

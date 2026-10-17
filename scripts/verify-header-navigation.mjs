@@ -6,13 +6,13 @@ import { JSDOM } from "jsdom";
 const errors = [];
 const pages = [
   ["index.html", "Omar Massfih"],
-  ["projects.html", "Projects"],
-  ["projects/omarmassfih-no.html", "Projects"],
-  ["notes.html", "Notes"],
-  ["notes/rag/retrieval.html", "Notes"],
-  ["notes/categories/kubernetes-k3s.html", "Notes"],
-  ["cv.html", "CV"],
-  ["about.html", "About"],
+  ["projects/index.html", "Projects"],
+  ["projects/omarmassfih-no/index.html", "Projects"],
+  ["notes/index.html", "Notes"],
+  ["notes/rag/retrieval/index.html", "Notes"],
+  ["notes/categories/kubernetes-k3s/index.html", "Notes"],
+  ["cv/index.html", "CV"],
+  ["about/index.html", "About"],
 ];
 
 if (!fs.existsSync(path.resolve("_site/header-navigation.js"))) {

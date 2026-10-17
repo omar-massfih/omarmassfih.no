@@ -4,7 +4,6 @@ import hljs from "highlight.js";
 import buildNotesGraph, { getNotesGraphNeighborhood } from "./lib/notesGraph.js";
 import getRelatedNotes from "./lib/relatedNotes.js";
 import getNoteNavigation from "./lib/noteNavigation.js";
-import buildSkillsInPractice from "./lib/skillsInPractice.js";
 import buildProjectExplorer from "./lib/projectExplorer.js";
 import buildSiteSearchIndex from "./lib/siteSearchIndex.js";
 
@@ -31,7 +30,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/note-code-copy.js");
   eleventyConfig.addPassthroughCopy("src/note-reading-progress.js");
   eleventyConfig.addPassthroughCopy("src/note-share.js");
-  eleventyConfig.addPassthroughCopy("src/reading-list.js");
+  eleventyConfig.addPassthroughCopy("src/site-urls.js");
 
   // graphHash runs on every note page; keyed on the notes array so the graph
   // is built once per data load instead of once per page.
@@ -59,24 +58,6 @@ export default function (eleventyConfig) {
     return JSON.stringify(metadata).replace(/</g, "\\u003c");
   });
 
-  eleventyConfig.addFilter("backendNotesManifestJson", (notes) =>
-    JSON.stringify(notes.map(({ slug, url, published }) => ({ slug, url, published })))
-      .replace(/</g, "\\u003c")
-  );
-
-  eleventyConfig.addFilter("readingListJson", (notes) =>
-    JSON.stringify(
-      notes
-        .filter((note) => note.published !== false)
-        .map((note) => ({
-          slug: note.slug,
-          url: note.url,
-          title: note.list_title || note.title || "",
-          category: note.category || "",
-        }))
-    ).replace(/</g, "\\u003c")
-  );
-
   eleventyConfig.addFilter("graphHash", (notes) =>
     crypto.createHash("md5").update(serializedGraph(notes)).digest("hex").slice(0, 8)
   );
@@ -94,7 +75,6 @@ export default function (eleventyConfig) {
   );
   eleventyConfig.addFilter("noteNavigation", getNoteNavigation);
 
-  eleventyConfig.addFilter("skillsInPractice", buildSkillsInPractice);
   eleventyConfig.addFilter("projectExplorer", buildProjectExplorer);
   eleventyConfig.addFilter("siteSearchIndex", (notes, projects, cv) =>
     JSON.stringify(buildSiteSearchIndex(notes, projects, cv)).replace(/</g, "\\u003c")

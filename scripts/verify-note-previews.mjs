@@ -4,7 +4,7 @@ import process from "node:process";
 import { JSDOM } from "jsdom";
 import loadBackendNotes from "../lib/notesLoader.js";
 
-const notesIndexFile = path.resolve("_site/notes.html");
+const notesIndexFile = path.resolve("_site/notes/index.html");
 const errors = [];
 
 function normalizedText(element) {
@@ -12,7 +12,7 @@ function normalizedText(element) {
 }
 
 if (!fs.existsSync(notesIndexFile)) {
-  console.error("Note-preview verification failed:\n- _site/notes.html is missing.");
+  console.error("Note-preview verification failed:\n- _site/notes/index.html is missing.");
   process.exit(1);
 }
 

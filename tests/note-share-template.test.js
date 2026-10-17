@@ -17,7 +17,7 @@ function render(title) {
   return environment.renderString(template, {
     title,
     site: { url: "https://example.test" },
-    page: { url: "/notes/safe.html" },
+    page: { url: "/notes/safe/" },
   });
 }
 
@@ -50,7 +50,7 @@ test("email fallback URL-encodes the title and canonical URL without allowing in
   assert.equal(mailto.searchParams.get("subject"), `Useful note: ${title}`);
   assert.equal(
     mailto.searchParams.get("body"),
-    `I thought you might find this useful: ${title}\n\nhttps://example.test/notes/safe.html`
+    `I thought you might find this useful: ${title}\n\nhttps://example.test/notes/safe/`
   );
   assert.equal(panel.querySelector("img"), null);
   assert.equal(panel.dataset.shareTitle, title);

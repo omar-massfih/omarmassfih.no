@@ -29,3 +29,7 @@ The backend repo seeds notes to Turso, then sends a `notes_updated` repository d
 The frontend also rebuilds daily as a fallback, so backend-driven pages and the sitemap recover automatically if a dispatch is missed.
 
 The backend repo needs an Actions secret named `FRONTEND_REDEPLOY_TOKEN` with permission to dispatch events to this repo.
+
+## Public URLs
+
+Pages use directory URLs: `/`, `/projects/`, `/notes/`, `/cv/` and `/about/`. Notes, categories and the project case study also use trailing slashes. Old named `.html` URLs are no longer generated and have no redirects. GitHub Pages still serves `index.html` internally and uses `404.html` for missing pages.

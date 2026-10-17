@@ -18,7 +18,7 @@ function walkHtmlFiles(dir) {
 }
 
 function pageUrl(filePath) {
-  return `/${path.relative(siteDir, filePath).split(path.sep).join("/")}`;
+  return `/${path.relative(siteDir, filePath).split(path.sep).join("/")}`.replace(/index\.html$/, "");
 }
 
 function hrefToFile(href) {
@@ -26,9 +26,9 @@ function hrefToFile(href) {
   return path.join(siteDir, relativePath.endsWith("/") ? `${relativePath}index.html` : relativePath);
 }
 
-const indexPath = path.join(siteDir, "notes.html");
+const indexPath = path.join(siteDir, "notes/index.html");
 if (!fs.existsSync(indexPath)) {
-  errors.push("Generated notes index _site/notes.html is missing.");
+  errors.push("Generated notes index _site/notes/index.html is missing.");
 }
 
 const categories = new Map();
@@ -60,7 +60,7 @@ if (fs.existsSync(indexPath)) {
   }
 }
 
-const noteFiles = walkHtmlFiles(notesDir);
+const noteFiles = walkHtmlFiles(notesDir).filter((file) => file !== path.join(notesDir, "index.html"));
 const generatedUrls = new Set(noteFiles.map(pageUrl));
 const listedUrls = new Set([...categories.values()].flat());
 

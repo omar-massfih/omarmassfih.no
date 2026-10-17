@@ -8,7 +8,7 @@ const source = fs.readFileSync("src/about.html", "utf8").replace(/^---[\s\S]*?--
 const environment = new nunjucks.Environment(null, { autoescape: true });
 const render = () => new JSDOM(environment.renderString(source)).window.document;
 
-const internalPaths = ["/projects.html", "/notes.html", "/cv.html"];
+const internalPaths = ["/projects/", "/notes/", "/cv/"];
 const contacts = [
   "mailto:me@omarmassfih.no",
   "https://www.linkedin.com/in/omarmassfih",

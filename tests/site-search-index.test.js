@@ -50,7 +50,7 @@ test("deduplicates skills case-insensitively and retains encountered groups", ()
 
   assert.deepEqual(records.map(({ title }) => title), ["Python", "Git", "SQL"]);
   assert.deepEqual(records[0].keywords, ["Languages", "Data"]);
-  assert.equal(records[0].url, "/cv.html#skills");
+  assert.equal(records[0].url, "/cv/#skills");
 });
 
 test("preserves deterministic type and source order with malformed optional data", () => {

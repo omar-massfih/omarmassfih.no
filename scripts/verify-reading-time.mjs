@@ -4,7 +4,7 @@ import process from "node:process";
 import { JSDOM } from "jsdom";
 
 const siteDir = path.resolve("_site");
-const notesIndexFile = path.join(siteDir, "notes.html");
+const notesIndexFile = path.join(siteDir, "notes/index.html");
 const notesDir = path.join(siteDir, "notes");
 const errors = [];
 const readingTimePattern = /\b\d+ min read\b/;
@@ -30,7 +30,7 @@ function pageUrl(filePath) {
 }
 
 if (!fs.existsSync(notesIndexFile)) {
-  errors.push("_site/notes.html is missing.");
+  errors.push("_site/notes/index.html is missing.");
 }
 
 const listLabelsByUrl = new Map();
@@ -38,19 +38,19 @@ if (fs.existsSync(notesIndexFile)) {
   const document = new JSDOM(fs.readFileSync(notesIndexFile, "utf8")).window.document;
   const rows = [...document.querySelectorAll(".notes-list a.list-row")];
 
-  if (!rows.length) errors.push("/notes.html: No generated note rows found.");
+  if (!rows.length) errors.push("/notes/: No generated note rows found.");
 
   for (const row of rows) {
     const labels = row.querySelectorAll(".list-row-meta");
     const label = normalizedText(labels[0]);
     if (labels.length !== 1 || !readingTimePattern.test(label)) {
-      errors.push(`/notes.html: ${row.getAttribute("href")} must have one static reading-time label.`);
+      errors.push(`/notes/: ${row.getAttribute("href")} must have one static reading-time label.`);
     }
     listLabelsByUrl.set(row.getAttribute("href"), label);
   }
 }
 
-const noteFiles = walkHtmlFiles(notesDir);
+const noteFiles = walkHtmlFiles(notesDir).filter((file) => file !== path.join(notesDir, "index.html"));
 if (!noteFiles.length) errors.push("No generated note HTML files found under _site/notes.");
 
 for (const file of noteFiles) {
@@ -65,9 +65,9 @@ for (const file of noteFiles) {
 
   const listLabel = listLabelsByUrl.get(url);
   if (!listLabel) {
-    errors.push(`${url}: No matching row found on /notes.html.`);
+    errors.push(`${url}: No matching row found on /notes/.`);
   } else if (listLabel !== label) {
-    errors.push(`${url}: Reading metadata differs from its /notes.html row.`);
+    errors.push(`${url}: Reading metadata differs from its /notes/ row.`);
   }
 }
 

@@ -2,7 +2,7 @@
 title: CV
 description: CV of Omar Massfih — experience, skills, education and certifications.
 layout: layouts/base.njk
-permalink: /cv.html
+permalink: /cv/
 date: git Last Modified
 ---
   <main id="main">
@@ -37,10 +37,7 @@ date: git Last Modified
       </article>
 
       <article class="cv-group" id="skills">
-        <div class="flex-container section-head">
-          <h2>Skills</h2>
-          <a class="section-head-link linkbody cv-action-link" href="/skills.html">See skills in practice</a>
-        </div>
+        <h2 class="section-head">Skills</h2>
 {%- for skill in cv.skills %}
 
         <section class="cv-item cv-skill-row">

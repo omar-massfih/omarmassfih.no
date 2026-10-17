@@ -38,8 +38,8 @@ const setup = () => {
         <input type="search" class="notes-search-input" name="q">
       </label>
       <button type="button" class="tag tag-filter tag-filter-clear" data-clear aria-pressed="true">All</button>
-      <a href="/notes/categories/kubernetes.html" class="tag tag-filter" data-category="Kubernetes" aria-pressed="false">Kubernetes</a>
-      <a href="/notes/categories/openshift.html" class="tag tag-filter" data-category="OpenShift" aria-pressed="false">OpenShift</a>
+      <a href="/notes/categories/kubernetes/" class="tag tag-filter" data-category="Kubernetes" aria-pressed="false">Kubernetes</a>
+      <a href="/notes/categories/openshift/" class="tag tag-filter" data-category="OpenShift" aria-pressed="false">OpenShift</a>
     </nav>
 
     <section class="notes-list">
@@ -205,7 +205,7 @@ test("enhanced category links keep their destinations and intercept navigation",
     cancelable: true,
   });
 
-  assert.equal(categoryLink.getAttribute("href"), "/notes/categories/kubernetes.html");
+  assert.equal(categoryLink.getAttribute("href"), "/notes/categories/kubernetes/");
   assert.equal(categoryLink.dispatchEvent(click), false);
   assert.deepEqual(visibleRows(), ["/notes/alpha/", "/notes/gamma/"]);
 });

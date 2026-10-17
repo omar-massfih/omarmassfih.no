@@ -10,8 +10,8 @@ const markup = `
   <button id="header-menu-toggle" hidden aria-expanded="false"
     aria-controls="header-navigation-panel" aria-label="Open navigation menu">Menu</button>
   <div id="header-navigation-panel">
-    <a href="/projects.html">Projects</a>
-    <a href="/notes.html">Notes</a>
+    <a href="/projects/">Projects</a>
+    <a href="/notes/">Notes</a>
     <button id="site-search-trigger">Search</button>
     <button id="theme-toggle">Theme</button>
   </div>

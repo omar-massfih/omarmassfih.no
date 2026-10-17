@@ -27,15 +27,15 @@ const projects = readJson("src/_data/projects.json");
 const cv = readJson("src/_data/cv.json");
 const byType = (type) => index.filter((record) => record.type === type);
 
-const notesOutputPath = path.resolve("_site/notes.html");
+const notesOutputPath = path.resolve("_site/notes/index.html");
 let backendNotes = [];
 if (!fs.existsSync(notesOutputPath)) {
-  errors.push("Missing _site/notes.html.");
+  errors.push("Missing _site/notes/index.html.");
 } else {
   const notesDocument = new JSDOM(fs.readFileSync(notesOutputPath, "utf8")).window.document;
   const notesData = notesDocument.querySelector("#notes-search-data")?.textContent;
   if (!notesData) {
-    errors.push("Missing backend note data in _site/notes.html.");
+    errors.push("Missing backend note data in _site/notes/index.html.");
   } else {
     try {
       backendNotes = JSON.parse(notesData);
@@ -106,7 +106,7 @@ if (!fs.existsSync(path.resolve("_site/site-search.js"))) {
   errors.push("Missing built site-search.js asset.");
 }
 
-for (const page of ["index.html", "projects.html", "notes.html", "cv.html", "about.html"]) {
+for (const page of ["index.html", "projects/index.html", "notes/index.html", "cv/index.html", "about/index.html"]) {
   const output = path.resolve("_site", page);
   if (!fs.existsSync(output)) {
     errors.push(`Missing generated ${page}.`);
@@ -123,7 +123,7 @@ for (const page of ["index.html", "projects.html", "notes.html", "cv.html", "abo
   if (!script) errors.push(`${page}: missing deferred hashed search script.`);
 }
 
-const cvDocument = new JSDOM(fs.readFileSync("_site/cv.html", "utf8")).window.document;
+const cvDocument = new JSDOM(fs.readFileSync("_site/cv/index.html", "utf8")).window.document;
 if (!cvDocument.querySelector("#skills")) errors.push("CV page is missing the #skills target.");
 
 if (errors.length) {

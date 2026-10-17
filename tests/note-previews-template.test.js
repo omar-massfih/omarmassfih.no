@@ -22,13 +22,13 @@ function render(notes) {
 test("renders the notes index structure, accessible filters, and category counts", () => {
   const html = render([
     {
-      url: "/notes/first.html",
+      url: "/notes/first/",
       title: "First",
       category: "Tests",
       tags: [],
     },
     {
-      url: "/notes/second.html",
+      url: "/notes/second/",
       title: "Second",
       category: "Tests",
       tags: [],
@@ -64,7 +64,7 @@ test("renders descriptions and tags as plain text when metadata contains HTML ch
   const description = 'Compare <script>alert("description")</script> & "quoted" values';
   const tag = '<img src=x onerror="alert(\'tag\')">&';
   const html = render([{
-    url: "/notes/escaping.html",
+    url: "/notes/escaping/",
     title: "Escaping",
     category: "Tests",
     date_text: "Jul 30",

@@ -76,8 +76,8 @@ for (const [index, note] of latestNotes.entries()) {
 }
 
 for (const [url, label] of [
-  ["/projects.html", "Show more"],
-  ["/notes.html", "Show more"],
+  ["/projects/", "Show more"],
+  ["/notes/", "Show more"],
 ]) {
   const link = [...document.querySelectorAll(`a[href="${url}"]`)]
     .find((candidate) => normalizedText(candidate) === label);

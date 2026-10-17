@@ -17,7 +17,7 @@ function walkHtmlFiles(dir) {
   });
 }
 
-const noteFiles = walkHtmlFiles(notesDir);
+const noteFiles = walkHtmlFiles(notesDir).filter((file) => file !== path.join(notesDir, "index.html"));
 if (!noteFiles.length) errors.push("No generated note pages found under _site/notes.");
 if (!fs.existsSync(path.join(siteDir, "note-reading-progress.js"))) {
   errors.push("_site/note-reading-progress.js was not emitted.");

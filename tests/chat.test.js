@@ -4,8 +4,9 @@ import { runInNewContext } from "node:vm";
 import test from "node:test";
 import { TextDecoder, TextEncoder } from "node:util";
 import { JSDOM } from "jsdom";
+import { cleanSiteUrl } from "../src/site-urls.js";
 
-const script = await readFile(new URL("../src/chat.js", import.meta.url), "utf8");
+const script = (await readFile(new URL("../src/chat.js", import.meta.url), "utf8")).replace(/^import[^\n]*\n/, "");
 const SESSION_KEY = "notes-chat:v1";
 
 function memoryStorage(initial = null) {
@@ -54,6 +55,7 @@ function setup({ storage = memoryStorage(), fetch = streamedFetch("") } = {}) {
     value: storage,
   });
   runInNewContext(script, {
+    cleanSiteUrl,
     document: dom.window.document,
     window: dom.window,
     fetch,
@@ -170,6 +172,25 @@ test("clear removes stored and rendered conversation and focuses the input", () 
   assert.equal(document.querySelector(".chat-empty").hidden, false);
   assert.equal(document.querySelector(".chat-clear").disabled, true);
   assert.equal(document.activeElement, document.querySelector(".chat-input"));
+});
+
+test("restored and streamed citations use clean URLs while external links stay intact", async () => {
+  const storage = memoryStorage(JSON.stringify([
+    { role: "user", content: "Earlier question" },
+    { role: "assistant", content: "Read [this note](/notes/rag/earlier.html?q=1#part) and [docs](https://docs.example.org/page.html).", sources: [{ title: "Earlier note", url: "https://omarmassfih.no/notes/rag/earlier.html#part" }] },
+  ]));
+  const page = setup({ storage, fetch: streamedFetch(
+    'event: sources\ndata: {"sources":[{"title":"Fresh note","url":"/notes/rag/fresh.html#details"}]}\n\n' +
+    'data: {"delta":"See [fresh](/notes/rag/fresh.html#details)."}\n\n' +
+    'data: [DONE]\n\n'
+  ) });
+  assert.equal(page.document.querySelector(".chat-sources a").getAttribute("href"), "/notes/rag/earlier/#part");
+  const links = page.document.querySelectorAll(".chat-bubble-assistant a");
+  assert.equal(links[0].getAttribute("href"), "/notes/rag/earlier/?q=1#part");
+  assert.equal(links[1].getAttribute("href"), "https://docs.example.org/page.html");
+  await ask(page, "Follow up");
+  assert.equal([...page.document.querySelectorAll(".chat-sources a")].at(-1).getAttribute("href"), "/notes/rag/fresh/#details");
+  assert.equal(JSON.parse(storage.getItem(SESSION_KEY)).at(-1).sources[0].url, "/notes/rag/fresh/#details");
 });
 
 test("a persistence write failure removes restored history before reload", async () => {

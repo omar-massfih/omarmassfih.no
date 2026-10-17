@@ -1,3 +1,5 @@
+import { cleanSiteUrl } from "./site-urls.js";
+
 (() => {
   "use strict";
 
@@ -60,7 +62,7 @@
       if (!isSafeSource(source)) continue;
 
       const title = source.title.trim();
-      const url = source.url.trim();
+      const url = cleanSiteUrl(source.url.trim(), window.location.href);
       const sourceSize = title.length + url.length;
       if (totalSize + sourceSize > MAX_SOURCES_SIZE) continue;
 
@@ -284,7 +286,7 @@
 
         if (isSafeHref) {
           const link = document.createElement("a");
-          link.href = href;
+          link.href = cleanSiteUrl(href, window.location.href);
           link.textContent = match[2];
           if (href.startsWith("http")) {
             link.rel = "noopener noreferrer";
