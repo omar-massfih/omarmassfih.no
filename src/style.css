@@ -112,8 +112,9 @@
 
   /* -- Layout --------------------------------------------------------------- */
   --container: 44rem;       /* reading width */
-  --container-wide: 58rem;  /* card grids */
   --gutter: clamp(1rem, 5vw, 2rem);
+  --content-inset: var(--space-3); /* shared text edge inside page-wide rules */
+  --control-size: 2.75rem;        /* primary input/button target: 44px */
 
   --focus-ring: 2px;
 }
@@ -226,6 +227,13 @@ p {
   text-wrap: pretty;
 }
 
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
 ul,
 ol {
   margin-bottom: var(--space-5);
@@ -263,6 +271,11 @@ main {
   margin-inline: auto;
   padding-inline: 0;
   padding-bottom: var(--space-8);
+}
+
+main > h1,
+main > section:not(.home-intro) > h1 {
+  padding-inline: var(--content-inset);
 }
 
 section,
@@ -326,10 +339,12 @@ header {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
+  padding-inline: var(--content-inset);
 }
 
 .header-identity {
   flex: none;
+  padding-inline: 0;
   color: var(--color-heading);
   font-weight: var(--weight-bold);
   letter-spacing: var(--tracking-wide);
@@ -346,8 +361,8 @@ header {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 2.5rem;
-  min-height: 2.5rem;
+  min-width: var(--control-size);
+  min-height: var(--control-size);
   padding: var(--space-1);
   color: var(--color-text);
   background: none;
@@ -368,6 +383,9 @@ header {
 }
 
 header a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-size);
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-sm);
   text-decoration: none;
@@ -387,6 +405,8 @@ header a[aria-current="page"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: var(--control-size);
+  min-height: var(--control-size);
   padding: var(--space-1) var(--space-2);
   background: none;
   border: var(--border-width) solid var(--color-border);
@@ -415,6 +435,8 @@ header a[aria-current="page"] {
   align-items: center;
   justify-content: center;
   gap: var(--space-1);
+  min-width: var(--control-size);
+  min-height: var(--control-size);
   padding: var(--space-1) var(--space-2);
   background: none;
   border: var(--border-width) solid var(--color-border);
@@ -478,7 +500,7 @@ header a[aria-current="page"] {
 }
 
 .site-search-close {
-  min-width: 2rem;
+  min-width: var(--control-size);
   border-radius: var(--radius-sm);
   font-size: var(--text-xl);
   line-height: 1;
@@ -569,7 +591,6 @@ a:hover {
 /* Inline emphasised link that reads as body text (white, accent on hover) */
 .linkbody {
   color: var(--color-heading);
-  padding-inline: 1px;
 }
 
 .linkbody:hover {
@@ -609,7 +630,7 @@ a:hover {
 
 /* ---- Home intro --------------------------------------------------------- */
 .home-intro {
-  padding-inline: var(--space-3);
+  padding-inline: var(--content-inset);
   padding-block: var(--space-6) var(--space-4);
 }
 
@@ -631,13 +652,12 @@ a:hover {
 /* ---- Section headers ---------------------------------------------------- */
 .section-head {
   margin-bottom: var(--space-2);
-  padding-inline: var(--space-3);
+  padding-inline: var(--content-inset);
   padding-bottom: var(--space-2);
   border-bottom: var(--border-width) solid var(--color-border);
 }
 
-.section-head h2,
-h2.section-head {
+.section-head h2 {
   margin: 0;
 }
 
@@ -651,7 +671,7 @@ h2.section-head {
   flex-direction: column;
   gap: var(--space-1);
   width: 100%;
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--content-inset);
   border-radius: var(--radius-md);
   text-decoration: none;
   color: var(--color-text);
@@ -726,11 +746,8 @@ h2.section-head {
 }
 
 /* ---- Project list -------------------------------------------------------- */
-.project-main {
-  width: min(calc(100% - var(--gutter) - var(--gutter)), var(--container-wide));
-}
-
 .project-main > section > p {
+  padding-inline: var(--content-inset);
   text-align: center;
   color: var(--color-text-muted);
   margin-bottom: var(--space-6);
@@ -745,7 +762,7 @@ h2.section-head {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: var(--space-3);
   margin-bottom: 0;
-  padding: var(--space-4) var(--space-3);
+  padding: var(--space-4) var(--content-inset);
   border-bottom: var(--border-width) solid var(--color-border);
 }
 
@@ -795,11 +812,13 @@ h2.section-head {
   align-items: end;
   gap: var(--space-3);
   margin-bottom: var(--space-5);
+  padding-inline: var(--content-inset);
 }
 
 .project-filter-field {
   display: grid;
   flex: 1 1 12rem;
+  min-width: 0;
   gap: var(--space-1);
   color: var(--color-text-muted);
   font-family: var(--font-mono);
@@ -808,9 +827,10 @@ h2.section-head {
 
 .project-filter select,
 .project-filter-clear {
-  min-height: 2.5rem;
-  padding: 0.4em var(--space-3);
+  min-height: var(--control-size);
+  padding: var(--space-2) var(--space-3);
   font: inherit;
+  line-height: var(--leading-snug);
   color: var(--color-text);
   background: var(--color-bg);
   border: var(--border-width) solid var(--color-border-strong);
@@ -875,9 +895,10 @@ h2.section-head {
 
 .tag {
   margin: 0;
-  padding: 0.1em var(--space-2);
+  padding: var(--space-1) var(--space-2);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
+  line-height: var(--leading-snug);
   color: var(--color-text-muted);
   text-decoration: none;
   border: var(--border-width) solid var(--color-border-strong);
@@ -900,6 +921,7 @@ h2.section-head {
   align-items: center;
   gap: var(--space-2);
   margin-block: var(--space-4) var(--space-5);
+  padding-inline: var(--content-inset);
 }
 
 .notes-search {
@@ -909,9 +931,10 @@ h2.section-head {
 
 .notes-search-input {
   width: 100%;
-  min-height: 2.5rem;
-  padding: 0.4em var(--space-3);
+  min-height: var(--control-size);
+  padding: var(--space-2) var(--space-3);
   font: inherit;
+  line-height: var(--leading-snug);
   color: var(--color-text);
   background-color: var(--color-surface);
   border: var(--border-width) solid var(--color-border-strong);
@@ -930,8 +953,10 @@ h2.section-head {
 }
 
 .tag-filter {
-  min-height: 2rem;
-  padding: 0.15em var(--space-2);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-size);
+  padding: var(--space-1) var(--space-2);
   cursor: pointer;
   background-color: transparent;
   transition: background-color var(--transition), border-color var(--transition),
@@ -998,6 +1023,7 @@ h2.section-head {
 }
 
 .graph-disclosure summary {
+  padding-inline: var(--content-inset);
   cursor: pointer;
   color: var(--color-heading);
   font-weight: var(--weight-medium);
@@ -1005,6 +1031,7 @@ h2.section-head {
 
 .graph-disclosure > p {
   margin-block: var(--space-3);
+  padding-inline: var(--content-inset);
   color: var(--color-text-muted);
 }
 
@@ -1013,16 +1040,17 @@ h2.section-head {
   flex-wrap: wrap;
   gap: var(--space-2) var(--space-4);
   margin: var(--space-3) 0;
-  padding: 0;
+  padding: 0 var(--content-inset);
   list-style: none;
   color: var(--color-text-muted);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
 }
 
 .graph-legend li {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
+  margin: 0;
 }
 
 .graph-key {
@@ -1063,7 +1091,7 @@ h2.section-head {
 
 .graph-details {
   min-width: 0;
-  padding-block: var(--space-3);
+  padding: var(--space-3) var(--content-inset);
   color: var(--color-text-muted);
   border-top: var(--border-width) solid var(--color-border);
   overflow-wrap: anywhere;
@@ -1072,14 +1100,16 @@ h2.section-head {
 .graph-details h3,
 .graph-details h4 {
   margin-top: 0;
+  margin-bottom: var(--space-2);
 }
 
 .graph-details ul {
-  padding-inline-start: 1.25rem;
+  padding-inline-start: var(--space-5);
 }
 
 .graph-fallback {
   margin-top: var(--space-4);
+  padding-inline: var(--content-inset);
 }
 
 .graph-fallback summary {
@@ -1222,11 +1252,11 @@ h2.section-head {
 }
 
 .graph-controls button {
-  width: 2.75rem;
-  height: 2.75rem;
+  width: var(--control-size);
+  height: var(--control-size);
   padding: 0;
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
   line-height: 1;
   color: var(--color-text-muted);
   background-color: var(--color-surface);
@@ -1236,7 +1266,7 @@ h2.section-head {
 }
 
 .graph-controls button:focus-visible {
-  outline: 3px solid var(--color-focus);
+  outline: var(--focus-ring) solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -1257,6 +1287,8 @@ h2.section-head {
   background: none;
   border: 0;
   font: inherit;
+  min-height: var(--control-size);
+  padding-block: var(--space-2);
   letter-spacing: inherit;
   cursor: pointer;
   color: var(--color-heading);
@@ -1273,6 +1305,13 @@ h2.section-head {
 }
 
 /* ---- Note tables -------------------------------------------------------- */
+.table-scroll {
+  max-width: 100%;
+  margin-block: var(--space-5) var(--space-6);
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+}
+
 .note table {
   width: 100%;
   margin-block: var(--space-5) var(--space-6);
@@ -1282,6 +1321,10 @@ h2.section-head {
   border-radius: var(--radius-md);
   overflow: hidden;
   line-height: var(--leading-snug);
+}
+
+.table-scroll > table {
+  margin-block: 0;
 }
 
 .note table caption {
@@ -1418,6 +1461,10 @@ code {
   border-radius: var(--radius-sm);
 }
 
+.note-content :not(pre) > code {
+  overflow-wrap: anywhere;
+}
+
 pre {
   margin-bottom: var(--space-5);
   padding: var(--space-4);
@@ -1461,7 +1508,7 @@ pre code {
 
 .code-copy-button {
   min-width: 4.75rem;
-  min-height: 2.25rem;
+  min-height: var(--control-size);
   padding: var(--space-1) var(--space-2);
   border: var(--border-width) solid var(--color-border-strong);
   border-radius: var(--radius-sm);
@@ -1510,10 +1557,6 @@ pre code {
 }
 
 /* ---- Notes -------------------------------------------------------------- */
-.notes-head {
-  margin-top: var(--space-6);
-}
-
 .notes-index .notes-head {
   gap: var(--space-2);
   margin-top: var(--space-6);
@@ -1540,6 +1583,12 @@ pre code {
 
 .category-back-link {
   margin-block: var(--space-5);
+  padding-inline: var(--content-inset);
+}
+
+.note-content,
+.graph-section > p {
+  padding-inline: var(--content-inset);
 }
 
 .note-meta {
@@ -1551,11 +1600,11 @@ pre code {
 
 .note-toc {
   margin-block: var(--space-5) var(--space-6);
-  padding-block: var(--space-4);
+  padding: var(--space-4) var(--content-inset);
   border-block: var(--border-width) solid var(--color-border);
 }
 
-.note section .note-toc h2 {
+.note-toc h2 {
   margin: 0 0 var(--space-3);
   font-size: var(--text-lg);
 }
@@ -1590,7 +1639,7 @@ pre code {
   padding-inline-start: var(--space-5);
 }
 
-.note section .note-toc li {
+.note-toc li {
   margin-bottom: var(--space-1);
 }
 
@@ -1615,8 +1664,8 @@ pre code {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-3);
-  margin-top: var(--space-6);
-  padding-block: var(--space-4);
+  margin-block: var(--space-7);
+  padding: var(--space-4) var(--content-inset);
   border-block: var(--border-width) solid var(--color-border);
 }
 
@@ -1664,13 +1713,17 @@ pre code {
 
 /* Note bodies arrive as pre-rendered HTML from the backend; shape their
    rhythm with descendant selectors. */
-.note section h2 {
+.note-content h2 {
   margin-top: var(--space-6);
   margin-bottom: var(--space-3);
 }
 
-.note section h2[id]:not(#note-toc-heading),
-.note section h3[id] {
+.note-content h3 {
+  margin-block: var(--space-5) var(--space-2);
+}
+
+.note-content h2[id],
+.note-content h3[id] {
   scroll-margin-top: var(--space-7);
 }
 
@@ -1710,11 +1763,11 @@ pre code {
   }
 }
 
-.note li {
+.note-content li {
   margin-bottom: var(--space-2);
 }
 
-.note li::marker {
+.note-content li::marker {
   color: var(--color-accent);
 }
 
@@ -2146,7 +2199,13 @@ pre code {
 
 /* ---- About -------------------------------------------------------------- */
 .about-intro-body {
-  padding-inline: var(--space-3);
+  padding-inline: var(--content-inset);
+}
+
+.about-copy > p:last-child,
+.contact > p:last-child,
+.note-content > :last-child {
+  margin-bottom: 0;
 }
 
 .portrait {
@@ -2208,7 +2267,7 @@ pre code {
 
 .cv-item {
   margin-bottom: 0;
-  padding: var(--space-3);
+  padding: var(--space-3) var(--content-inset);
   border-bottom: var(--border-width) solid var(--color-border);
 }
 
@@ -2227,7 +2286,7 @@ pre code {
 }
 
 .contact > p {
-  padding-inline: var(--space-3);
+  padding-inline: var(--content-inset);
 }
 
 /* ==========================================================================
@@ -2248,7 +2307,7 @@ pre code {
   .header-navigation {
     flex-wrap: wrap;
     position: relative;
-    min-height: 2.5rem;
+    min-height: var(--control-size);
   }
 
   .header-navigation-panel {
@@ -2281,14 +2340,14 @@ pre code {
   }
 
   .header-navigation-panel > a {
-    min-height: 2.5rem;
+    min-height: var(--control-size);
     display: flex;
     align-items: center;
   }
 
   .header-navigation-panel .site-search-trigger,
   .header-navigation-panel .theme-toggle {
-    min-height: 2.5rem;
+    min-height: var(--control-size);
   }
 
   .site-search-dialog {
@@ -2302,6 +2361,8 @@ pre code {
 
   .portrait {
     float: none;
+    width: fit-content;
+    max-width: 100%;
     margin: 0 auto var(--space-5);
   }
 
@@ -2324,14 +2385,6 @@ pre code {
   .notes-index .graph-discovery {
     margin-top: var(--space-5);
     padding-top: var(--space-4);
-  }
-
-  .notes-index .graph-details {
-    padding: var(--space-3);
-  }
-
-  .cv-print-hint .print-button {
-    min-height: 2.75rem;
   }
 
 }
@@ -2460,7 +2513,9 @@ pre code {
   }
 
   .site-search-dialog,
-  .site-search-dialog[open] {
+  .site-search-dialog[open],
+  .chat-launcher,
+  .chat-panel {
     display: none;
   }
 

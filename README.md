@@ -33,3 +33,12 @@ The backend repo needs an Actions secret named `FRONTEND_REDEPLOY_TOKEN` with pe
 ## Public URLs
 
 Pages use directory URLs: `/`, `/projects/`, `/notes/`, `/cv/` and `/about/`. Notes and categories also use trailing slashes. Old named `.html` URLs are no longer generated and have no redirects. GitHub Pages still serves `index.html` internally and uses `404.html` for missing pages.
+
+## Styling
+
+The design tokens in `src/style.css` are the style guide. Use the existing colors, type scale and spacing tokens when adding or changing components.
+
+- All pages use the `--container` reading width and responsive `--gutter`. Text, section headings, rows and filter bars share `--content-inset` (12px), while their horizontal rules can span the container.
+- Use the 4px spacing scale: 8px for small gaps, 12px for component insets, 16–24px inside components, and 32–48px between sections. Primary controls use `--control-size` (44px); passive tags stay compact.
+- Use `.section-head` for section headings and `.list-row` for note links. Keep article typography scoped to `.note-content` so it cannot change navigation, table-of-contents or graph headings.
+- Check desktop and mobile layouts, both themes, keyboard focus, and CV printing. Wide code blocks and tables should scroll within the content rather than widen the page.
