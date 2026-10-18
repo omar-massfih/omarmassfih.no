@@ -7,6 +7,11 @@ const document = new JSDOM(fs.readFileSync("_site/books/index.html", "utf8")).wi
 assert.equal(document.querySelector('link[rel="canonical"]').href, "https://omarmassfih.no/books/");
 assert.equal(document.querySelector('[aria-current="page"]').textContent, "Books");
 assert.equal(document.querySelectorAll(".book-card").length, books.length);
+assert.deepEqual(
+  [...document.querySelectorAll(".book-card")].map(({ id }) => id),
+  books.map(({ slug }) => slug).reverse(),
+  "Books must appear from newest added to oldest"
+);
 for (const book of books) {
   const card = document.getElementById(book.slug);
   assert.ok(card, `Missing ${book.title}`);

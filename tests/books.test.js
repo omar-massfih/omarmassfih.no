@@ -19,6 +19,7 @@ const fixtures = [
   { slug: "more-data", title: "More data", author: "D", genre: "Data", rating: 3, review: "Useful.", url: "https://example.test/more-data" },
   { slug: "unrated", title: "Unrated", author: "E", genre: "Data", rating: null, review: "No rating yet.", url: "https://example.test/unrated" },
 ];
+const newestFirst = [...fixtures].reverse();
 const render = (books = fixtures) => environment.renderString(template, { bookReviews: books });
 const setup = () => {
   const dom = new JSDOM(render(), { url: "https://site.test/books/" });
@@ -37,19 +38,22 @@ const setup = () => {
   };
 };
 
-test("book cards preserve authored order, escaped text, and accessible star ratings without JavaScript", () => {
+test("book cards show newest additions first without changing source order and preserve accessible content", () => {
+  const originalOrder = fixtures.map(({ slug }) => slug);
   const document = new JSDOM(render()).window.document;
   const cards = [...document.querySelectorAll(".book-card")];
-  assert.deepEqual(cards.map(({ id }) => id), fixtures.map(({ slug }) => slug));
+  assert.deepEqual(cards.map(({ id }) => id), newestFirst.map(({ slug }) => slug));
+  assert.deepEqual(fixtures.map(({ slug }) => slug), originalOrder);
   assert.equal(document.querySelector(".book-filters").hidden, true);
   for (const [i, card] of cards.entries()) {
+    const book = newestFirst[i];
     assert.equal(card.hidden, false);
-    assert.equal(card.querySelector("h2").textContent, fixtures[i].title);
-    assert.equal(card.querySelector(".book-review").textContent, fixtures[i].review);
-    assert.equal(card.querySelector("a").href, fixtures[i].url);
+    assert.equal(card.querySelector("h2").textContent, book.title);
+    assert.equal(card.querySelector(".book-review").textContent, book.review);
+    assert.equal(card.querySelector("a").href, book.url);
     const cover = card.querySelector(".book-cover");
-    if (fixtures[i].cover) {
-      assert.equal(cover.getAttribute("src"), fixtures[i].cover);
+    if (book.cover) {
+      assert.equal(cover.getAttribute("src"), book.cover);
       assert.equal(cover.getAttribute("alt"), "");
       assert.equal(cover.getAttribute("loading"), "lazy");
       assert.equal(cover.getAttribute("width"), "144");
@@ -58,14 +62,14 @@ test("book cards preserve authored order, escaped text, and accessible star rati
       assert.equal(cover, null);
       assert.equal(card.querySelector(".book-card-heading--with-cover"), null);
     }
-    if (fixtures[i].rating) {
-      assert.equal(card.querySelector('[role="img"]').getAttribute("aria-label"), `${fixtures[i].rating} out of 5 stars`);
-      assert.equal(card.querySelectorAll(".book-rating span[aria-hidden] > span:not(.book-star-empty)").length, fixtures[i].rating);
+    if (book.rating) {
+      assert.equal(card.querySelector('[role="img"]').getAttribute("aria-label"), `${book.rating} out of 5 stars`);
+      assert.equal(card.querySelectorAll(".book-rating span[aria-hidden] > span:not(.book-star-empty)").length, book.rating);
     }
   }
   assert.equal(document.querySelector("fluff, work"), null);
-  assert.equal(cards[3].querySelector(".book-rating"), null);
-  assert.equal(cards[3].querySelector(".book-unrated").textContent, "Not rated yet");
+  assert.equal(document.getElementById("unrated").querySelector(".book-rating"), null);
+  assert.equal(document.getElementById("unrated").querySelector(".book-unrated").textContent, "Not rated yet");
   assert.deepEqual([...document.querySelector('[name="genre"]').options].map(({ value }) => value), ["", "Data", "Teams"]);
 });
 
@@ -73,13 +77,13 @@ test("genre and rating filters intersect, announce counts, and reset both contro
   const view = setup();
   assert.equal(view.document.querySelector(".book-filters").hidden, false);
   view.change(view.genre, "Data");
-  assert.deepEqual(view.visible(), ["data", "more-data", "unrated"]);
+  assert.deepEqual(view.visible(), ["unrated", "more-data", "data"]);
   view.change(view.rating, "3");
   assert.deepEqual(view.visible(), ["more-data"]);
   assert.equal(view.document.querySelector('[role="status"]').textContent, "1 of 4 books");
   assert.equal(view.reset.disabled, false);
   view.reset.click();
-  assert.deepEqual(view.visible(), fixtures.map(({ slug }) => slug));
+  assert.deepEqual(view.visible(), newestFirst.map(({ slug }) => slug));
   assert.equal(view.genre.value, "");
   assert.equal(view.rating.value, "");
   assert.equal(view.reset.disabled, true);
@@ -140,7 +144,7 @@ test("site search finds books by author, genre, and review and links to their ca
   const records = buildSiteSearchIndex([], [], {}, fixtures).filter(({ type }) => type === "book");
   assert.equal(records[0].url, "/books/");
   assert.equal(records.length, fixtures.length + 1);
-  assert.equal(records[1].url, "/books/#teams");
-  assert.match(records[1].searchText, /a & b teams/);
-  assert.match(records[2].searchText, /excellent/);
+  assert.deepEqual(records.slice(1).map(({ url }) => url), newestFirst.map(({ slug }) => `/books/#${slug}`));
+  assert.match(records.find(({ url }) => url === "/books/#teams").searchText, /a & b teams/);
+  assert.match(records.find(({ url }) => url === "/books/#data").searchText, /excellent/);
 });

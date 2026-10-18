@@ -32,7 +32,7 @@ The backend repo needs an Actions secret named `FRONTEND_REDEPLOY_TOKEN` with pe
 
 ## Book reviews
 
-Edit `src/_data/bookReviews.json` to add a book. Keep its `slug` unique and stable, use a rating from 1 to 5 (or `null` until rated), and write one or two short sentences in `review`. The `url` links to the author or publisher. Books appear in file order.
+Append new books to `src/_data/bookReviews.json`. Keep each `slug` unique and stable, use a rating from 1 to 5 (or `null` until rated), and write one or two short sentences in `review`. The `url` links to the author or publisher. The page displays books in reverse addition order, newest first. Site search uses the same order for equally relevant book results.
 
 Set `cover` to a local image path under `/bilder/books/`. Covers are optional, displayed as compact thumbnails, and served locally. The current cover sources are recorded in `docs/book-covers.md`.
 
