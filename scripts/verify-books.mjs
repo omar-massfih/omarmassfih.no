@@ -14,6 +14,15 @@ for (const book of books) {
   assert.equal(card.querySelector(".book-author").textContent, book.author);
   assert.equal(card.querySelector(".book-review").textContent, book.review);
   assert.equal(card.querySelector("a").href, book.url);
+  const cover = card.querySelector(".book-cover");
+  if (book.cover) {
+    assert.ok(cover, `Missing cover for ${book.title}`);
+    assert.equal(cover.getAttribute("src"), book.cover);
+    assert.ok(fs.statSync(`_site${book.cover}`).size > 0, `Missing cover asset for ${book.title}`);
+    assert.equal(cover.getAttribute("alt"), "");
+    assert.equal(cover.getAttribute("loading"), "lazy");
+    assert.ok(cover.hasAttribute("width") && cover.hasAttribute("height"));
+  }
   assert.equal(card.dataset.rating, String(book.rating || "unrated"));
   assert.equal(card.hidden, false, "Books must remain visible without JavaScript");
   if (book.rating) assert.equal(card.querySelector(".book-rating").getAttribute("aria-label"), `${book.rating} out of 5 stars`);

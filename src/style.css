@@ -971,6 +971,26 @@ a:hover {
   scroll-margin-top: calc(var(--control-size) + var(--space-7));
 }
 
+.book-card-heading {
+  margin-bottom: var(--space-4);
+}
+
+.book-card-heading--with-cover {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-4);
+}
+
+.book-cover {
+  display: block;
+  width: 4.5rem;
+  height: 6.75rem;
+  object-fit: contain;
+  object-position: top left;
+  border-radius: var(--radius-sm);
+}
+
 .book-card h2 {
   margin-bottom: var(--space-2);
   font-size: var(--text-lg);
@@ -991,7 +1011,7 @@ a:hover {
 }
 
 .book-author {
-  margin-bottom: var(--space-4);
+  margin-bottom: 0;
   color: var(--color-text-muted);
   font-size: var(--text-sm);
   line-height: var(--leading-snug);

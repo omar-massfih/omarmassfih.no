@@ -38,8 +38,15 @@ date: git Last Modified
     <div class="book-grid" data-book-results>
 {%- for book in shelf.books %}
       <article class="book-card" id="{{ book.slug | escape }}" data-genre="{{ book.genre | escape }}" data-rating="{{ book.rating or 'unrated' }}" aria-labelledby="{{ book.slug | escape }}-title">
-        <h2 id="{{ book.slug | escape }}-title"><a href="{{ book.url | escape }}">{{ book.title | escape }}</a></h2>
-        <p class="book-author">{{ book.author | escape }}</p>
+        <div class="book-card-heading{% if book.cover %} book-card-heading--with-cover{% endif %}">
+{%- if book.cover %}
+          <img class="book-cover" src="{{ book.cover | escape }}" alt="" width="144" height="216" loading="lazy" decoding="async">
+{%- endif %}
+          <div>
+            <h2 id="{{ book.slug | escape }}-title"><a href="{{ book.url | escape }}">{{ book.title | escape }}</a></h2>
+            <p class="book-author">{{ book.author | escape }}</p>
+          </div>
+        </div>
         <div class="book-card-meta">
 {%- if book.rating %}
           <span class="book-rating" role="img" aria-label="{{ book.rating }} out of 5 stars"><span aria-hidden="true">{% for star in [1, 2, 3, 4, 5] %}<span{% if star > book.rating %} class="book-star-empty"{% endif %}>{% if star > book.rating %}☆{% else %}★{% endif %}</span>{% endfor %}</span></span>

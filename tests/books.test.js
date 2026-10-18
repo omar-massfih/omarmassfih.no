@@ -14,7 +14,7 @@ const environment = new nunjucks.Environment();
 environment.addFilter("bookshelf", buildBookshelf);
 environment.addFilter("assetHash", () => "fixturehash");
 const fixtures = [
-  { slug: "teams", title: "Teams <work>", author: "A & B", genre: "Teams", rating: 3, review: "Too much <fluff>.", url: "https://example.test/teams" },
+  { slug: "teams", title: "Teams <work>", author: "A & B", genre: "Teams", cover: "/bilder/books/teams.webp", rating: 3, review: "Too much <fluff>.", url: "https://example.test/teams" },
   { slug: "data", title: "Data", author: "C", genre: "Data", rating: 5, review: "Excellent.", url: "https://example.test/data" },
   { slug: "more-data", title: "More data", author: "D", genre: "Data", rating: 3, review: "Useful.", url: "https://example.test/more-data" },
   { slug: "unrated", title: "Unrated", author: "E", genre: "Data", rating: null, review: "No rating yet.", url: "https://example.test/unrated" },
@@ -47,6 +47,17 @@ test("book cards preserve authored order, escaped text, and accessible star rati
     assert.equal(card.querySelector("h2").textContent, fixtures[i].title);
     assert.equal(card.querySelector(".book-review").textContent, fixtures[i].review);
     assert.equal(card.querySelector("a").href, fixtures[i].url);
+    const cover = card.querySelector(".book-cover");
+    if (fixtures[i].cover) {
+      assert.equal(cover.getAttribute("src"), fixtures[i].cover);
+      assert.equal(cover.getAttribute("alt"), "");
+      assert.equal(cover.getAttribute("loading"), "lazy");
+      assert.equal(cover.getAttribute("width"), "144");
+      assert.equal(cover.getAttribute("height"), "216");
+    } else {
+      assert.equal(cover, null);
+      assert.equal(card.querySelector(".book-card-heading--with-cover"), null);
+    }
     if (fixtures[i].rating) {
       assert.equal(card.querySelector('[role="img"]').getAttribute("aria-label"), `${fixtures[i].rating} out of 5 stars`);
       assert.equal(card.querySelectorAll(".book-rating span[aria-hidden] > span:not(.book-star-empty)").length, fixtures[i].rating);
