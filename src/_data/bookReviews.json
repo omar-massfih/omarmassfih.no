@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "team-topologies",
+    "title": "Team Topologies",
+    "author": "Matthew Skelton and Manuel Pais",
+    "genre": "Teams",
+    "rating": 3,
+    "review": "Too much fluff.",
+    "url": "https://teamtopologies.com/books"
+  },
+  {
+    "slug": "fundamentals-of-data-engineering",
+    "title": "Fundamentals of Data Engineering",
+    "author": "Joe Reis and Matt Housley",
+    "genre": "Data",
+    "rating": 5,
+    "review": "Excellent, but dense for an intro.",
+    "url": "https://www.oreilly.com/library/view/fundamentals-of-data/9781098108298/"
+  },
+  {
+    "slug": "snowflake-the-definitive-guide",
+    "title": "Snowflake: The Definitive Guide",
+    "author": "Joyce Kay Avila",
+    "genre": "Data",
+    "rating": 3,
+    "review": "Good, but dated. I got more out of it because I'd already used Snowflake.",
+    "url": "https://www.oreilly.com/library/view/snowflake-the-definitive/9781098103811/"
+  },
+  {
+    "slug": "terraform-up-and-running",
+    "title": "Terraform: Up & Running",
+    "author": "Yevgeniy Brikman",
+    "genre": "Infrastructure",
+    "rating": 4,
+    "review": "A good book.",
+    "url": "https://www.terraformupandrunning.com/"
+  }
+]

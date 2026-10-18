@@ -5,7 +5,7 @@
 
   const navigation = toggle.closest("nav");
   const searchDialog = document.getElementById("site-search-dialog");
-  const mobile = window.matchMedia("(max-width: 600px)");
+  const mobile = window.matchMedia("(max-width: 44rem)");
   const firstLink = panel.querySelector("a");
   navigation?.classList.add("header-navigation--enhanced");
 

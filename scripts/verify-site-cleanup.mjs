@@ -17,7 +17,7 @@ const checkUrl = (value, base) => {
   assert.ok(fs.statSync(outputFile(url)).isFile(), `${base}: missing destination ${value}`);
 };
 
-for (const route of ["", "projects/", "notes/", "cv/", "about/"]) {
+for (const route of ["", "projects/", "notes/", "books/", "cv/", "about/"]) {
   assert.ok(fs.existsSync(path.join(siteDir, route, "index.html")), `Missing /${route}`);
 }
 for (const retired of ["skills", "learning-paths", "om", "prosjekter", "projects/omarmassfih-no"]) {

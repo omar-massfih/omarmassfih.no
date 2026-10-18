@@ -36,7 +36,7 @@ test("excludes truthy draft projects and indexes published project metadata", ()
 
   assert.deepEqual(
     records.map(({ title }) => title),
-    ["Platform"]
+    ["Platform", "Book reviews"]
   );
   assert.equal(records[0].url, "https://example.com/platform");
   assert.match(records[0].searchText, /gitops flux github kubernetes deployment/);
@@ -48,7 +48,7 @@ test("deduplicates skills case-insensitively and retains encountered groups", ()
     { group: "Data", items: ["python", "SQL"] },
   ] });
 
-  assert.deepEqual(records.map(({ title }) => title), ["Python", "Git", "SQL"]);
+  assert.deepEqual(records.map(({ title }) => title), ["Python", "Git", "SQL", "Book reviews"]);
   assert.deepEqual(records[0].keywords, ["Languages", "Data"]);
   assert.equal(records[0].url, "/cv/#skills");
 });
@@ -60,8 +60,8 @@ test("preserves deterministic type and source order with malformed optional data
     { skills: [{ items: ["S1", null, ""] }] }
   );
 
-  assert.deepEqual(records.map(({ title }) => title), ["N1", "N2", "P1", "S1"]);
-  assert.deepEqual(records.map(({ type }) => type), ["note", "note", "project", "skill"]);
+  assert.deepEqual(records.map(({ title }) => title), ["N1", "N2", "P1", "S1", "Book reviews"]);
+  assert.deepEqual(records.map(({ type }) => type), ["note", "note", "project", "skill", "book"]);
   assert.ok(records.every(({ searchText }) => typeof searchText === "string"));
 });
 

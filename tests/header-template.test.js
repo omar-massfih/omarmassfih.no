@@ -21,7 +21,7 @@ test("renders an accessible progressive-enhancement fallback", () => {
   assert.equal(panel.hidden, false);
   assert.deepEqual(
     [...panel.querySelectorAll("a")].map((link) => link.textContent.trim()),
-    ["Projects", "Notes", "CV", "About"]
+    ["Projects", "Notes", "Books", "CV", "About"]
   );
   assert.ok(panel.querySelector("#site-search-trigger[hidden]"));
   assert.ok(panel.querySelector("#theme-toggle[hidden]"));
@@ -35,6 +35,7 @@ for (const [url, label] of [
   ["/notes/categories/kubernetes-k3s/", "Notes"],
   ["/notes/projects/example/", "Notes"],
   ["/cv/", "CV"],
+  ["/books/", "Books"],
   ["/about/", "About"],
 ]) {
   test(`marks ${url} as the single current destination`, () => {

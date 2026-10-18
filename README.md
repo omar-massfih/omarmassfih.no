@@ -1,6 +1,6 @@
 # omarmassfih.no
 
-Personal website of Omar Massfih — projects, notes, and CV.
+Personal website of Omar Massfih — projects, notes, book reviews, and CV.
 
 [omarmassfih.no](https://omarmassfih.no)
 
@@ -30,9 +30,15 @@ The frontend also rebuilds daily as a fallback, so backend-driven pages and the 
 
 The backend repo needs an Actions secret named `FRONTEND_REDEPLOY_TOKEN` with permission to dispatch events to this repo.
 
+## Book reviews
+
+Edit `src/_data/bookReviews.json` to add a book. Keep its `slug` unique and stable, use a rating from 1 to 5 (or `null` until rated), and write one or two short sentences in `review`. The `url` links to the author or publisher. Books appear in file order.
+
+The page uses simple cards with genre and rating filters. All reviews remain readable without JavaScript. Books also appear in site search, and `/books/` is included in the sitemap.
+
 ## Public URLs
 
-Pages use directory URLs: `/`, `/projects/`, `/notes/`, `/cv/` and `/about/`. Notes and categories also use trailing slashes. Old named `.html` URLs are no longer generated and have no redirects. GitHub Pages still serves `index.html` internally and uses `404.html` for missing pages.
+Pages use directory URLs: `/`, `/projects/`, `/notes/`, `/books/`, `/cv/` and `/about/`. Notes and categories also use trailing slashes. Old named `.html` URLs are no longer generated and have no redirects. GitHub Pages still serves `index.html` internally and uses `404.html` for missing pages.
 
 ## Styling
 

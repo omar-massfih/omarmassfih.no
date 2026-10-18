@@ -10,6 +10,7 @@ const data = [
   { type: "note", title: "A Platform Guide", url: "/notes/guide/", summary: "Contains", searchText: "a platform guide" },
   { type: "project", title: "Platform", url: "https://example.com/project", summary: "Project", searchText: "platform gitops" },
   { type: "skill", title: "Kubernetes", url: "/cv/#skills", summary: "Cloud", searchText: "kubernetes cloud platform" },
+  { type: "book", title: "Team Topologies", url: "/books/#team-topologies", summary: "Too much fluff.", searchText: "team topologies author review" },
 ];
 
 const markup = `
@@ -81,6 +82,17 @@ test("opens with Ctrl+K, groups matches, and applies relevance order", async () 
     ["Platform Notes", "A Platform Guide", "Platform", "Kubernetes"]
   );
   assert.match(view.status.textContent, /4 results/);
+});
+
+test("groups book results and preserves direct card destinations", async () => {
+  const view = setup();
+  view.trigger.click();
+  await tick();
+  view.input.value = "author";
+  view.input.dispatchEvent(new view.Event("input"));
+  assert.equal(view.document.querySelector(".site-search-group h3").textContent, "Books");
+  assert.equal(view.document.querySelector(".site-search-result").getAttribute("href"), "/books/#team-topologies");
+  assert.match(view.status.textContent, /1 result/);
 });
 
 test("announces short and no-match queries and inserts result text safely", async () => {

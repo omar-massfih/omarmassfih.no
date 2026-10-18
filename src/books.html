@@ -1,0 +1,60 @@
+---
+title: Book reviews
+description: Short notes on books about teams, data, and infrastructure.
+layout: layouts/base.njk
+permalink: /books/
+date: git Last Modified
+---
+{%- set shelf = bookReviews | bookshelf %}
+  <main id="main" class="books-main">
+    <h1 class="center">Book reviews</h1>
+    <p class="books-intro">A few books on teams, data, and infrastructure.</p>
+{%- if shelf.books.length %}
+    <form class="book-filters" aria-label="Filter books" hidden>
+      <label class="book-filter-field" for="book-genre">
+        Genre
+        <select id="book-genre" name="genre">
+          <option value="">All genres</option>
+{%- for genre in shelf.genres %}
+          <option value="{{ genre | escape }}">{{ genre | escape }}</option>
+{%- endfor %}
+        </select>
+      </label>
+      <label class="book-filter-field" for="book-rating">
+        Rating
+        <select id="book-rating" name="rating">
+          <option value="">All ratings</option>
+{%- for rating in [5, 4, 3, 2, 1] %}
+          <option value="{{ rating }}">{{ rating }} {% if rating == 1 %}star{% else %}stars{% endif %}</option>
+{%- endfor %}
+          <option value="unrated">Not rated yet</option>
+        </select>
+      </label>
+      <div class="book-filter-status">
+        <p data-book-count role="status" aria-live="polite" aria-atomic="true">{{ shelf.books.length }} {% if shelf.books.length == 1 %}book{% else %}books{% endif %}</p>
+        <button class="book-filter-clear" type="button" data-book-clear disabled>Reset filters</button>
+      </div>
+    </form>
+    <div class="book-grid" data-book-results>
+{%- for book in shelf.books %}
+      <article class="book-card" id="{{ book.slug | escape }}" data-genre="{{ book.genre | escape }}" data-rating="{{ book.rating or 'unrated' }}" aria-labelledby="{{ book.slug | escape }}-title">
+        <h2 id="{{ book.slug | escape }}-title"><a href="{{ book.url | escape }}">{{ book.title | escape }}</a></h2>
+        <p class="book-author">{{ book.author | escape }}</p>
+        <div class="book-card-meta">
+{%- if book.rating %}
+          <span class="book-rating" role="img" aria-label="{{ book.rating }} out of 5 stars"><span aria-hidden="true">{% for star in [1, 2, 3, 4, 5] %}<span{% if star > book.rating %} class="book-star-empty"{% endif %}>{% if star > book.rating %}☆{% else %}★{% endif %}</span>{% endfor %}</span></span>
+{%- else %}
+          <span class="book-unrated">Not rated yet</span>
+{%- endif %}
+          <span class="book-genre">{{ book.genre | escape }}</span>
+        </div>
+        <p class="book-review">{{ book.review | escape }}</p>
+      </article>
+{%- endfor %}
+    </div>
+    <p class="books-empty" data-book-empty hidden>No books match these filters.</p>
+    <script src="/books-filter.js?v={{ '/books-filter.js' | assetHash }}" defer></script>
+{%- else %}
+    <p class="books-empty">No book reviews yet.</p>
+{%- endif %}
+  </main>

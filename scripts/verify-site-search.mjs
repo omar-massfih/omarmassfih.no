@@ -25,6 +25,7 @@ if (!fs.existsSync(indexPath)) {
 
 const projects = readJson("src/_data/projects.json");
 const cv = readJson("src/_data/cv.json");
+const bookReviews = readJson("src/_data/bookReviews.json");
 const byType = (type) => index.filter((record) => record.type === type);
 
 const notesOutputPath = path.resolve("_site/notes/index.html");
@@ -95,8 +96,17 @@ if (byType("skill").length !== uniqueSkills.size) {
   errors.push(`Expected ${uniqueSkills.size} unique skill records; found ${byType("skill").length}.`);
 }
 
+if (byType("book").length !== bookReviews.length + 1) {
+  errors.push("Expected the books page and every book in search results.");
+}
+for (const book of bookReviews) {
+  if (!byType("book").some(({ title, url }) => title === book.title && url === `/books/#${book.slug}`)) {
+    errors.push(`Missing book "${book.title}" from search results.`);
+  }
+}
+
 for (const record of index) {
-  if (!["note", "project", "skill"].includes(record.type)) errors.push("Unsupported record type.");
+  if (!["note", "project", "skill", "book"].includes(record.type)) errors.push("Unsupported record type.");
   if (!record.title || !record.url || !record.searchText) {
     errors.push(`Incomplete search record: ${JSON.stringify(record)}.`);
   }
@@ -106,7 +116,7 @@ if (!fs.existsSync(path.resolve("_site/site-search.js"))) {
   errors.push("Missing built site-search.js asset.");
 }
 
-for (const page of ["index.html", "projects/index.html", "notes/index.html", "cv/index.html", "about/index.html"]) {
+for (const page of ["index.html", "projects/index.html", "notes/index.html", "books/index.html", "cv/index.html", "about/index.html"]) {
   const output = path.resolve("_site", page);
   if (!fs.existsSync(output)) {
     errors.push(`Missing generated ${page}.`);

@@ -6,6 +6,7 @@ import getRelatedNotes from "./lib/relatedNotes.js";
 import getNoteNavigation from "./lib/noteNavigation.js";
 import buildProjectExplorer from "./lib/projectExplorer.js";
 import buildSiteSearchIndex from "./lib/siteSearchIndex.js";
+import buildBookshelf from "./lib/bookReviews.js";
 
 const decodeEntities = (html) =>
   html
@@ -25,6 +26,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/chat.js");
   eleventyConfig.addPassthroughCopy("src/notes-filter.js");
   eleventyConfig.addPassthroughCopy("src/projects-filter.js");
+  eleventyConfig.addPassthroughCopy("src/books-filter.js");
   eleventyConfig.addPassthroughCopy("src/site-search.js");
   eleventyConfig.addPassthroughCopy("src/header-navigation.js");
   eleventyConfig.addPassthroughCopy("src/note-code-copy.js");
@@ -75,8 +77,9 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("noteNavigation", getNoteNavigation);
 
   eleventyConfig.addFilter("projectExplorer", buildProjectExplorer);
-  eleventyConfig.addFilter("siteSearchIndex", (notes, projects, cv) =>
-    JSON.stringify(buildSiteSearchIndex(notes, projects, cv)).replace(/</g, "\\u003c")
+  eleventyConfig.addFilter("bookshelf", buildBookshelf);
+  eleventyConfig.addFilter("siteSearchIndex", (notes, projects, cv, bookReviews) =>
+    JSON.stringify(buildSiteSearchIndex(notes, projects, cv, bookReviews)).replace(/</g, "\\u003c")
   );
 
   eleventyConfig.addTransform("highlightCode", function (content) {

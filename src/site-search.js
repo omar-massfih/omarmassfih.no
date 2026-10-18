@@ -9,8 +9,8 @@
   const closeButton = dialog?.querySelector(".site-search-close");
   if (!trigger || !dialog || !input || !results || !status || !closeButton) return;
 
-  const labels = { note: "Notes", project: "Projects", skill: "Skills" };
-  const types = ["note", "project", "skill"];
+  const labels = { note: "Notes", project: "Projects", skill: "Skills", book: "Books" };
+  const types = ["note", "project", "skill", "book"];
   let index;
   let loading;
   let activeIndex = -1;

@@ -8,6 +8,7 @@ const pages = [
   ["index.html", "Omar Massfih"],
   ["projects/index.html", "Projects"],
   ["notes/index.html", "Notes"],
+  ["books/index.html", "Books"],
   ["notes/rag/retrieval/index.html", "Notes"],
   ["notes/categories/kubernetes-k3s/index.html", "Notes"],
   ["cv/index.html", "CV"],
@@ -43,7 +44,7 @@ for (const [page, expectedCurrent] of pages) {
   if (current.length !== 1 || current[0]?.textContent.trim() !== expectedCurrent) {
     errors.push(`${page}: expected only ${expectedCurrent} to be current.`);
   }
-  for (const label of ["Projects", "Notes", "CV", "About"]) {
+  for (const label of ["Projects", "Notes", "Books", "CV", "About"]) {
     if (![...panel?.querySelectorAll("a") || []].some((link) => link.textContent.trim() === label)) {
       errors.push(`${page}: missing ${label} fallback link.`);
     }
