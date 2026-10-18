@@ -1,15 +1,5 @@
 [
   {
-    "slug": "terraform-up-and-running",
-    "title": "Terraform: Up & Running",
-    "author": "Yevgeniy Brikman",
-    "genre": "Infrastructure",
-    "cover": "/bilder/books/terraform-up-and-running.webp",
-    "rating": 4,
-    "review": "A good book.",
-    "url": "https://www.terraformupandrunning.com/"
-  },
-  {
     "slug": "team-topologies",
     "title": "Team Topologies",
     "author": "Matthew Skelton and Manuel Pais",
@@ -18,6 +8,16 @@
     "rating": 3,
     "review": "Too much fluff.",
     "url": "https://teamtopologies.com/books"
+  },
+  {
+    "slug": "terraform-up-and-running",
+    "title": "Terraform: Up & Running",
+    "author": "Yevgeniy Brikman",
+    "genre": "Infrastructure",
+    "cover": "/bilder/books/terraform-up-and-running.webp",
+    "rating": 4,
+    "review": "A good book.",
+    "url": "https://www.terraformupandrunning.com/"
   },
   {
     "slug": "fundamentals-of-data-engineering",
