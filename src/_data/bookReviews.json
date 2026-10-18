@@ -1,5 +1,15 @@
 [
   {
+    "slug": "terraform-up-and-running",
+    "title": "Terraform: Up & Running",
+    "author": "Yevgeniy Brikman",
+    "genre": "Infrastructure",
+    "cover": "/bilder/books/terraform-up-and-running.webp",
+    "rating": 4,
+    "review": "A good book.",
+    "url": "https://www.terraformupandrunning.com/"
+  },
+  {
     "slug": "team-topologies",
     "title": "Team Topologies",
     "author": "Matthew Skelton and Manuel Pais",
@@ -28,16 +38,6 @@
     "rating": 3,
     "review": "Good, but dated. I got more out of it because I'd already used Snowflake.",
     "url": "https://www.oreilly.com/library/view/snowflake-the-definitive/9781098103811/"
-  },
-  {
-    "slug": "terraform-up-and-running",
-    "title": "Terraform: Up & Running",
-    "author": "Yevgeniy Brikman",
-    "genre": "Infrastructure",
-    "cover": "/bilder/books/terraform-up-and-running.webp",
-    "rating": 4,
-    "review": "A good book.",
-    "url": "https://www.terraformupandrunning.com/"
   },
   {
     "slug": "data-pipelines-with-apache-airflow",
