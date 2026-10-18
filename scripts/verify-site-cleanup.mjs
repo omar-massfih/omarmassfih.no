@@ -24,7 +24,7 @@ for (const retired of ["skills", "learning-paths", "om", "prosjekter", "projects
   assert.ok(!fs.existsSync(path.join(siteDir, `${retired}.html`)), `Retired ${retired}.html remains`);
   assert.ok(!fs.existsSync(path.join(siteDir, retired)), `Retired /${retired}/ remains`);
 }
-for (const asset of ["reading-list.js", "skills-evidence-manifest.json"]) {
+for (const asset of ["reading-list.js", "note-share.js", "skills-evidence-manifest.json"]) {
   assert.ok(!fs.existsSync(path.join(siteDir, asset)), `Retired ${asset} remains`);
 }
 
@@ -35,7 +35,7 @@ for (const file of htmlFiles) {
   const publicUrl = `${origin}/${relative.replace(/index\.html$/, "")}`;
   const dom = new JSDOM(fs.readFileSync(file, "utf8"));
   const document = dom.window.document;
-  assert.equal(document.querySelector("footer, [data-reading-list-shell], [data-reading-list-save], #reading-list-notes"), null, `${relative}: retired UI remains`);
+  assert.equal(document.querySelector("footer, [data-reading-list-shell], [data-reading-list-save], #reading-list-notes, [data-note-share]"), null, `${relative}: retired UI remains`);
   assert.equal(document.querySelector('meta[http-equiv="refresh"]'), null, `${relative}: unexpected redirect`);
   assert.equal(document.querySelector('link[rel="canonical"]').getAttribute("href"), publicUrl, `${relative}: wrong canonical`);
   for (const element of document.querySelectorAll("a[href], script[src], img[src], link[href]")) {

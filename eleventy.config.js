@@ -29,7 +29,6 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/header-navigation.js");
   eleventyConfig.addPassthroughCopy("src/note-code-copy.js");
   eleventyConfig.addPassthroughCopy("src/note-reading-progress.js");
-  eleventyConfig.addPassthroughCopy("src/note-share.js");
   eleventyConfig.addPassthroughCopy("src/site-urls.js");
 
   // graphHash runs on every note page; keyed on the notes array so the graph
