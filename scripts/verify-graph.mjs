@@ -53,6 +53,13 @@ for (const node of noteNodes) {
     errors.push(`${node.url} lacks a correctly rooted local graph`);
     continue;
   }
+  const disclosure = panel.closest("details.note-graph:not([open])");
+  if (!disclosure || disclosure.querySelector(":scope > summary")?.textContent.trim() !== "Explore related notes") {
+    errors.push(`${node.url} graph must be inside a closed Explore related notes disclosure`);
+  }
+  for (const selector of [".note-tags", ".graph-legend", "[data-graph-details]", ".graph-fallback"]) {
+    if (!disclosure?.querySelector(selector)) errors.push(`${node.url} graph disclosure lacks ${selector}`);
+  }
   const actual = new Set([...doc.querySelectorAll(".graph-fallback a")].map((link) => link.getAttribute("href")));
   for (const localNode of local.nodes.filter(({ type }) => type === "note")) {
     if (!actual.has(localNode.url)) errors.push(`${node.url} fallback omits ${localNode.url}`);

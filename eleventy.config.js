@@ -69,7 +69,7 @@ export default function (eleventyConfig) {
     return crypto.createHash("md5").update(content).digest("hex").slice(0, 8);
   });
 
-  eleventyConfig.addFilter("relatedNotes", (notes, note, limit = 5) =>
+  eleventyConfig.addFilter("relatedNotes", (notes, note, limit = 3) =>
     getRelatedNotes(notes, note, limit)
   );
   eleventyConfig.addFilter("noteNavigation", getNoteNavigation);

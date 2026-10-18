@@ -910,8 +910,8 @@ a:hover {
 }
 
 .note-tags {
-  justify-content: center;
-  margin-bottom: var(--space-5);
+  margin-block: var(--space-4);
+  padding-inline: var(--content-inset);
 }
 
 /* ---- Notes tag filter --------------------------------------------------- */
@@ -1005,12 +1005,6 @@ a:hover {
   margin: 0;
 }
 
-.related-note-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-
 /* ---- Knowledge graph (notes) ---------------------------------------------- */
 .notes-index .graph-discovery {
   margin-block: var(--space-5) var(--space-6);
@@ -1022,7 +1016,7 @@ a:hover {
   margin: 0;
 }
 
-.graph-disclosure summary {
+.graph-disclosure > summary {
   padding-inline: var(--content-inset);
   cursor: pointer;
   color: var(--color-heading);
@@ -1574,8 +1568,7 @@ pre code {
   color: inherit;
 }
 
-.category-note-count,
-.note-category {
+.category-note-count {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   color: var(--color-text-muted);
@@ -1591,22 +1584,60 @@ pre code {
   padding-inline: var(--content-inset);
 }
 
+.note-header {
+  margin-bottom: var(--space-5);
+  padding-inline: var(--content-inset);
+}
+
+.note-header h1 {
+  margin-bottom: var(--space-2);
+}
+
+.note-content > :first-child {
+  margin-top: 0;
+}
+
 .note-meta {
-  margin-bottom: var(--space-6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   color: var(--color-text-muted);
 }
 
 .note-toc {
-  margin-block: var(--space-5) var(--space-6);
-  padding: var(--space-4) var(--content-inset);
+  margin-block: 0 var(--space-5);
+  padding-inline: var(--content-inset);
   border-block: var(--border-width) solid var(--color-border);
 }
 
-.note-toc h2 {
-  margin: 0 0 var(--space-3);
-  font-size: var(--text-lg);
+.note-toc-disclosure > summary,
+.note-graph > summary,
+.note-graph .graph-fallback > summary {
+  min-height: var(--control-size);
+  padding-block: var(--space-2);
+  color: var(--color-heading);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+}
+
+.note-toc-disclosure[open] {
+  padding-bottom: var(--space-4);
+}
+
+.note-toc-disclosure[open] > summary {
+  margin-bottom: var(--space-3);
+}
+
+.note-graph {
+  margin-top: var(--space-7);
+  border-block: var(--border-width) solid var(--color-border);
+}
+
+.note-graph[open] {
+  padding-bottom: var(--space-4);
 }
 
 .note-reading-progress {
@@ -1669,15 +1700,6 @@ pre code {
   border-block: var(--border-width) solid var(--color-border);
 }
 
-.note-navigation-position {
-  grid-column: 1 / -1;
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  text-align: center;
-}
-
 .note-navigation-link {
   min-width: 0;
   overflow-wrap: anywhere;
@@ -1701,12 +1723,8 @@ pre code {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .note-navigation-position,
   .note-navigation-next {
     grid-column: 1;
-  }
-
-  .note-navigation-next {
     text-align: left;
   }
 }
@@ -1724,7 +1742,7 @@ pre code {
 
 .note-content h2[id],
 .note-content h3[id] {
-  scroll-margin-top: var(--space-7);
+  scroll-margin-top: calc(var(--control-size) + var(--space-7));
 }
 
 .heading-anchor {

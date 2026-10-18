@@ -8,23 +8,26 @@ isNote: true
   {%- if category.title == note.category %}{% set noteCategory = category %}{% endif %}
 {%- endfor %}
     <section>
-      <h1 class="center">{{ heading or title }}</h1>
-{%- if dateText or note.reading_time_text %}
-      <p class="note-meta center">{% if dateText %}{{ dateText }}{% endif %}{% if dateText and note.reading_time_text %} · {% endif %}{% if note.reading_time_text %}{{ note.reading_time_text }}{% endif %}</p>
+      <div class="note-header">
+        <h1>{{ heading or title }}</h1>
+{%- if dateText or note.reading_time_text or noteCategory %}
+        <p class="note-meta">
+{%- if dateText %}
+          <span>{{ dateText }}</span>
+{%- endif %}
+{%- if note.reading_time_text %}
+          <span>{{ note.reading_time_text }}</span>
 {%- endif %}
 {%- if noteCategory %}
-      <p class="note-category center">Category: <a href="{{ noteCategory.url }}">{{ noteCategory.title }}</a></p>
+          <a href="{{ noteCategory.url }}">{{ noteCategory.title }}</a>
 {%- endif %}
-{%- if note.tags and note.tags.length %}
-      <ul class="tag-list note-tags">
-{%- for tag in note.tags %}
-        <li class="tag">{{ tag }}</li>
-{%- endfor %}
-      </ul>
+        </p>
 {%- endif %}
+      </div>
 {%- if note.toc and note.toc.length %}
       <nav class="note-toc" aria-labelledby="note-toc-heading">
-        <h2 id="note-toc-heading">On this page</h2>
+        <details class="note-toc-disclosure">
+          <summary id="note-toc-heading">On this page</summary>
         <div class="note-reading-progress" data-note-reading-progress hidden>
           <label for="note-reading-progress-value">Reading progress</label>
           <div class="note-reading-progress-row">
@@ -37,6 +40,7 @@ isNote: true
           <li class="note-toc-level-{{ entry.level }}"><a class="note-toc-link" data-note-toc-link href="#{{ entry.id | urlencode }}">{{ entry.text }}</a></li>
 {%- endfor %}
         </ol>
+        </details>
       </nav>
 {%- endif %}
       <div class="note-content" data-note-content>
@@ -44,9 +48,8 @@ isNote: true
       </div>
     </section>
 {%- set noteNavigation = backendNotes | noteNavigation(note) %}
-{%- if noteNavigation.position %}
+{%- if noteNavigation.previous or noteNavigation.next %}
     <nav class="note-navigation" aria-label="Notes in {{ note.category }}">
-      <p class="note-navigation-position">{{ noteNavigation.position }} of {{ noteNavigation.total }} in {% if noteCategory %}<a href="{{ noteCategory.url }}">{{ noteCategory.title }}</a>{% else %}{{ note.category }}{% endif %}</p>
 {%- if noteNavigation.previous %}
       <a class="note-navigation-link note-navigation-previous" href="{{ noteNavigation.previous.url }}">
         <span class="note-navigation-direction">Previous</span>
@@ -61,7 +64,7 @@ isNote: true
 {%- endif %}
     </nav>
 {%- endif %}
-{%- set relatedNotes = backendNotes | relatedNotes(note, 5) %}
+{%- set relatedNotes = backendNotes | relatedNotes(note, 3) %}
 {%- if relatedNotes.length %}
     <section class="related-notes" aria-labelledby="related-notes-heading">
       <nav class="flex-container section-head notes-head">
@@ -71,15 +74,7 @@ isNote: true
 {%- for related in relatedNotes %}
         <li class="related-note">
           <a href="{{ related.url }}" class="list-row">
-            <span class="list-row-main">
-              <span class="list-row-title">{{ related.title }}</span>
-              <span class="list-row-meta">{{ related.date_text }}</span>
-            </span>
-            <span class="related-note-tags" aria-label="Shared tags">
-{%- for tag in related.sharedTags %}
-              <span class="tag">{{ tag }}</span>
-{%- endfor %}
-            </span>
+            <span class="list-row-title">{{ related.title }}</span>
           </a>
         </li>
 {%- endfor %}
@@ -88,10 +83,13 @@ isNote: true
 {%- endif %}
 {%- if note.tags and note.tags.length %}
 {%- set localGraph = backendNotes | graphNeighborhood(note.slug) %}
-    <section class="graph-section graph-discovery" aria-labelledby="related-graph-heading">
-      <nav class="flex-container section-head notes-head">
-        <h2 id="related-graph-heading">Related graph</h2>
-      </nav>
+    <details class="graph-section graph-discovery graph-disclosure note-graph">
+      <summary>Explore related notes</summary>
+      <ul class="tag-list note-tags" aria-label="Note tags">
+{%- for tag in note.tags %}
+        <li class="tag">{{ tag }}</li>
+{%- endfor %}
+      </ul>
       <p>Explore this note’s tags and nearby published notes.</p>
       <ul class="graph-legend" aria-label="Graph legend">
         <li><span class="graph-key graph-key--note"></span>Note</li>
@@ -117,7 +115,7 @@ isNote: true
 {%- endfor %}
         </ul>
       </details>
-    </section>
+    </details>
     <script src="/graph.js?v={{ "/graph.js" | assetHash }}" defer></script>
 {%- endif %}
   </main>

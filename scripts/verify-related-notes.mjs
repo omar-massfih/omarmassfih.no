@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { JSDOM } from "jsdom";
 
 const siteDir = path.resolve("_site");
 const notesDir = path.join(siteDir, "notes");
@@ -45,6 +46,19 @@ if (!noteFiles.length) {
 for (const file of noteFiles) {
   const html = fs.readFileSync(file, "utf8");
   const currentUrl = pageUrl(file);
+  const document = new JSDOM(html).window.document;
+  const relatedLinks = [...document.querySelectorAll(".related-notes a")];
+  const adjacentUrls = new Set([...document.querySelectorAll(".note-navigation-link")].map((link) => link.getAttribute("href")));
+  if (relatedLinks.length > 3) errors.push(`${currentUrl}: More than three related notes.`);
+  if (new Set(relatedLinks.map((link) => link.getAttribute("href"))).size !== relatedLinks.length) {
+    errors.push(`${currentUrl}: Related note destinations repeat.`);
+  }
+  for (const link of relatedLinks) {
+    if (adjacentUrls.has(link.getAttribute("href"))) errors.push(`${currentUrl}: Related notes repeat a previous/next destination.`);
+  }
+  if (document.querySelector(".related-notes .list-row-meta, .related-notes .tag")) {
+    errors.push(`${currentUrl}: Related rows must contain titles only.`);
+  }
   const sectionMatch = html.match(
     /<section class="related-notes"[\s\S]*?<\/section>/
   );

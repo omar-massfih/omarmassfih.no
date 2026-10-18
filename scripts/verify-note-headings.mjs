@@ -33,6 +33,12 @@ for (const file of noteFiles) {
     errors.push(`${currentUrl}: Expected note container main.note > section:first-child is missing.`);
     continue;
   }
+  if (!mainSection.querySelector(".note-header h1:not(.center)")) {
+    errors.push(`${currentUrl}: Missing left-aligned article header.`);
+  }
+  if (mainSection.querySelector(".note-tags, .note-category")) {
+    errors.push(`${currentUrl}: Tags or a separate category row still precede the article.`);
+  }
 
   const headings = [...mainSection.querySelectorAll("h2:not(#note-toc-heading), h3")];
   const ids = headings.map((heading) => heading.id);
@@ -67,6 +73,9 @@ for (const file of noteFiles) {
   if (!headings.length) continue;
 
   const toc = tocNavs[0];
+  if (!toc.querySelector("details.note-toc-disclosure:not([open]) > summary#note-toc-heading")) {
+    errors.push(`${currentUrl}: Contents must use a native disclosure closed by default.`);
+  }
   if (toc.getAttribute("aria-labelledby") !== "note-toc-heading") {
     errors.push(`${currentUrl}: TOC is not labeled by note-toc-heading.`);
   }

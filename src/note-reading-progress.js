@@ -44,9 +44,13 @@
       progress.textContent = `${completion}%`;
       progressText.textContent = `${completion}%`;
 
+      const activationOffset = Number.parseFloat(
+        window.getComputedStyle(sections[0].heading).scrollMarginTop
+      ) || ACTIVATION_OFFSET;
       let nextLink = null;
       for (const section of sections) {
-        if (section.heading.getBoundingClientRect().top <= ACTIVATION_OFFSET) {
+        // Fragment scrolling can leave a fractional pixel at the target.
+        if (section.heading.getBoundingClientRect().top <= activationOffset + 1) {
           nextLink = section.link;
         } else {
           break;
@@ -70,6 +74,7 @@
 
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
     window.addEventListener("resize", scheduleUpdate);
+    toc.querySelector(".note-toc-disclosure")?.addEventListener("toggle", scheduleUpdate);
     update();
   };
 

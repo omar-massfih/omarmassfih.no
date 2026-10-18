@@ -11,6 +11,7 @@ const script = await readFile(
 
 const markup = `
   <nav class="note-toc">
+    <details class="note-toc-disclosure">
     <div data-note-reading-progress hidden>
       <progress data-note-reading-progress-value max="100" value="0">0%</progress>
       <span data-note-reading-progress-text>0%</span>
@@ -18,6 +19,7 @@ const markup = `
     <a data-note-toc-link href="#first">First</a>
     <a data-note-toc-link href="#detail">Detail</a>
     <a data-note-toc-link href="#part%23three">Third</a>
+    </details>
   </nav>
   <div data-note-content>
     <h2 id="first">First</h2>
@@ -176,4 +178,31 @@ test("leaves native fragment links and click behavior intact", () => {
   link.dispatchEvent(event);
   assert.equal(link.getAttribute("href"), "#first");
   assert.equal(event.defaultPrevented, false);
+});
+
+test("recalculates progress and the current section when contents opens or closes", () => {
+  const state = setup();
+  const disclosure = state.document.querySelector(".note-toc-disclosure");
+  state.setContentRect({ top: 200, height: 1000 });
+  state.headingTops.first = 20;
+  disclosure.open = true;
+  disclosure.dispatchEvent(new state.dom.window.Event("toggle"));
+  state.flushFrame();
+  assert.equal(state.document.querySelector("progress").value, 40);
+  assert.equal(state.document.querySelector('[aria-current="location"]').getAttribute("href"), "#first");
+
+  state.setContentRect({ top: 100, height: 1000 });
+  disclosure.open = false;
+  disclosure.dispatchEvent(new state.dom.window.Event("toggle"));
+  state.flushFrame();
+  assert.equal(state.document.querySelector("progress").value, 50);
+});
+
+test("uses the heading scroll margin when a fragment lands below the sticky header", () => {
+  const state = setup();
+  state.document.querySelector("#first").style.scrollMarginTop = "92px";
+  state.headingTops.first = 92.375;
+  state.dom.window.dispatchEvent(new state.dom.window.Event("scroll"));
+  state.flushFrame();
+  assert.equal(state.document.querySelector('[aria-current="location"]').getAttribute("href"), "#first");
 });

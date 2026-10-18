@@ -172,6 +172,7 @@ test("renders deterministic duplicate-heading and heading-free note fixtures", (
     assert.ok(contentBoundary, fixture.slug);
     assert.equal(document.querySelectorAll("#note-toc-heading").length, fixture.expectToc ? 1 : 0, fixture.slug);
     if (toc) {
+      assert.ok(toc.querySelector("details.note-toc-disclosure:not([open]) > summary#note-toc-heading"), fixture.slug);
       assert.equal(
         document.getElementById(toc.getAttribute("aria-labelledby"))?.textContent,
         "On this page",

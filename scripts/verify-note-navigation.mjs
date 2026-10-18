@@ -79,6 +79,13 @@ for (const [category, urls] of categories) {
 
     const document = new JSDOM(fs.readFileSync(file, "utf8")).window.document;
     const navs = [...document.querySelectorAll("nav.note-navigation")];
+    if (document.querySelector(".note-navigation-position")) {
+      errors.push(`${currentUrl}: Repeated category-position text must be omitted.`);
+    }
+    if (urls.length === 1) {
+      if (navs.length) errors.push(`${currentUrl}: Singleton category has empty navigation.`);
+      continue;
+    }
     if (navs.length !== 1) {
       errors.push(`${currentUrl}: Expected exactly one note navigation landmark, found ${navs.length}.`);
       continue;
@@ -88,12 +95,6 @@ for (const [category, urls] of categories) {
     const label = nav.getAttribute("aria-label");
     if (!label || label !== `Notes in ${category}`) {
       errors.push(`${currentUrl}: Navigation accessible label does not identify "${category}".`);
-    }
-
-    const position = nav.querySelector(".note-navigation-position")?.textContent.trim();
-    const expectedPosition = `${index + 1} of ${urls.length} in ${category}`;
-    if (position !== expectedPosition) {
-      errors.push(`${currentUrl}: Expected position "${expectedPosition}", found "${position || ""}".`);
     }
 
     const previousLinks = [...nav.querySelectorAll("a.note-navigation-previous")];

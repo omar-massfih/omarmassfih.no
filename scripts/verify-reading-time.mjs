@@ -56,8 +56,9 @@ if (!noteFiles.length) errors.push("No generated note HTML files found under _si
 for (const file of noteFiles) {
   const document = new JSDOM(fs.readFileSync(file, "utf8")).window.document;
   const url = pageUrl(file);
-  const labels = document.querySelectorAll("main.note > section:first-child > .note-meta");
-  const label = normalizedText(labels[0]);
+  const labels = document.querySelectorAll(".note-header > .note-meta");
+  const label = [...(labels[0]?.querySelectorAll(":scope > span") || [])]
+    .map(normalizedText).join(" · ");
 
   if (labels.length !== 1 || !readingTimePattern.test(label) || !label.includes(" · ")) {
     errors.push(`${url}: Expected exactly one static date and reading-time metadata label.`);
