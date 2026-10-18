@@ -884,13 +884,6 @@ a:hover {
 }
 
 /* ---- Book reviews ------------------------------------------------------- */
-.books-intro {
-  margin-bottom: var(--space-6);
-  padding-inline: var(--content-inset);
-  color: var(--color-text-muted);
-  text-align: center;
-}
-
 .book-filters {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
