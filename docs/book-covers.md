@@ -8,3 +8,4 @@ Cover thumbnails identify the books being reviewed. The cover artwork belongs to
 | `fundamentals-of-data-engineering.jpg` | [O'Reilly cover](https://www.oreilly.com/covers/urn%3Aorm%3Abook%3A9781098108298/296w/?format=webp) |
 | `snowflake-the-definitive-guide.webp` | [O'Reilly cover](https://www.oreilly.com/covers/urn%3Aorm%3Abook%3A9781098103811/296w/?format=webp) |
 | `terraform-up-and-running.png` | [Author website](https://www.terraformupandrunning.com/assets/img/terraform-up-and-running-3rd-edition-3d-cover-small.png) |
+| `data-pipelines-with-apache-airflow.png` | [Manning cover](https://images.manning.com/264/352/resize/book/8/5a32e4a-7cad-425d-b4ef-b2de74eba4bb/Harenslak-DPAA-HI.png) |

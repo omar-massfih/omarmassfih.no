@@ -38,5 +38,15 @@
     "rating": 4,
     "review": "A good book.",
     "url": "https://www.terraformupandrunning.com/"
+  },
+  {
+    "slug": "data-pipelines-with-apache-airflow",
+    "title": "Data Pipelines with Apache Airflow",
+    "author": "Bas P. Harenslak and Julian Rutger de Ruiter",
+    "genre": "Data",
+    "cover": "/bilder/books/data-pipelines-with-apache-airflow.png",
+    "rating": 5,
+    "review": "Everything you need to know about Airflow.",
+    "url": "https://www.manning.com/books/data-pipelines-with-apache-airflow"
   }
 ]
