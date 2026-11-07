@@ -48,5 +48,15 @@
     "rating": 5,
     "review": "Everything you need to know about Airflow.",
     "url": "https://www.manning.com/books/data-pipelines-with-apache-airflow"
+  },
+  {
+    "slug": "snowflake-data-engineering",
+    "title": "Snowflake Data Engineering",
+    "author": "Maja Ferle",
+    "genre": "Data",
+    "cover": "/bilder/books/snowflake-data-engineering.png",
+    "rating": 4,
+    "review": "Everything you need to know for data engineering on Snowflake.",
+    "url": "https://www.manning.com/books/snowflake-data-engineering"
   }
 ]

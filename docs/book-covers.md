@@ -9,3 +9,4 @@ Cover thumbnails identify the books being reviewed. The cover artwork belongs to
 | `snowflake-the-definitive-guide.webp` | [O'Reilly cover](https://www.oreilly.com/covers/urn%3Aorm%3Abook%3A9781098103811/296w/?format=webp) |
 | `terraform-up-and-running.webp` | [O'Reilly cover](https://www.oreilly.com/covers/urn%3Aorm%3Abook%3A9781098116736/296w/?format=webp) |
 | `data-pipelines-with-apache-airflow.png` | [Manning cover](https://images.manning.com/264/352/resize/book/8/5a32e4a-7cad-425d-b4ef-b2de74eba4bb/Harenslak-DPAA-HI.png) |
+| `snowflake-data-engineering.png` | [Manning cover](https://images.manning.com/264/352/resize/book/f/93574da-1e9b-4997-bbbf-721aa7400ada/Ferle-HI.png) |
